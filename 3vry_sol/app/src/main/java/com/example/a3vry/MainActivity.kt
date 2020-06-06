@@ -5,6 +5,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,6 +19,18 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
+        }
+
+        val context = this
+
+        btn_insert.setOnClickListener {
+            if(name.text.toString().isNotEmpty()) {
+                var song = Song(name.text.toString())
+                var db = DbHandler(context)
+                db.insertSong(song)
+            } else {
+                Toast.makeText(context, "Please fill all data", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
