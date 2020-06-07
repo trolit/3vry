@@ -1,10 +1,16 @@
 package com.example.a3vry
 
 class Song {
-    var Id: Int = 0
-    var Name: String = ""
+    var id: Int = 0
+    var title: String = ""
+    var dateTime: String = ""
+    var url: String = ""
+    var bandId: Int = 0
 
-    constructor(Name: String) {
-        this.Name = Name
+    constructor(title: String, dateTime: String, url: String, bandId: Int) {
+        this.title = title
+        this.dateTime = dateTime
+        this.url = url
+        this.bandId = bandId
     }
 }
