@@ -6,21 +6,37 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
 
-const val DATABASE_NAME = "3vry.Db"
-val TABLE_NAME = "Songs"
-val COL_NAME = "Name"
-val COL_ID = "Id"
+const val DATABASE_NAME = "EvryDb"
+
+const val COL_ID = "id"
+
+const val song_TABLE_NAME = "Songs"
+const val song_COL_TITLE = "title"
+const val song_COL_DATETIME = "dateTime"
+const val song_COL_URL = "url"
+const val song_COL_BANDID = "bandId"
+
+const val band_TABLE_NAME = "Bands"
+const val band_COL_NAME = "name"
 
 class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     // Runs when device does not contain Database
     override fun onCreate(db: SQLiteDatabase?) {
-        TODO("Not yet implemented")
-
-        val createTable = "CREATE TABLE " + TABLE_NAME + " (" +
+        val createBandsTable = "CREATE TABLE " + band_TABLE_NAME + " (" +
                 COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COL_NAME + " VARCHAR(256))";
+                band_COL_NAME + " VARCHAR(256)" +
+                ");"
 
-        db?.execSQL(createTable);
+        db?.execSQL(createBandsTable);
+
+        val createSongsTable = "CREATE TABLE " + song_TABLE_NAME + " (" +
+                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                song_COL_TITLE + " VARCHAR(256)," +
+                song_COL_DATETIME + " VARCHAR(50)," +
+                song_COL_URL + " VARCHAR(256)," +
+                song_COL_BANDID + " INTEGER REFERENCES " + band_TABLE_NAME + "(" + COL_ID + "));"
+
+        db?.execSQL(createSongsTable);
     }
 
     // Executed when device holds older version of Database
@@ -31,13 +47,16 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun insertSong(song: Song) {
         val db = this.writableDatabase
         var cv = ContentValues()
-        cv.put(COL_ID, song.Id)
-        cv.put(COL_NAME, song.Name)
-        var result = db.insert(TABLE_NAME, null, cv)
+        cv.put(COL_ID, song.id)
+        cv.put(song_COL_TITLE, song.title)
+        cv.put(song_COL_DATETIME, song.dateTime)
+        cv.put(song_COL_URL, song.url)
+        cv.put(song_COL_BANDID, song.bandId)
+        var result = db.insert(song_TABLE_NAME, null, cv)
         if(result == -1.toLong()) {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Song insertion failed", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Success adding song", Toast.LENGTH_SHORT).show()
         }
     }
 }
