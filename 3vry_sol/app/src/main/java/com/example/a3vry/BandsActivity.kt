@@ -16,6 +16,8 @@ class BandsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bands)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         // fab.setOnClickListener { view ->
         //    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
         //        .setAction("Action", null).show()
