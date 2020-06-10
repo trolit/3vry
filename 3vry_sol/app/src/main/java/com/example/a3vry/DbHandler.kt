@@ -22,9 +22,9 @@ const val band_COL_NAME = "name"
 class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     // Runs when device does not contain Database
     override fun onCreate(db: SQLiteDatabase?) {
-        val createBandsTable = "CREATE TABLE " + band_TABLE_NAME + " (" +
-                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                band_COL_NAME + " VARCHAR(256)" +
+        val createBandsTable = "CREATE TABLE $band_TABLE_NAME (" +
+                "$COL_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "$band_COL_NAME VARCHAR(256)" +
                 ");"
 
         db?.execSQL(createBandsTable);
