@@ -15,7 +15,7 @@ class BandsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bands)
-
+        supportActionBar?.title = null
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // fab.setOnClickListener { view ->
