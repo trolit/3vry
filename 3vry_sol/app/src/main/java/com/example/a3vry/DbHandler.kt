@@ -72,4 +72,23 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             Toast.makeText(context, "Band added", Toast.LENGTH_SHORT).show()
         }
     }
+
+    fun returnBands() : MutableList<Band> {
+        var list : MutableList<Band> = ArrayList()
+        val db = this.readableDatabase
+        val query = "SELECT * FROM $band_TABLE_NAME"
+        var result = db.rawQuery(query, null)
+
+        if(result.moveToFirst()) {
+            do {
+                var band = Band()
+                band.id = result.getString(0).toInt()
+                band.name = result.getString(1).toString()
+                list.add(band)
+            } while (result.moveToNext())
+        }
+        result.close()
+        db.close()
+        return list
+    }
 }
