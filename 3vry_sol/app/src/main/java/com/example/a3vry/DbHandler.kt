@@ -91,4 +91,15 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
         return list
     }
+
+    fun deleteRowFromDb(id: Int, tableName: String) {
+        val db = this.writableDatabase
+        val result = db.delete(tableName, "$COL_ID=?", arrayOf(id.toString())).toLong()
+        db.close()
+        if(result == (-1).toLong()) {
+            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Band removed", Toast.LENGTH_SHORT).show()
+        }
+    }
 }
