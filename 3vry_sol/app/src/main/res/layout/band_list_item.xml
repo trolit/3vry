@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <TextView
             android:id="@+id/textViewBandName"
-            android:layout_width="wrap_content"
+            android:layout_width="280dp"
+            android:maxLines="30"
             android:layout_height="wrap_content"
-            android:text="Placeholder" android:layout_alignParentStart="true" android:layout_marginStart="66dp"
-            android:layout_alignParentTop="true" android:layout_marginTop="37dp"/>
-    <Button
+            android:text="Placeholder" android:layout_alignParentStart="true" android:layout_marginStart="40dp"
+            android:layout_alignParentTop="true" android:layout_marginTop="39dp"/>
+    <ImageView
             android:id="@+id/deleteBandBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete" android:layout_marginStart="132dp" android:layout_marginTop="20dp"
-            android:layout_alignParentEnd="true" android:layout_marginEnd="76dp"/>
+            android:padding="9dp"
+            android:src="@drawable/ic_times"
+            android:background="@drawable/rounded_corners"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:tint="@color/colorWhite"
+            android:layout_gravity="center" android:layout_alignParentTop="true"
+            android:layout_marginTop="28dp" android:layout_alignParentEnd="true" android:layout_marginEnd="38dp"/>
 </RelativeLayout>
