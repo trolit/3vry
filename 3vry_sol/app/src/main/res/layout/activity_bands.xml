@@ -14,13 +14,33 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:backgroundTint="@color/colorPrimary"
-            app:srcCompat="@android:drawable/ic_input_get"/>
+            app:srcCompat="@drawable/ic_plus"/>
 
     <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_horizontal"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_wave_square"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bands"
+                    android:textSize="30sp"
+                    android:layout_marginBottom="20dp"
+                    android:textAlignment="center"/>
+
+            <ListView
+                    android:id="@+id/bandsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawSelectorOnTop="false"
+            />
     </LinearLayout>
 
 
