@@ -18,21 +18,23 @@ class BandListAdapter(context: Context, var resource: Int, var bandList: Mutable
 
         var textViewBandName = view.textViewBandName
 
-        var band = bandList.get(position)
+        var band = bandList[position]
 
-        textViewBandName.setText(band.name)
+        textViewBandName.text = band.name
 
         view.deleteBandBtn.setOnClickListener {
-            removeItem(position)
+            removeItem(position, band.id)
         }
         return view
     }
 
-    private fun removeItem(pos: Int) {
+    private fun removeItem(pos: Int, bandId: Int) {
         val alertDialogBuilder = AlertDialog.Builder(context)
         alertDialogBuilder.setTitle("Are you sure you want to delete?")
 
         alertDialogBuilder.setPositiveButton("Yes", DialogInterface.OnClickListener { _: DialogInterface, i: Int ->
+            var db = DbHandler(context)
+            db.deleteRowFromDb(bandId, band_TABLE_NAME)
             bandList.removeAt(pos)
             notifyDataSetChanged()
         })
