@@ -1,14 +1,14 @@
 package com.example.a3vry
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_bands.*
-import kotlinx.android.synthetic.main.activity_bands.view.*
 import kotlinx.android.synthetic.main.add_band_dialog.view.*
+
 
 class BandsActivity : AppCompatActivity() {
 
@@ -18,18 +18,20 @@ class BandsActivity : AppCompatActivity() {
         supportActionBar?.title = null
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // fab.setOnClickListener { view ->
-        //    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-        //        .setAction("Action", null).show()
-        // }
+        var db = DbHandler(this)
 
+        var bands = db.returnBands()
+
+        var adapter = BandListAdapter(this, R.layout.band_list_item, bands)
+        bandsList.adapter = adapter
+        
         bandDialogToggleBtn.setOnClickListener {
             // inflate dialog with custom view
             val mDialogView = LayoutInflater.from(this).inflate(R.layout.add_band_dialog, null)
             // alert dialog builder
             val mBuilder = AlertDialog.Builder(this)
                 .setView(mDialogView)
-                .setTitle("Band name?")
+                .setTitle("Band name")
             // show dialog
             val mAlertDialog = mBuilder.show()
             // handle bandDialogAddBtn
@@ -40,7 +42,6 @@ class BandsActivity : AppCompatActivity() {
                 // TODO: check if no duplicate
                 if(name.isNotEmpty()) {
                     var band = Band(name)
-                    var db = DbHandler(this)
                     db.insertBand(band)
                 } else {
                     Toast.makeText(this, "Please fill all data", Toast.LENGTH_SHORT).show()
