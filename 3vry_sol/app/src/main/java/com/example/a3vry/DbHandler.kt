@@ -63,14 +63,14 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun insertBand(band: Band) {
         val db = this.writableDatabase
         var cv = ContentValues()
-        cv.put(COL_ID, band.id)
         cv.put(band_COL_NAME, band.name)
         var result = db.insert(band_TABLE_NAME, null, cv)
-        if(result == -1.toLong()) {
-            Toast.makeText(context, "Error, band not added", Toast.LENGTH_SHORT).show()
+        if(result == (-1).toLong()) {
+            Toast.makeText(context, "Error occured, band not added!", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Band added", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Band added correctly!", Toast.LENGTH_SHORT).show()
         }
+        db.close()
     }
 
     fun returnBands() : MutableList<Band> {
