@@ -2,11 +2,9 @@ package com.example.a3vry
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         viewBandsBtn.setOnClickListener {
-            val intent = Intent(this, BandsActivity::class.java)
+            val intent = Intent(this, ArtistsActivity::class.java)
             startActivity(intent)
         }
     }

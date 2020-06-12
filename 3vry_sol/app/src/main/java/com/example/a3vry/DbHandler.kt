@@ -14,17 +14,17 @@ const val song_TABLE_NAME = "Songs"
 const val song_COL_TITLE = "title"
 const val song_COL_DATETIME = "dateTime"
 const val song_COL_URL = "url"
-const val song_COL_BANDID = "bandId"
+const val song_COL_ARTISTID = "artistId"
 
-const val band_TABLE_NAME = "Bands"
-const val band_COL_NAME = "name"
+const val artist_TABLE_NAME = "Artists"
+const val artist_COL_NAME = "name"
 
 class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     // Runs when device does not contain Database
     override fun onCreate(db: SQLiteDatabase?) {
-        val createBandsTable = "CREATE TABLE $band_TABLE_NAME (" +
+        val createBandsTable = "CREATE TABLE $artist_TABLE_NAME (" +
                 "$COL_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "$band_COL_NAME VARCHAR(256)" +
+                "$artist_COL_NAME VARCHAR(256)" +
                 ");"
 
         db?.execSQL(createBandsTable);
@@ -34,7 +34,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 song_COL_TITLE + " VARCHAR(256)," +
                 song_COL_DATETIME + " VARCHAR(50)," +
                 song_COL_URL + " VARCHAR(256)," +
-                song_COL_BANDID + " INTEGER REFERENCES " + band_TABLE_NAME + "(" + COL_ID + "));"
+                song_COL_ARTISTID + " INTEGER REFERENCES " + artist_COL_NAME + "(" + COL_ID + "));"
 
         db?.execSQL(createSongsTable);
     }
@@ -51,7 +51,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         cv.put(song_COL_TITLE, song.title)
         cv.put(song_COL_DATETIME, song.dateTime)
         cv.put(song_COL_URL, song.url)
-        cv.put(song_COL_BANDID, song.bandId)
+        cv.put(song_COL_ARTISTID, song.bandId)
         var result = db.insert(song_TABLE_NAME, null, cv)
         if(result == (-1).toLong()) {
             Toast.makeText(context, "Song insertion failed", Toast.LENGTH_SHORT).show()
@@ -60,31 +60,31 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
     }
 
-    fun insertBand(band: Band) {
+    fun insertBand(artist: Artist) {
         val db = this.writableDatabase
         var cv = ContentValues()
-        cv.put(band_COL_NAME, band.name)
-        var result = db.insert(band_TABLE_NAME, null, cv)
+        cv.put(artist_COL_NAME, artist.name)
+        var result = db.insert(artist_TABLE_NAME, null, cv)
         if(result == (-1).toLong()) {
-            Toast.makeText(context, "Error occured, band not added!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Error occured, artist not added!", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Band added correctly!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Artist added correctly!", Toast.LENGTH_SHORT).show()
         }
         db.close()
     }
 
-    fun returnBands() : MutableList<Band> {
-        var list : MutableList<Band> = ArrayList()
+    fun getArtists() : MutableList<Artist> {
+        var list : MutableList<Artist> = ArrayList()
         val db = this.readableDatabase
-        val query = "SELECT * FROM $band_TABLE_NAME"
+        val query = "SELECT * FROM $artist_TABLE_NAME"
         var result = db.rawQuery(query, null)
 
         if(result.moveToFirst()) {
             do {
-                var band = Band()
-                band.id = result.getString(0).toInt()
-                band.name = result.getString(1).toString()
-                list.add(band)
+                var artist = Artist()
+                artist.id = result.getString(0).toInt()
+                artist.name = result.getString(1).toString()
+                list.add(artist)
             } while (result.moveToNext())
         }
         result.close()
@@ -97,9 +97,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val result = db.delete(tableName, "$COL_ID=?", arrayOf(id.toString())).toLong()
         db.close()
         if(result == (-1).toLong()) {
-            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Error, artist not removed.", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Band removed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Artist removed from the app.", Toast.LENGTH_SHORT).show()
         }
     }
 }

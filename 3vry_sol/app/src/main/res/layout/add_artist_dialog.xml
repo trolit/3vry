@@ -21,7 +21,7 @@
 
         <EditText
                 android:id="@+id/bandDialogName"
-                android:hint="Enter band or author name"
+                android:hint="Enter artist or band name"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="25dp"
                 android:inputType="text"

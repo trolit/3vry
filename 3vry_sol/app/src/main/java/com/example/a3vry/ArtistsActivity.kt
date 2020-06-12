@@ -5,32 +5,32 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_bands.*
-import kotlinx.android.synthetic.main.add_band_dialog.view.*
+import kotlinx.android.synthetic.main.activity_artists.*
+import kotlinx.android.synthetic.main.add_artist_dialog.view.*
 
 
-class BandsActivity : AppCompatActivity() {
+class ArtistsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_bands)
+        setContentView(R.layout.activity_artists)
         supportActionBar?.title = null
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         var db = DbHandler(this)
 
-        var bands = db.returnBands()
+        var artists = db.getArtists()
 
-        var adapter = BandListAdapter(this, R.layout.band_list_item, bands)
+        var adapter = ArtistListAdapter(this, R.layout.artists_list_item, artists)
         bandsList.adapter = adapter
 
         bandDialogToggleBtn.setOnClickListener {
             // inflate dialog with custom view
-            val mDialogView = LayoutInflater.from(this).inflate(R.layout.add_band_dialog, null)
+            val mDialogView = LayoutInflater.from(this).inflate(R.layout.add_artist_dialog, null)
             // alert dialog builder
             val mBuilder = AlertDialog.Builder(this)
                 .setView(mDialogView)
-                .setTitle("Band name")
+                .setTitle("Artist name")
             // show dialog
             val mAlertDialog = mBuilder.show()
             // handle bandDialogAddBtn
@@ -39,12 +39,12 @@ class BandsActivity : AppCompatActivity() {
                 // get data
                 val name = mDialogView.bandDialogName.text.toString()
                 if(name.isNotEmpty()) {
-                    var band = Band(name)
-                    db.insertBand(band)
-                    adapter.add(band)
+                    var artist = Artist(name)
+                    db.insertBand(artist)
+                    adapter.add(artist)
                     adapter.notifyDataSetChanged()
                 } else {
-                    Toast.makeText(this, "Please fill in band name", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Please fill in artist name", Toast.LENGTH_SHORT).show()
                 }
             }
             // handle bandDialogCancelBtn
