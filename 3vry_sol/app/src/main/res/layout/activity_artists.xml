@@ -14,7 +14,9 @@
             android:layout_gravity="top|end"
             android:layout_margin="@dimen/fab_margin"
             android:backgroundTint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_plus"/>
+            app:backgroundTint="@color/colorWhite"
+            app:srcCompat="@drawable/ic_plus"
+            app:borderWidth="5dp"/>
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -23,7 +25,7 @@
 
             <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:tint="@color/colorPrimary"
                     app:srcCompat="@drawable/ic_wave_square"/>
@@ -31,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Artists"
-                    android:textSize="30sp"
+                    android:textSize="20sp"
                     android:layout_marginBottom="20dp"
                     android:textAlignment="center"/>
 
