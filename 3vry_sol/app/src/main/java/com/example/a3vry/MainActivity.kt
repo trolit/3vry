@@ -15,8 +15,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        viewBandsBtn.setOnClickListener {
+        viewArtistsBtn.setOnClickListener {
             val intent = Intent(this, ArtistsActivity::class.java)
+            startActivity(intent)
+        }
+
+        viewSongsBtn.setOnClickListener {
+            val intent = Intent(this, SongsActivity::class.java)
             startActivity(intent)
         }
     }
