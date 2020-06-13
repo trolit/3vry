@@ -10,6 +10,12 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
+                android:name=".SongsActivity"
+                android:label="@string/title_activity_songs"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
                 android:name=".ArtistsActivity"
                 android:parentActivityName=".MainActivity">
         </activity>
