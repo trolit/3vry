@@ -5,12 +5,12 @@ class Song {
     var title: String = ""
     var dateTime: String = ""
     var url: String = ""
-    var bandId: Int = 0
+    var artistId: Int = 0
 
     constructor(title: String, dateTime: String, url: String, bandId: Int) {
         this.title = title
         this.dateTime = dateTime
         this.url = url
-        this.bandId = bandId
+        this.artistId = bandId
     }
 }
