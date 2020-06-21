@@ -16,9 +16,9 @@ class ArtistListAdapter(context: Context, var resource: Int, var artistList: Mut
         val inflater = LayoutInflater.from(context)
         val view = convertView?:inflater.inflate(resource, null)
 
-        var textViewBandName = view.textViewBandName
+        val textViewBandName = view.textViewBandName
 
-        var artist = artistList[position]
+        val artist = artistList[position]
 
         textViewBandName.text = artist.name
 
@@ -33,7 +33,7 @@ class ArtistListAdapter(context: Context, var resource: Int, var artistList: Mut
         alertDialogBuilder.setTitle("Are you sure you want to delete?")
 
         alertDialogBuilder.setPositiveButton("Yes", DialogInterface.OnClickListener { _: DialogInterface, i: Int ->
-            var db = DbHandler(context)
+            val db = DbHandler(context)
             db.deleteRowFromDb(artistId, artist_TABLE_NAME)
             artistList.removeAt(pos)
             notifyDataSetChanged()
