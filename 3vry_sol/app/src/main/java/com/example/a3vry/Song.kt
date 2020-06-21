@@ -7,10 +7,10 @@ class Song {
     var url: String = ""
     var artistId: Int = 0
 
-    constructor(title: String, dateTime: String, url: String, bandId: Int) {
+    constructor(title: String, dateTime: String, url: String, artistId: Int) {
         this.title = title
         this.dateTime = dateTime
         this.url = url
-        this.artistId = bandId
+        this.artistId = artistId
     }
 }
