@@ -95,6 +95,72 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return list
     }
 
+    private fun switchPlaylistArtist() {
+        val db = this.writableDatabase
+        val query = "SELECT 1 FROM $artist_TABLE_NAME WHERE $artist_COL_NAME='playlist' LIMIT 1;"
+        val result = db.rawQuery(query, null)
+        if(result.count > 0) {
+            // delete playlist from artists
+            db.delete(artist_TABLE_NAME, "$artist_COL_NAME=playlist", null)
+        } else {
+            // insert playlist to artists
+            insertBand(Artist("playlist"))
+        }
+        result.close()
+        db.close()
+    }
+
+    fun getSongs() : MutableList<Song> {
+        val list : MutableList<Song> = ArrayList()
+        val db = this.readableDatabase
+        val query = "SELECT * FROM $song_TABLE_NAME"
+        val result = db.rawQuery(query, null)
+        if(result.moveToFirst()) {
+            do {
+                val song = Song()
+                song.id = result.getString(0).toInt()
+                song.title = result.getString(1).toString()
+                song.dateTime = result.getString(2).toString()
+                song.url = result.getString(3).toString()
+                song.artistId = result.getString(4).toInt()
+                list.add(song)
+            } while (result.moveToNext())
+        }
+        result.close()
+        db.close()
+        return list.asReversed()
+    }
+
+    fun checkForNewSong() {
+        var currentDate = LocalDate.now()
+        // currentDate = LocalDate.parse("2020-06-22")
+        val db = this.readableDatabase
+        val query = "SELECT EXISTS (SELECT * FROM $song_TABLE_NAME WHERE $song_COL_DATETIME='$currentDate' LIMIT 1);"
+        val cursor : Cursor = db.rawQuery(query, null)
+        cursor.moveToFirst()
+        println("Current date => $currentDate")
+        println("SSS => $cursor")
+        // if true, there is already song assigned to that date
+        if(cursor.getInt(0) == 1) {
+            // do nothing
+        } else {
+            // 1. Get artists
+            val result = getArtists()
+            if(result.count() > 0) {
+                // 2. Get random artist
+                result.shuffle()
+                val artist = result[0]
+
+                // 3. Make query to youtube & insert song
+                queryForVideo(artist.name, artist.id)
+            } else {
+                Toast.makeText(context, "Artists not found!", Toast.LENGTH_SHORT).show()
+            }
+        }
+        cursor.close()
+        db.close()
+    }
+
     fun deleteRowFromDb(id: Int, tableName: String) {
         val db = this.writableDatabase
         val result = db.delete(tableName, "$COL_ID=?", arrayOf(id.toString())).toLong()
