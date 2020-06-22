@@ -1,24 +1,41 @@
 package com.example.a3vry
 
+import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-
+import android.view.WindowManager
+import com.google.android.youtube.player.YouTubeBaseActivity
+import com.google.android.youtube.player.YouTubePlayer
 import kotlinx.android.synthetic.main.activity_songs.*
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-class SongsActivity : AppCompatActivity() {
+
+class SongsActivity : YouTubeBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_songs)
-        supportActionBar?.title = null
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        // supportActionBar?.title = null
+        // supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        backToMainMenuBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+        val db = DbHandler(this)
+
+        db.checkForNewSong()
+
+        val songs = db.getSongs()
+        val youtubePlayerRef : YouTubePlayer? = null
+        val adapter = SongListAdapter(this, R.layout.songs_list_item, songs, youtubePlayerView, youtubePlayerRef, closeYoutubeViewBtn)
+        songList.adapter = adapter
     }
+}
 
 interface YouTubeApiService {
     // Get results by query
