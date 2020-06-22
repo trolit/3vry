@@ -2,9 +2,18 @@ package com.example.a3vry
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.text.Html
 import android.widget.Toast
+import androidx.core.text.HtmlCompat
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import java.time.LocalDate
 
 const val DATABASE_NAME = "EvryDb"
 
@@ -170,5 +179,51 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         } else {
             Toast.makeText(context, "Artist removed from the app.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun queryForVideo(artistName : String, artistId : Int) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(YouTubeApiService.YOUTUBE_SEARCH_BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(YouTubeApiService::class.java)
+
+        if(artistName != "playlist") {
+            val searchCall = service.results(artistName)
+            searchCall?.enqueue(object : Callback<YoutubeGetResponse> {
+                override fun onResponse(call: Call<YoutubeGetResponse>, response: Response<YoutubeGetResponse>) {
+                    if (response.isSuccessful){
+                        if (response.body()?.items?.count()!! > 0) {
+                            val song = response.body()?.items?.random()
+                            val title = Html.fromHtml(song!!.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                            val songObj = Song(title, LocalDate.now().toString(), song.id!!.videoId, artistId)
+                            insertSong(songObj)
+                        }
+                    }
+                }
+                override fun onFailure(call: Call<YoutubeGetResponse>, t: Throwable) {
+                    t.printStackTrace()
+                }
+            })
+        } else if (artistName == "playlist") {
+            val searchCall = service.playlistResults()
+            searchCall?.enqueue(object : Callback<YoutubeGetPlaylistResponse> {
+                override fun onResponse(call: Call<YoutubeGetPlaylistResponse>, response: Response<YoutubeGetPlaylistResponse>) {
+                    if (response.isSuccessful){
+                        if (response.body()?.items?.count()!! > 0) {
+                            val song = response.body()?.items?.random()
+                            val title = Html.fromHtml(song!!.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                            val songObj = Song(title, LocalDate.now().toString(), song.snippet!!.resourceId!!.videoId, artistId)
+                            insertSong(songObj)
+                        }
+                    }
+                }
+                override fun onFailure(call: Call<YoutubeGetPlaylistResponse>, t: Throwable) {
+                    t.printStackTrace()
+                }
+            })
+        }
+
     }
 }
