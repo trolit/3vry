@@ -46,18 +46,21 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun insertSong(song: Song) {
         val db = this.writableDatabase
-        var cv = ContentValues()
-        cv.put(COL_ID, song.id)
+        val cv = ContentValues()
+        if(song.title.length >= 62) {   // max 62 characters, if reached, add 3 dots
+            song.title = song.title.take(62) + "..."
+        }
         cv.put(song_COL_TITLE, song.title)
         cv.put(song_COL_DATETIME, song.dateTime)
         cv.put(song_COL_URL, song.url)
-        cv.put(song_COL_ARTISTID, song.bandId)
-        var result = db.insert(song_TABLE_NAME, null, cv)
+        cv.put(song_COL_ARTISTID, song.artistId)
+        val result = db.insert(song_TABLE_NAME, null, cv)
         if(result == (-1).toLong()) {
             Toast.makeText(context, "Song insertion failed", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(context, "Success adding song", Toast.LENGTH_SHORT).show()
         }
+        db.close()
     }
 
     fun insertBand(artist: Artist) {
