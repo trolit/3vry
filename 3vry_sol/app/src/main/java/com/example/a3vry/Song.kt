@@ -13,4 +13,8 @@ class Song {
         this.url = url
         this.artistId = artistId
     }
+
+    constructor() {
+
+    }
 }
