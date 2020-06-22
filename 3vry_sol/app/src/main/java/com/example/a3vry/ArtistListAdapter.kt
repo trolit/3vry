@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.artists_list_item.view.*
 
 class ArtistListAdapter(context: Context, var resource: Int, var artistList: MutableList<Artist>) :
@@ -24,6 +25,10 @@ class ArtistListAdapter(context: Context, var resource: Int, var artistList: Mut
 
         view.deleteBandBtn.setOnClickListener {
             removeItem(position, artist.id)
+        }
+
+        if(artist.name == "playlist") {
+            view.deleteBandBtn.isVisible = false
         }
         return view
     }
