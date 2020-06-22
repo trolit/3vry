@@ -8,13 +8,15 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerView
 import kotlinx.android.synthetic.main.songs_list_item.view.*
 
 class SongListAdapter(context: Context, var resource: Int, var songList: MutableList<Song>,
-                      var youtubePlayerView: YouTubePlayerView, var youtubePlayerRef: YouTubePlayer?) :
+                      var youtubePlayerView: YouTubePlayerView, var youtubePlayerRef: YouTubePlayer?,
+                      var youtubeViewCloseBtnRef: FloatingActionButton) :
     ArrayAdapter<Song>(context, resource, songList) {
 
     lateinit var youtubePlayerInit : YouTubePlayer.OnInitializedListener
@@ -48,14 +50,28 @@ class SongListAdapter(context: Context, var resource: Int, var songList: Mutable
             else if(lastVideoRef != song.url) {
                 if(youtubePlayerRef != null) {
                     youtubePlayerRef!!.release()
+                    // Reset previous video buttons
                     lastPauseBtn!!.isVisible = false
                     lastPlayBtn!!.isVisible = true
                 }
-
                 initYoutubeVideo(song.url)
                 lastVideoRef = song.url
                 youtubePlayerView.isVisible = true
                 youtubePlayerView.initialize(YouTubeApiService.YOUTUBE_KEY_API, youtubePlayerInit)
+                youtubeViewCloseBtnRef.show()
+
+                youtubeViewCloseBtnRef.setOnClickListener {
+                    youtubePlayerView.isVisible = false
+                    youtubePlayerRef!!.release()
+                    youtubePlayerRef = null
+                    lastVideoRef = "empty"
+                    youtubeViewCloseBtnRef.hide()
+                    // Reset previous video buttons
+                    lastPauseBtn!!.isVisible = false
+                    lastPlayBtn!!.isVisible = true
+                }
+
+                youtubeViewCloseBtnRef.show()
 
                 swapButtons(view)
                 // Store references
