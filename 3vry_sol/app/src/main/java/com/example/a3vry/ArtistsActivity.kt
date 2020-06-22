@@ -14,8 +14,6 @@ class ArtistsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_artists)
-        supportActionBar?.title = null
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         var db = DbHandler(this)
 
