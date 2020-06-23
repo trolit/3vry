@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
+              xmlns:tools="http://schemas.android.com/tools" android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:minHeight="65dp">
@@ -21,9 +21,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Video title"
+            android:paddingStart="5sp"
             android:textSize="12sp"
             android:layout_weight="3"
-            android:maxLines="30"/>
+            android:maxLines="30"
+            tools:ignore="RtlSymmetry"/>
 
     <ImageView
             android:id="@+id/playVideoBtn"
@@ -45,7 +47,7 @@
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:tint="@color/colorWhite"
-            android:backgroundTint="@color/colorHref"
+            android:backgroundTint="@color/colorDarkGreen"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="6dp"
             android:visibility="gone"/>

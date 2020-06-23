@@ -11,45 +11,66 @@
                 android:id="@+id/backToMainMenuBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fabCustomSize="40dp"
-                android:layout_gravity="bottom|start"
+                app:fabCustomSize="32dp"
+                android:layout_gravity="top|start"
                 android:scaleType="center"
                 android:layout_margin="10dp"
-                android:backgroundTint="@color/colorPrimary"
-                app:backgroundTint="@color/colorWhite"
+                android:backgroundTint="@color/colorLightCyan"
+                app:backgroundTint="@color/colorLightCyan"
                 app:srcCompat="@drawable/ic_arrow_left"
                 app:borderWidth="2dp"/>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/closeYoutubeViewBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fabCustomSize="27dp"
-                android:layout_gravity="top|start"
-                android:scaleType="center"
-                android:layout_margin="2dp"
-                android:backgroundTint="@color/colorAccent"
-                app:backgroundTint="@color/colorAccent"
-                android:tint="@color/colorWhite"
-                app:srcCompat="@drawable/ic_times"
-                app:borderWidth="2dp"
-                android:visibility="gone"/>
-
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.google.android.youtube.player.YouTubePlayerView
-                        android:id="@+id/youtubePlayerView"
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="center_horizontal"
+                        android:tint="@color/colorPrimary"
+                        android:src="@drawable/ic_music"/>
+
+                <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="180dp"
-                        android:visibility="gone"
-                />
+                        android:layout_height="wrap_content"
+                        android:text="@string/songs_text"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="5dp"
+                        android:textAlignment="center"/>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/closeYoutubeViewBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:fabCustomSize="20dp"
+                                android:layout_gravity="top|start"
+                                android:scaleType="center"
+                                android:layout_margin="2dp"
+                                app:backgroundTint="@color/colorTransparent"
+                                android:tint="@color/colorWhite"
+                                app:srcCompat="@drawable/ic_times"
+                                app:borderWidth="2dp"
+                                android:visibility="gone"/>
+
+                        <com.google.android.youtube.player.YouTubePlayerView
+                                android:id="@+id/youtubePlayerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:visibility="gone"
+                        />
+
+                </RelativeLayout>
 
                 <TextView
                         android:id="@+id/noSongsTextMessage"
-                        android:layout_marginTop="150dp"
+                        android:layout_marginTop="25dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
@@ -62,12 +83,15 @@
                         tools:listitem="@layout/songs_list_item"
                         android:id="@+id/songList"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:drawSelectorOnTop="false"
                         android:paddingStart="0dp"
                         android:paddingEnd="0dp"
+                        android:divider="@color/colorPrimary"
+                        android:dividerHeight="1sp"
                         android:layout_marginStart="2dp"
                         android:layout_marginEnd="2dp"
                 />
         </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

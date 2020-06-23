@@ -18,20 +18,22 @@
             android:backgroundTint="@color/colorPrimary"
             app:backgroundTint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_plus"
-            app:borderWidth="2dp"/>
+            app:borderWidth="2dp"
+    />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/backToMainMenuBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fabCustomSize="32dp"
-            android:layout_gravity="bottom|start"
+            android:layout_gravity="top|start"
             android:scaleType="center"
             android:layout_margin="10dp"
             android:backgroundTint="@color/colorLightCyan"
             app:backgroundTint="@color/colorLightCyan"
             app:srcCompat="@drawable/ic_arrow_left"
-            app:borderWidth="2dp"/>
+            app:borderWidth="2dp"
+    />
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -44,14 +46,26 @@
                     android:layout_marginTop="15dp"
                     android:layout_gravity="center_horizontal"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_wave_square"/>
+                    app:srcCompat="@drawable/ic_wave_square"
+                    android:contentDescription="@string/artistIconDescription"/>
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/artists_text"
                     android:textSize="16sp"
                     android:layout_marginBottom="20dp"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+            />
+
+            <TextView
+                    android:id="@+id/emptyArtistsListTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="@string/artistsListEmpty"
+                    android:visibility="gone"
+            />
 
             <ListView
                     tools:listitem="@layout/artists_list_item"
@@ -61,6 +75,7 @@
                     android:drawSelectorOnTop="false"
                     android:paddingStart="15dp"
                     android:paddingEnd="0dp"
+                    android:divider="@null"
                     android:layout_marginEnd="15dp"
             />
     </LinearLayout>

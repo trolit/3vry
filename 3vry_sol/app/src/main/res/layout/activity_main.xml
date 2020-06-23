@@ -16,11 +16,12 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_marginTop="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="250dp"
-                    android:contentDescription="@string/logoDescription"
-                    app:srcCompat="@drawable/logo"/>
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="250dp"
+                        android:contentDescription="@string/logoDescription"
+                        app:srcCompat="@drawable/logo"
+                />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -45,7 +46,6 @@
                             android:text="@string/songs_text"
                             android:textColor="@color/colorWhite"
                             android:backgroundTint="@color/colorPrimary"
-                            android:enabled="false"
                             android:layout_weight="1"
                     />
 
@@ -72,13 +72,13 @@
                 <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="100dp"
                         android:weightSum="2">
 
                     <Button
                             android:id="@+id/buttonWhat"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:background="@color/colorTransparent"
                             android:textColor="@color/colorPrimary"
                             android:text="@string/what_text"
@@ -88,7 +88,7 @@
                     <Button
                             android:id="@+id/buttonWhy"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:background="@color/colorTransparent"
                             android:textColor="@color/colorPrimary"
                             android:text="@string/why_text"
