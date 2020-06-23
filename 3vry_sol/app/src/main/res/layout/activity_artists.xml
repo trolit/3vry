@@ -12,11 +12,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
-            android:layout_margin="@dimen/fab_margin"
+            app:fabCustomSize="32dp"
+            android:scaleType="center"
+            android:layout_margin="10dp"
             android:backgroundTint="@color/colorPrimary"
-            app:backgroundTint="@color/colorWhite"
+            app:backgroundTint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_plus"
-            app:borderWidth="5dp"/>
+            app:borderWidth="2dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/backToMainMenuBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabCustomSize="32dp"
+            android:layout_gravity="bottom|start"
+            android:scaleType="center"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/colorLightCyan"
+            app:backgroundTint="@color/colorLightCyan"
+            app:srcCompat="@drawable/ic_arrow_left"
+            app:borderWidth="2dp"/>
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -25,15 +40,16 @@
 
             <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
                     android:layout_gravity="center_horizontal"
                     android:tint="@color/colorPrimary"
                     app:srcCompat="@drawable/ic_wave_square"/>
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Artists"
-                    android:textSize="20sp"
+                    android:text="@string/artists_text"
+                    android:textSize="16sp"
                     android:layout_marginBottom="20dp"
                     android:textAlignment="center"/>
 
@@ -41,11 +57,10 @@
                     tools:listitem="@layout/artists_list_item"
                     android:id="@+id/bandsList"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:drawSelectorOnTop="false"
                     android:paddingStart="15dp"
                     android:paddingEnd="0dp"
-                    android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
             />
     </LinearLayout>
