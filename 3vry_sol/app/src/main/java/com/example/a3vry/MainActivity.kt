@@ -25,6 +25,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        viewSettingsBtn.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
         buttonWhat.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             val text = "<font color='#16A085'>What is 3vry?</font><br/><br/><small>" +
