@@ -16,7 +16,6 @@ import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener
 import com.google.android.youtube.player.YouTubePlayerView
 import kotlinx.android.synthetic.main.songs_list_item.view.*
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 
 class SongListAdapter(context: Context, var resource: Int, var songList: MutableList<Song>,
