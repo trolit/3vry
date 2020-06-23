@@ -65,21 +65,21 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         cv.put(song_COL_ARTISTID, song.artistId)
         val result = db.insert(song_TABLE_NAME, null, cv)
         if(result == (-1).toLong()) {
-            Toast.makeText(context, "Song insertion failed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Song insertion failed :(", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Success adding song", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "New song added to your list!", Toast.LENGTH_SHORT).show()
         }
         db.close()
     }
 
     fun insertBand(artist: Artist) {
         val db = this.writableDatabase
-        var cv = ContentValues()
+        val cv = ContentValues()
         cv.put(artist_COL_NAME, artist.name)
-        var result = db.insert(artist_TABLE_NAME, null, cv)
+        val result = db.insert(artist_TABLE_NAME, null, cv)
         if(result == (-1).toLong()) {
             Toast.makeText(context, "Error occured, artist not added!", Toast.LENGTH_SHORT).show()
-        } else {
+        } else if(artist.name != "playlist") {
             Toast.makeText(context, "Artist added correctly!", Toast.LENGTH_SHORT).show()
         }
         db.close()
@@ -119,18 +119,33 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return true
     }
 
-    private fun switchPlaylistArtist() {
-        val db = this.writableDatabase
+    fun checkIfPlaylistIsEnabled() : Boolean {
+        val db = this.readableDatabase
         val query = "SELECT 1 FROM $artist_TABLE_NAME WHERE $artist_COL_NAME='playlist' LIMIT 1;"
         val result = db.rawQuery(query, null)
         if(result.count > 0) {
-            // delete playlist from artists
-            db.delete(artist_TABLE_NAME, "$artist_COL_NAME=playlist", null)
-        } else {
-            // insert playlist to artists
-            insertBand(Artist("playlist"))
+            result.close()
+            db.close()
+            return true
         }
         result.close()
+        db.close()
+        return false
+    }
+
+    fun addPlaylistAsArtist() {
+        insertBand(Artist("playlist"))
+        Toast.makeText(context, "Playlist enabled.", Toast.LENGTH_SHORT).show()
+    }
+
+    fun removePlaylistAsArtist() {
+        val db = this.writableDatabase
+        val res = db.delete(artist_TABLE_NAME, "$artist_COL_NAME='playlist'", null).toLong()
+        if(res != (-1).toLong()) {
+            Toast.makeText(context, "Playlist disabled.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Error, playlist not disabled.", Toast.LENGTH_SHORT).show()
+        }
         db.close()
     }
 
@@ -190,9 +205,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val result = db.delete(tableName, "$COL_ID=?", arrayOf(id.toString())).toLong()
         db.close()
         if(result == (-1).toLong()) {
-            Toast.makeText(context, "Error, artist not removed.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Error, artist not removed!", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Artist removed from the app.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Artist removed successfully.", Toast.LENGTH_SHORT).show()
         }
     }
 
