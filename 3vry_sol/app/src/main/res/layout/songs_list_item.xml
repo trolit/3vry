@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Video title"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:layout_weight="3"
             android:maxLines="30"/>
 
