@@ -2,14 +2,10 @@ package com.example.a3vry
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
-import kotlinx.android.synthetic.main.activity_artists.*
-
 import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.activity_settings.backToMainMenuBtn
 
 class SettingsActivity : AppCompatActivity() {
 
