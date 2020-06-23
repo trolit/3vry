@@ -17,10 +17,14 @@
     <string name="logoDescription">3vry app logo</string>
     <string name="artistIconDescription">Artist section icon</string>
     <string name="addArtistIconDescription">Add artist icon</string>
+    <string name="settingsIconDescription">Settings section icon</string>
     <string name="addArtistDialogHint">Enter artist or band name</string>
     <string name="what_text">What..?</string>
     <string name="why_text">Why..?</string>
-
+    <string name="playlistSettingDescription">If enabled 3vry app author playlist will be included in artists section. Recommended option. My playlist contains very wide range of genres. Maybe you will find something interesting :)</string>
+    <string name="playlistSettingHeader">Include app author playlist:</string>
+    <string name="enableIconDescription">Enable option icon</string>
+    <string name="disableIconDescription">Disable option icon</string>
     <string name="activity_songsLabel">SongsActivity</string>
     <string name="activity_settingsLabel">SettingsActivity</string>
     <string name="activity_artistsLabel">ArtistsActivity</string>
