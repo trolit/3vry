@@ -13,7 +13,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.*
+import kotlin.collections.ArrayList
 
 const val DATABASE_NAME = "EvryDb"
 
@@ -171,7 +174,8 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     fun checkForNewSong() {
-        val currentDate = LocalDate.now()
+        val sdf = SimpleDateFormat("dd-M-yyyy")
+        val currentDate = sdf.format(Date())
         // currentDate = LocalDate.parse("2020-06-22")
         val db = this.readableDatabase
         val query = "SELECT EXISTS (SELECT * FROM $song_TABLE_NAME WHERE $song_COL_DATETIME='$currentDate' LIMIT 1);"
@@ -219,6 +223,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         val service = retrofit.create(YouTubeApiService::class.java)
 
+        val sdf = SimpleDateFormat("dd-M-yyyy")
+        val currentDate = sdf.format(Date())
+
         if(artistName != "playlist") {
             val searchCall = service.results(artistName)
             searchCall?.enqueue(object : Callback<YoutubeGetResponse> {
@@ -227,7 +234,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                         if (response.body()?.items?.count()!! > 0) {
                             val song = response.body()?.items?.random()
                             val title = Html.fromHtml(song!!.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
-                            val songObj = Song(title, LocalDate.now().toString(), song.id!!.videoId, artistId)
+                            val songObj = Song(title, currentDate.toString(), song.id!!.videoId, artistId)
                             insertSong(songObj)
                         }
                     }
@@ -244,7 +251,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                         if (response.body()?.items?.count()!! > 0) {
                             val song = response.body()?.items?.random()
                             val title = Html.fromHtml(song!!.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
-                            val songObj = Song(title, LocalDate.now().toString(), song.snippet!!.resourceId!!.videoId, artistId)
+                            val songObj = Song(title, currentDate.toString(), song.snippet!!.resourceId!!.videoId, artistId)
                             insertSong(songObj)
                         }
                     }

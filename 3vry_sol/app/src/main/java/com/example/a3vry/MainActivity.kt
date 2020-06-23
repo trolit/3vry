@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                     "also make an app that will encourage to listen to at least one track each day. Listening to music has " +
                     "powerful impact on human mind. Music is very crucial in games and movies. Maybe with this tool you will " +
                     "find track(s) that you did not hear previously and get another favourite song(s)? Enjoy :)<br/><br/> " +
-                    "~Paweł Idzikowski(trolit), 23.06.2020</small>"
+                    "~Paweł Idzikowski(trolit)<br/>23.06.2020</small>"
             builder.setMessage(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY))
                 .setPositiveButton(HtmlCompat.fromHtml("<font color='#16A085'>Ok</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
                 ) { _, _ ->
@@ -70,7 +70,22 @@ class MainActivity : AppCompatActivity() {
         } else {
             // override viewArtistsBtn functionality
             viewSongsBtn.setOnClickListener {
-
+                val builder = AlertDialog.Builder(this)
+                val text = "<font color='#16A085'>Before you enter..</font><br/><br/><small>" +
+                        "songs section, please note that the list will be empty. Add at least one artist or enable app author " +
+                        " playlist in settings section in order to receive your first track. </small>"
+                builder.setMessage(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY))
+                    .setPositiveButton(HtmlCompat.fromHtml("<font color='#16A085'>Ok</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    ) { _, _ ->
+                        // dismiss
+                    }
+                    .setNegativeButton(HtmlCompat.fromHtml("Take me anyway", HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    ) { _, _ ->
+                        val intent = Intent(this, SongsActivity::class.java)
+                        startActivity(intent)
+                    }
+                builder.create()
+                builder.show()
             }
         }
         db.close()

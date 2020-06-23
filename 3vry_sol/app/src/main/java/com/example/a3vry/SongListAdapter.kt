@@ -15,7 +15,9 @@ import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener
 import com.google.android.youtube.player.YouTubePlayerView
 import kotlinx.android.synthetic.main.songs_list_item.view.*
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.*
 
 class SongListAdapter(context: Context, var resource: Int, var songList: MutableList<Song>,
                       var youtubePlayerView: YouTubePlayerView, var youtubePlayerRef: YouTubePlayer?,
@@ -37,8 +39,10 @@ class SongListAdapter(context: Context, var resource: Int, var songList: Mutable
         val song = songList[position]
 
         // Overwrite data
-        val currentDate = LocalDate.now()
-        if(currentDate == LocalDate.parse(song.dateTime)) {
+        val sdf = SimpleDateFormat("dd-M-yyyy")
+        val currentDate = sdf.format(Date())
+
+        if(currentDate == song.dateTime) {
             val tmp = song.dateTime
             textViewDate.text = HtmlCompat.fromHtml("<font color='#16A085'><strong>$tmp</strong></font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
         } else {

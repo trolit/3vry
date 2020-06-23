@@ -39,7 +39,7 @@ class ArtistsActivity : AppCompatActivity() {
             // alert dialog builder
             val mBuilder = AlertDialog.Builder(this)
                 .setView(mDialogView)
-                .setTitle("Artist name")
+                .setTitle("New artist")
             // show dialog
             val mAlertDialog = mBuilder.show()
             // handle bandDialogAddBtn
