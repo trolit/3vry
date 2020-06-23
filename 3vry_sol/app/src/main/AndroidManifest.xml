@@ -3,6 +3,7 @@
           package="com.example.a3vry">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -12,12 +13,18 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:usesCleartextTraffic="true">
         <activity
+                android:name=".SettingsActivity"
+                android:label="@string/activity_settingsLabel"
+                android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
                 android:name=".SongsActivity"
-                android:label="@string/title_activity_songs"
+                android:label="@string/activity_songsLabel"
                 android:parentActivityName=".MainActivity">
         </activity>
         <activity
                 android:name=".ArtistsActivity"
+                android:label="@string/activity_artistsLabel"
                 android:parentActivityName=".MainActivity">
         </activity>
         <activity

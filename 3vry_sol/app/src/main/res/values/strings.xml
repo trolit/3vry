@@ -21,5 +21,7 @@
     <string name="what_text">What..?</string>
     <string name="why_text">Why..?</string>
 
-    <string name="title_activity_songs">SongsActivity</string>
+    <string name="activity_songsLabel">SongsActivity</string>
+    <string name="activity_settingsLabel">SettingsActivity</string>
+    <string name="activity_artistsLabel">ArtistsActivity</string>
 </resources>
