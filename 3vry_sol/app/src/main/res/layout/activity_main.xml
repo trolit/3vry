@@ -16,7 +16,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="250dp"
                     android:contentDescription="@string/logoDescription"
@@ -31,24 +31,31 @@
                     <Button
                             android:id="@+id/viewArtistsBtn"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="60dp"
                             android:text="@string/artists_text"
+                            android:textColor="@color/colorWhite"
+                            android:backgroundTint="@color/colorLightGreen"
                             android:layout_weight="1"
                     />
 
                     <Button
                             android:id="@+id/viewSongsBtn"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="70dp"
                             android:text="@string/songs_text"
+                            android:textColor="@color/colorWhite"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:enabled="false"
                             android:layout_weight="1"
                     />
 
                     <Button
                             android:id="@+id/viewSettingsBtn"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="80dp"
                             android:text="@string/settings_text"
+                            android:textColor="@color/colorWhite"
+                            android:backgroundTint="@color/colorDarkGreen"
                             android:layout_weight="1"
                     />
                 </LinearLayout>
@@ -73,7 +80,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/colorTransparent"
-                            android:textColor="@color/colorHref"
+                            android:textColor="@color/colorPrimary"
                             android:text="@string/what_text"
                             android:layout_weight="1"
                     />
@@ -83,7 +90,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/colorTransparent"
-                            android:textColor="@color/colorHref"
+                            android:textColor="@color/colorPrimary"
                             android:text="@string/why_text"
                             android:layout_weight="1"
                     />
