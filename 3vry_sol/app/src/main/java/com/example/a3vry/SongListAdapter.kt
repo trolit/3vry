@@ -103,6 +103,30 @@ class SongListAdapter(context: Context, var resource: Int, var songList: Mutable
             override fun onInitializationSuccess(p0: YouTubePlayer.Provider?, youtubePlayer: YouTubePlayer?, p2: Boolean) {
                 youtubePlayer?.loadVideo(videoId)
                 youtubePlayerRef = youtubePlayer!!
+
+                val playbackEventListener = object: PlaybackEventListener {
+                    override fun onSeekTo(p0: Int) {
+                    }
+
+                    override fun onBuffering(p0: Boolean) {
+                    }
+
+                    override fun onPlaying() {
+                        lastPauseBtn!!.isVisible = true
+                        lastPlayBtn!!.isVisible = false
+                    }
+
+                    override fun onStopped() {
+
+                    }
+
+                    override fun onPaused() {
+                        lastPauseBtn!!.isVisible = false
+                        lastPlayBtn!!.isVisible = true
+                    }
+                }
+
+                youtubePlayer.setPlaybackEventListener(playbackEventListener)
             }
 
             override fun onInitializationFailure(p0: YouTubePlayer.Provider?, p1: YouTubeInitializationResult?) {
