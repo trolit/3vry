@@ -1,31 +1,38 @@
 <resources>
+    <!-- Global -->
     <string name="app_name">3vry</string>
-    <string name="home_text">Home</string>
-    <string name="action_settings">Settings</string>
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
     <string name="artists_text">Artists</string>
     <string name="songs_text">Songs</string>
     <string name="settings_text">Settings</string>
+
+    <!-- Main activity -->
+    <string name="logoDescription">3vry app logo</string>
+    <string name="exploreInformation_text">Explore 3VRY information</string>
+    <string name="what_text">What..?</string>
+    <string name="why_text">Why..?</string>
+
+    <!-- Artists activity -->
     <string name="bandDialogAddBtn_text">Insert</string>
     <string name="cancelBtn_text">Cancel</string>
     <string name="artistsListEmpty">List is empty.. \n \n Use button located in the top right corner to add first artist ;) \n Or visit settings and enable app author playlist!</string>
-    <string name="noSongsMessage">Song list is currently empty :(\n Add at least one artist to begin.</string>
-    <string name="exploreInformation_text">Explore 3VRY information</string>
-    <string name="logoDescription">3vry app logo</string>
     <string name="artistIconDescription">Artist section icon</string>
     <string name="addArtistIconDescription">Add artist icon</string>
-    <string name="settingsIconDescription">Settings section icon</string>
     <string name="addArtistDialogHint">Enter artist or band name</string>
-    <string name="what_text">What..?</string>
-    <string name="why_text">Why..?</string>
+
+    <!-- Songs activity -->
+    <string name="noSongsMessage">Song list is currently empty :(\n Add at least one artist to begin.</string>
+
+    <!-- Settings activity -->
+    <string name="settingsIconDescription">Settings section icon</string>
     <string name="playlistSettingDescription">If enabled 3vry app author playlist will be included in artists section. Recommended option. My playlist contains very wide range of genres. Maybe you will find something interesting :)</string>
     <string name="playlistSettingHeader">Include app author playlist:</string>
     <string name="enableIconDescription">Enable option icon</string>
     <string name="disableIconDescription">Disable option icon</string>
+
+    <!-- Other -->
     <string name="activity_songsLabel">SongsActivity</string>
     <string name="activity_settingsLabel">SettingsActivity</string>
     <string name="activity_artistsLabel">ArtistsActivity</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 </resources>
