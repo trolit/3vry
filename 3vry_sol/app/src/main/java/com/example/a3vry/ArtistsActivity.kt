@@ -1,10 +1,12 @@
 package com.example.a3vry
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_artists.*
 import kotlinx.android.synthetic.main.add_artist_dialog.view.*
 
@@ -15,9 +17,18 @@ class ArtistsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_artists)
 
+        backToMainMenuBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         var db = DbHandler(this)
 
         var artists = db.getArtists()
+
+        if(artists.count() <= 0) {
+            emptyArtistsListTextView.isVisible = true
+        }
 
         var adapter = ArtistListAdapter(this, R.layout.artists_list_item, artists)
         bandsList.adapter = adapter
