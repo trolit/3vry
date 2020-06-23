@@ -19,6 +19,7 @@
                     android:layout_marginTop="35dp"
                     android:layout_width="wrap_content"
                     android:layout_height="250dp"
+                    android:contentDescription="@string/logoDescription"
                     app:srcCompat="@drawable/logo"/>
 
                 <LinearLayout
@@ -31,7 +32,7 @@
                             android:id="@+id/viewArtistsBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="@string/viewBandsBtn_text"
+                            android:text="@string/artists_text"
                             android:layout_weight="1"
                     />
 
@@ -39,7 +40,7 @@
                             android:id="@+id/viewSongsBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="@string/viewSongsBtn_text"
+                            android:text="@string/songs_text"
                             android:layout_weight="1"
                     />
 
@@ -47,7 +48,7 @@
                             android:id="@+id/viewSettingsBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="@string/viewSettingsBtn"
+                            android:text="@string/settings_text"
                             android:layout_weight="1"
                     />
                 </LinearLayout>
@@ -55,7 +56,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Explore 3VRY information"
+                        android:text="@string/exploreInformation_text"
                         android:textSize="19sp"
                         android:layout_marginTop="25dp"
                         android:layout_marginBottom="20dp"
@@ -73,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/colorTransparent"
                             android:textColor="@color/colorHref"
-                            android:text="What..?"
+                            android:text="@string/what_text"
                             android:layout_weight="1"
                     />
 
@@ -83,7 +84,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/colorTransparent"
                             android:textColor="@color/colorHref"
-                            android:text="Why..?"
+                            android:text="@string/why_text"
                             android:layout_weight="1"
                     />
                 </LinearLayout>
