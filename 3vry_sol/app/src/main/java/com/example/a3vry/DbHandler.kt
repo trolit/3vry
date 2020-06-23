@@ -86,10 +86,10 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     fun getArtists() : MutableList<Artist> {
-        var list : MutableList<Artist> = ArrayList()
+        val list : MutableList<Artist> = ArrayList()
         val db = this.readableDatabase
         val query = "SELECT * FROM $artist_TABLE_NAME"
-        var result = db.rawQuery(query, null)
+        val result = db.rawQuery(query, null)
 
         if(result.moveToFirst()) {
             do {
@@ -156,7 +156,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     fun checkForNewSong() {
-        var currentDate = LocalDate.now()
+        val currentDate = LocalDate.now()
         // currentDate = LocalDate.parse("2020-06-22")
         val db = this.readableDatabase
         val query = "SELECT EXISTS (SELECT * FROM $song_TABLE_NAME WHERE $song_COL_DATETIME='$currentDate' LIMIT 1);"
