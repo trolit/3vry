@@ -3,6 +3,7 @@ package com.example.a3vry
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.core.view.isVisible
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubePlayer
 import kotlinx.android.synthetic.main.activity_songs.*
@@ -16,8 +17,6 @@ class SongsActivity : YouTubeBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_songs)
-        // supportActionBar?.title = null
-        // supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         backToMainMenuBtn.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -27,10 +26,12 @@ class SongsActivity : YouTubeBaseActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         val db = DbHandler(this)
-
-        db.checkForNewSong()
-
         val songs = db.getSongs()
+
+        if(songs.count() <= 0) {
+            noSongsTextMessage.isVisible = true
+        }
+        
         val youtubePlayerRef : YouTubePlayer? = null
         val adapter = SongListAdapter(this, R.layout.songs_list_item, songs, youtubePlayerView, youtubePlayerRef, closeYoutubeViewBtn)
         songList.adapter = adapter
