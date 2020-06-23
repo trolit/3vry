@@ -52,8 +52,9 @@ class ArtistsActivity : AppCompatActivity() {
                     db.insertBand(artist)
                     adapter.add(artist)
                     adapter.notifyDataSetChanged()
+                    emptyArtistsListTextView.isVisible = false
                 } else {
-                    Toast.makeText(this, "Please fill in artist name", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Please fill in artist name.", Toast.LENGTH_SHORT).show()
                 }
             }
             // handle bandDialogCancelBtn
