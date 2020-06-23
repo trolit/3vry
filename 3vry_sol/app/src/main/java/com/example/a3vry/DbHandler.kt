@@ -104,6 +104,21 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return list
     }
 
+    fun checkIfDbContainsAtLeastOneArtist() : Boolean {
+        val db = this.readableDatabase
+        val query = "SELECT 1 FROM $artist_TABLE_NAME LIMIT 1"
+        val result = db.rawQuery(query, null)
+        println("RESULT => ${result.count}")
+        if(result.count <= 0) {
+            result.close()
+            db.close()
+            return false
+        }
+        result.close()
+        db.close()
+        return true
+    }
+
     private fun switchPlaylistArtist() {
         val db = this.writableDatabase
         val query = "SELECT 1 FROM $artist_TABLE_NAME WHERE $artist_COL_NAME='playlist' LIMIT 1;"
