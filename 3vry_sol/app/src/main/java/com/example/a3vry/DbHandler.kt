@@ -106,11 +106,18 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return list
     }
 
-    fun checkIfDbContainsAtLeastOneArtist() : Boolean {
+    fun wipeAllSongs() {
+        val db = this.writableDatabase
+        val result = db.delete(song_TABLE_NAME, "1", null);
+        Toast.makeText(context, "$result track(s) removed.", Toast.LENGTH_SHORT).show()
+        db.close()
+    }
+
+    fun checkIfTableContainsAtLeastOneObject(tableName: String) : Boolean {
         val db = this.readableDatabase
-        val query = "SELECT 1 FROM $artist_TABLE_NAME LIMIT 1"
+        val query = "SELECT 1 FROM $tableName LIMIT 1"
         val result = db.rawQuery(query, null)
-        println("RESULT => ${result.count}")
+        // println("RESULT => ${result.count}")
         if(result.count <= 0) {
             result.close()
             db.close()
