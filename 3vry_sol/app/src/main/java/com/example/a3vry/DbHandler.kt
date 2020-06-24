@@ -30,6 +30,8 @@ const val song_COL_ARTISTID = "artistId"
 const val artist_TABLE_NAME = "Artists"
 const val artist_COL_NAME = "name"
 
+const val playlist = "playlist"
+
 class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     // Runs when device does not contain Database
     override fun onCreate(db: SQLiteDatabase?) {
@@ -45,7 +47,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 song_COL_TITLE + " VARCHAR(256)," +
                 song_COL_DATETIME + " VARCHAR(50)," +
                 song_COL_URL + " VARCHAR(256)," +
-                song_COL_ARTISTID + " INTEGER REFERENCES " + artist_COL_NAME + "(" + COL_ID + "));"
+                song_COL_ARTISTID + " INTEGER REFERENCES " + artist_TABLE_NAME + "(" + COL_ID + "));"  // !!! NOT ON DELETE CASCADE!
 
         db?.execSQL(createSongsTable);
     }
@@ -67,9 +69,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         cv.put(song_COL_ARTISTID, song.artistId)
         val result = db.insert(song_TABLE_NAME, null, cv)
         if(result == (-1).toLong()) {
-            Toast.makeText(context, "Song insertion failed :(", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.failedSongInsertion), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "New song added to your list!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.succededSongInsertion), Toast.LENGTH_SHORT).show()
         }
         db.close()
     }
@@ -80,9 +82,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         cv.put(artist_COL_NAME, artist.name)
         val result = db.insert(artist_TABLE_NAME, null, cv)
         if(result == (-1).toLong()) {
-            Toast.makeText(context, "Error occured, artist not added!", Toast.LENGTH_SHORT).show()
-        } else if(artist.name != "playlist") {
-            Toast.makeText(context, "Artist added correctly!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.failedArtistInsertion), Toast.LENGTH_SHORT).show()
+        } else if(artist.name != playlist) {
+            Toast.makeText(context, context.getString(R.string.succededArtistInsertion), Toast.LENGTH_SHORT).show()
         }
         db.close()
     }
@@ -109,28 +111,28 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun wipeAllSongs() {
         val db = this.writableDatabase
         val result = db.delete(song_TABLE_NAME, "1", null);
-        Toast.makeText(context, "$result track(s) removed.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "$result " + context.getString(R.string.nTracksRemoved), Toast.LENGTH_SHORT).show()
         db.close()
     }
 
     fun checkIfTableContainsAtLeastOneObject(tableName: String) : Boolean {
         val db = this.readableDatabase
-        val query = "SELECT 1 FROM $tableName LIMIT 1"
+        val query = "SELECT count(*) FROM $tableName LIMIT 1"
         val result = db.rawQuery(query, null)
-        // println("RESULT => ${result.count}")
-        if(result.count <= 0) {
+        result.moveToFirst()
+        if(result.getInt(0) > 0) {
             result.close()
             db.close()
-            return false
+            return true
         }
         result.close()
         db.close()
-        return true
+        return false
     }
 
     fun checkIfPlaylistIsEnabled() : Boolean {
         val db = this.readableDatabase
-        val query = "SELECT 1 FROM $artist_TABLE_NAME WHERE $artist_COL_NAME='playlist' LIMIT 1;"
+        val query = "SELECT 1 FROM $artist_TABLE_NAME WHERE $artist_COL_NAME='$playlist' LIMIT 1;"
         val result = db.rawQuery(query, null)
         if(result.count > 0) {
             result.close()
@@ -143,17 +145,17 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     fun addPlaylistAsArtist() {
-        insertBand(Artist("playlist"))
-        Toast.makeText(context, "Playlist enabled.", Toast.LENGTH_SHORT).show()
+        insertBand(Artist(playlist))
+        Toast.makeText(context, context.getString(R.string.playlistEnabled), Toast.LENGTH_SHORT).show()
     }
 
     fun removePlaylistAsArtist() {
         val db = this.writableDatabase
-        val res = db.delete(artist_TABLE_NAME, "$artist_COL_NAME='playlist'", null).toLong()
+        val res = db.delete(artist_TABLE_NAME, "$artist_COL_NAME='$playlist'", null).toLong()
         if(res != (-1).toLong()) {
-            Toast.makeText(context, "Playlist disabled.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.playlistDisabled), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Error, playlist not disabled.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.playlistNotDisabled), Toast.LENGTH_SHORT).show()
         }
         db.close()
     }
@@ -188,7 +190,6 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val cursor : Cursor = db.rawQuery(query, null)
         cursor.moveToFirst()
         println("Current date => $currentDate")
-        println("SSS => $cursor")
         // if true, there is already song assigned to that date
         if(cursor.getInt(0) == 1) {
             // do nothing
@@ -199,11 +200,10 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 // 2. Get random artist
                 result.shuffle()
                 val artist = result[0]
-
                 // 3. Make query to youtube & insert song
                 queryForVideo(artist.name, artist.id)
             } else {
-                Toast.makeText(context, "Artists not found!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.artistsMissing), Toast.LENGTH_SHORT).show()
             }
         }
         cursor.close()
@@ -215,9 +215,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val result = db.delete(tableName, "$COL_ID=?", arrayOf(id.toString())).toLong()
         db.close()
         if(result == (-1).toLong()) {
-            Toast.makeText(context, "Error, artist not removed!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.elementNotRemoved), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Artist removed successfully.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.elementRemoved), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -232,7 +232,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val sdf = SimpleDateFormat("dd-M-yyyy")
         val currentDate = sdf.format(Date())
 
-        if(artistName != "playlist") {
+        if(artistName != playlist) {
             val searchCall = service.results(artistName)
             searchCall?.enqueue(object : Callback<YoutubeGetResponse> {
                 override fun onResponse(call: Call<YoutubeGetResponse>, response: Response<YoutubeGetResponse>) {
@@ -249,7 +249,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     t.printStackTrace()
                 }
             })
-        } else if (artistName == "playlist") {
+        } else if (artistName == playlist) {
             val searchCall = service.playlistResults()
             searchCall?.enqueue(object : Callback<YoutubeGetPlaylistResponse> {
                 override fun onResponse(call: Call<YoutubeGetPlaylistResponse>, response: Response<YoutubeGetPlaylistResponse>) {

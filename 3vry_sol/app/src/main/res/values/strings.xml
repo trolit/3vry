@@ -30,6 +30,19 @@
     <string name="disableIconDescription">Disable option icon</string>
     <string name="wipeDataBtnText">Wipe song data</string>
 
+    <!-- .kt files -->
+    <string name="failedSongInsertion">Song insertion failed :(</string>
+    <string name="succededSongInsertion">New song added to your list!</string>
+    <string name="failedArtistInsertion">Error occurred, artist not added!</string>
+    <string name="succededArtistInsertion">Artist added correctly!</string>
+    <string name="nTracksRemoved">track(s) removed.</string>
+    <string name="playlistEnabled">Playlist enabled.</string>
+    <string name="playlistDisabled">Playlist disabled.</string>
+    <string name="playlistNotDisabled">Error, playlist not disabled.</string>
+    <string name="artistsMissing">There is no artists to add new song.</string>
+    <string name="elementRemoved">Element removed successfully.</string>
+    <string name="elementNotRemoved">Error, element not removed!</string>
+
     <!-- Other -->
     <string name="activity_songsLabel">SongsActivity</string>
     <string name="activity_settingsLabel">SettingsActivity</string>
