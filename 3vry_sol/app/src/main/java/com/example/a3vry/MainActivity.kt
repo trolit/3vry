@@ -64,7 +64,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         val db = DbHandler(this)
-        val result = db.checkIfDbContainsAtLeastOneArtist()
+
+        val result = db.checkIfTableContainsAtLeastOneObject("Artists")
         if(result) {
             db.checkForNewSong()
         } else {
