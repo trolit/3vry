@@ -35,6 +35,7 @@ class SettingsActivity : AppCompatActivity() {
                     .setPositiveButton(HtmlCompat.fromHtml("<font color='#9F001C'>YES</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
                     ) { _, _ ->
                         db.wipeAllSongs()
+                        wipeSongsBtn.isVisible = false
                     }
                     .setNegativeButton(HtmlCompat.fromHtml("<font color='#000000'>NO</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)) { _,_ ->
                         // dismiss alert dialog
