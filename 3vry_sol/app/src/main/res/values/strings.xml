@@ -28,6 +28,7 @@
     <string name="playlistSettingHeader">Include app author playlist:</string>
     <string name="enableIconDescription">Enable option icon</string>
     <string name="disableIconDescription">Disable option icon</string>
+    <string name="wipeDataBtnText">Wipe song data</string>
 
     <!-- Other -->
     <string name="activity_songsLabel">SongsActivity</string>

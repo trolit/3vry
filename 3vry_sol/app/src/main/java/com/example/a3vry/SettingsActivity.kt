@@ -2,6 +2,7 @@ package com.example.a3vry
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
@@ -22,6 +23,28 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val db = DbHandler(this)
+
+        val result = db.checkIfTableContainsAtLeastOneObject("Songs")
+        if(result) {
+            wipeSongsBtn.setOnClickListener {
+                val builder = AlertDialog.Builder(this)
+                val text = "<font color='#9F001C'>Warning!</font><br/><br/><small>" +
+                        "This operation removes all songs listed in the application. After clicking YES you cannot undo that " +
+                        "operation. Are you sure? </small>"
+                builder.setMessage(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY))
+                    .setPositiveButton(HtmlCompat.fromHtml("<font color='#9F001C'>YES</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    ) { _, _ ->
+                        db.wipeAllSongs()
+                    }
+                    .setNegativeButton(HtmlCompat.fromHtml("<font color='#000000'>NO</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)) { _,_ ->
+                        // dismiss alert dialog
+                    }
+                builder.create()
+                builder.show()
+            }
+        } else {
+            wipeSongsBtn.isVisible = false
+        }
 
         val isPlaylistEnabled = db.checkIfPlaylistIsEnabled()
         if(isPlaylistEnabled) {
