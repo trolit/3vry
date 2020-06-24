@@ -19,8 +19,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewSongsBtn.setOnClickListener {
-            val intent = Intent(this, SongsActivity::class.java)
-            startActivity(intent)
+            intentSongsActivity()
         }
 
         viewSettingsBtn.setOnClickListener {
@@ -65,16 +64,18 @@ class MainActivity : AppCompatActivity() {
 
         val db = DbHandler(this)
 
-        val result = db.checkIfTableContainsAtLeastOneObject("Artists")
-        if(result) {
+        val isArtistsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Artists")
+        val isSongsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Songs")
+
+        if(isArtistsTableNotEmpty) {
             db.checkForNewSong()
-        } else {
+        } else if(!isArtistsTableNotEmpty && !isSongsTableNotEmpty) {
             // override viewArtistsBtn functionality
             viewSongsBtn.setOnClickListener {
                 val builder = AlertDialog.Builder(this)
                 val text = "<font color='#16A085'>Before you enter..</font><br/><br/><small>" +
-                        "songs section, please note that the list will be empty. Add at least one artist or enable app author " +
-                        " playlist in settings section in order to receive your first track. </small>"
+                        "Please consider adding at least one artist or enabling app author playlist from settings " +
+                        "section in order to receive your first track offer:) </small>"
                 builder.setMessage(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY))
                     .setPositiveButton(HtmlCompat.fromHtml("<font color='#16A085'>Ok</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
                     ) { _, _ ->
@@ -82,13 +83,31 @@ class MainActivity : AppCompatActivity() {
                     }
                     .setNegativeButton(HtmlCompat.fromHtml("Take me anyway", HtmlCompat.FROM_HTML_MODE_LEGACY)
                     ) { _, _ ->
-                        val intent = Intent(this, SongsActivity::class.java)
-                        startActivity(intent)
+                        intentSongsActivity()
+                    }
+                builder.create()
+                builder.show()
+            }
+        } else if(!isArtistsTableNotEmpty && isSongsTableNotEmpty) {
+            viewSongsBtn.setOnClickListener {
+                val builder = AlertDialog.Builder(this)
+                val text = "<font color='#16A085'>Reminder</font><br/><br/><small>" +
+                        "You won't receive next track(s) unless you add at least one artist or " +
+                        "enable app author playlist from settings menu. </small>"
+                builder.setMessage(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY))
+                    .setPositiveButton(HtmlCompat.fromHtml("<font color='#16A085'>Ok</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    ) { _, _ ->
+                        intentSongsActivity()
                     }
                 builder.create()
                 builder.show()
             }
         }
         db.close()
+    }
+
+    private fun intentSongsActivity() {
+        val intent = Intent(this, SongsActivity::class.java)
+        startActivity(intent)
     }
 }
