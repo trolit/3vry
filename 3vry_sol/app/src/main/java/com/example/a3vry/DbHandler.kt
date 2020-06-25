@@ -181,6 +181,17 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
     }
 
+    fun getPrefValue(parameter: String) : Int {
+        val db = this.readableDatabase
+        val query = "SELECT $preferences_COL_VALUE FROM $preferences_TABLE_NAME WHERE $preferences_COL_PARAMETER='$parameter'"
+        val result = db.rawQuery(query, null)
+        result.moveToFirst()
+        val outcome = result.getInt(0)
+        result.close()
+        db.close()
+        return outcome
+    }
+
     fun getSongs() : MutableList<Song> {
         val list : MutableList<Song> = ArrayList()
         val db = this.readableDatabase
@@ -302,14 +313,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val sdf = SimpleDateFormat("dd-M-yyyy")
         val currentDate = sdf.format(Date())
 
-        val db = this.readableDatabase
-        val query = "SELECT $preferences_COL_VALUE FROM $preferences_TABLE_NAME WHERE $preferences_COL_PARAMETER='videoRange'"
-        val result = db.rawQuery(query, null)
-        result.moveToFirst()
-        val outcome = result.getInt(0)
-        result.close()
-        db.close()
-
+        val outcome = getPrefValue("videoRange")
         // possible outcomes: 50, 100, 150, 200
         val pageRange = outcome / 50
         val targetPage = (1..pageRange).random()
