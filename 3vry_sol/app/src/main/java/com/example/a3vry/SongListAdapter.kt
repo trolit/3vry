@@ -90,7 +90,6 @@ class SongListAdapter(context: Context, var resource: Int, var songList: Mutable
                 lastPlayBtn = view.playVideoBtn
                 lastPauseBtn = view.pauseVideoBtn
             }
-            // youtubePlayerView.removeAllViews() ==> Clears video site
         }
 
         view.pauseVideoBtn.setOnClickListener {
@@ -142,7 +141,7 @@ class SongListAdapter(context: Context, var resource: Int, var songList: Mutable
             }
 
             override fun onInitializationFailure(p0: YouTubePlayer.Provider?, p1: YouTubeInitializationResult?) {
-                Toast.makeText(context, "Error: Something went wrong!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.somethingWentWrong), Toast.LENGTH_SHORT).show()
             }
         }
     }

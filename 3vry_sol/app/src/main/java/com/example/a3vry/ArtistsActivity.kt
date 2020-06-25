@@ -22,15 +22,15 @@ class ArtistsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        var db = DbHandler(this)
+        val db = DbHandler(this)
 
-        var artists = db.getArtists()
+        val artists = db.getArtists()
 
         if(artists.count() <= 0) {
             emptyArtistsListTextView.isVisible = true
         }
 
-        var adapter = ArtistListAdapter(this, R.layout.artists_list_item, artists)
+        val adapter = ArtistListAdapter(this, R.layout.artists_list_item, artists)
         bandsList.adapter = adapter
 
         bandDialogToggleBtn.setOnClickListener {
@@ -48,13 +48,13 @@ class ArtistsActivity : AppCompatActivity() {
                 // get data
                 val name = mDialogView.bandDialogName.text.toString()
                 if(name.isNotEmpty()) {
-                    var artist = Artist(name)
+                    val artist = Artist(name)
                     db.insertBand(artist)
                     adapter.add(artist)
                     adapter.notifyDataSetChanged()
                     emptyArtistsListTextView.isVisible = false
                 } else {
-                    Toast.makeText(this, "Please fill in artist name.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, this.getString(R.string.missingArtistName), Toast.LENGTH_SHORT).show()
                 }
             }
             // handle bandDialogCancelBtn

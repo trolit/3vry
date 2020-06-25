@@ -35,17 +35,17 @@ class ArtistListAdapter(context: Context, var resource: Int, var artistList: Mut
 
     private fun removeItem(pos: Int, artistId: Int) {
         val alertDialogBuilder = AlertDialog.Builder(context)
-        alertDialogBuilder.setTitle("Are you sure you want to delete?")
+        alertDialogBuilder.setTitle(context.getString(R.string.confirmDeleteOperation))
 
-        alertDialogBuilder.setPositiveButton("Yes", DialogInterface.OnClickListener { _: DialogInterface, i: Int ->
+        alertDialogBuilder.setPositiveButton(context.getString(R.string.rawYes)) { _: DialogInterface, _: Int ->
             val db = DbHandler(context)
             db.deleteRowFromDb(artistId, artist_TABLE_NAME)
             artistList.removeAt(pos)
             notifyDataSetChanged()
-        })
-        alertDialogBuilder.setNegativeButton("No", DialogInterface.OnClickListener { _: DialogInterface, i: Int ->
+        }
+        alertDialogBuilder.setNegativeButton(context.getString(R.string.rawNo)) { _: DialogInterface, _: Int ->
             // empty
-        })
+        }
 
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()

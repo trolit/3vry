@@ -28,16 +28,13 @@ class SettingsActivity : AppCompatActivity() {
         if(result) {
             wipeSongsBtn.setOnClickListener {
                 val builder = AlertDialog.Builder(this)
-                val text = "<font color='#9F001C'>Warning!</font><br/><br/><small>" +
-                        "This operation removes all songs listed in the application. After clicking YES you cannot undo that " +
-                        "operation. Are you sure? </small>"
-                builder.setMessage(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY))
-                    .setPositiveButton(HtmlCompat.fromHtml("<font color='#9F001C'>YES</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
+                builder.setMessage(HtmlCompat.fromHtml(this.getString(R.string.songWipeConfirmation), HtmlCompat.FROM_HTML_MODE_LEGACY))
+                    .setPositiveButton(HtmlCompat.fromHtml(this.getString(R.string.htmlYes), HtmlCompat.FROM_HTML_MODE_LEGACY)
                     ) { _, _ ->
                         db.wipeAllSongs()
                         wipeSongsBtn.isVisible = false
                     }
-                    .setNegativeButton(HtmlCompat.fromHtml("<font color='#000000'>NO</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)) { _,_ ->
+                    .setNegativeButton(HtmlCompat.fromHtml(this.getString(R.string.htmlNo), HtmlCompat.FROM_HTML_MODE_LEGACY)) { _,_ ->
                         // dismiss alert dialog
                     }
                 builder.create()
@@ -50,22 +47,22 @@ class SettingsActivity : AppCompatActivity() {
         val isPlaylistEnabled = db.checkIfPlaylistIsEnabled()
         if(isPlaylistEnabled) {
             disablePlaylistBtn.isVisible = true
-            setStatusOnTextView("ENABLED", greenColor)
+            setStatusOnTextView(this.getString(R.string.enabled), greenColor)
         } else {
             enablePlaylistBtn.isVisible = true
-            setStatusOnTextView("DISABLED", redColor)
+            setStatusOnTextView(this.getString(R.string.disabled), redColor)
         }
 
         disablePlaylistBtn.setOnClickListener {
             db.removePlaylistAsArtist()
             swapButtons()
-            setStatusOnTextView("DISABLED", redColor)
+            setStatusOnTextView(this.getString(R.string.disabled), redColor)
         }
 
         enablePlaylistBtn.setOnClickListener {
             db.addPlaylistAsArtist()
             swapButtons()
-            setStatusOnTextView("ENABLED", greenColor)
+            setStatusOnTextView(this.getString(R.string.enabled), greenColor)
         }
     }
 

@@ -33,7 +33,9 @@ class SongsActivity : YouTubeBaseActivity() {
         }
         
         val youtubePlayerRef : YouTubePlayer? = null
-        val adapter = SongListAdapter(this, R.layout.songs_list_item, songs, youtubePlayerView, youtubePlayerRef, closeYoutubeViewBtn)
+        val adapter =
+            SongListAdapter(this, R.layout.songs_list_item, songs, youtubePlayerView, youtubePlayerRef, closeYoutubeViewBtn)
+        
         songList.adapter = adapter
     }
 }
