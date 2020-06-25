@@ -18,18 +18,15 @@ class ArtistsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_artists)
 
         backToMainMenuBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         val db = DbHandler(this)
-
         val artists = db.getArtists()
 
         if(artists.count() <= 0) {
             emptyArtistsListTextView.isVisible = true
         }
-
         val adapter = ArtistListAdapter(this, R.layout.artists_list_item, artists)
         bandsList.adapter = adapter
 

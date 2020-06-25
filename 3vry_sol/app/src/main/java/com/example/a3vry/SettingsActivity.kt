@@ -18,12 +18,10 @@ class SettingsActivity : AppCompatActivity() {
         val redColor = "#9F001C"
 
         backToMainMenuBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         val db = DbHandler(this)
-
         val result = db.checkIfTableContainsAtLeastOneObject("Songs")
         if(result) {
             wipeSongsBtn.setOnClickListener {
@@ -58,7 +56,6 @@ class SettingsActivity : AppCompatActivity() {
             swapButtons()
             setStatusOnTextView(this.getString(R.string.disabled), redColor)
         }
-
         enablePlaylistBtn.setOnClickListener {
             db.addPlaylistAsArtist()
             swapButtons()

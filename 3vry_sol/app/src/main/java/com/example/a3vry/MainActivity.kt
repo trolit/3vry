@@ -14,17 +14,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         viewArtistsBtn.setOnClickListener {
-            val intent = Intent(this, ArtistsActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ArtistsActivity::class.java))
         }
-
         viewSongsBtn.setOnClickListener {
             intentSongsActivity()
         }
-
         viewSettingsBtn.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         buttonWhat.setOnClickListener {
@@ -37,7 +33,6 @@ class MainActivity : AppCompatActivity() {
             builder.create()
             builder.show()
         }
-
         buttonWhy.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setMessage(HtmlCompat.fromHtml(this.getString(R.string.appReason), HtmlCompat.FROM_HTML_MODE_LEGACY))
@@ -50,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         val db = DbHandler(this)
-
         val isArtistsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Artists")
         val isSongsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Songs")
 
