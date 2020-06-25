@@ -242,6 +242,55 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
     }
 
+    private fun callYoutubePlaylistSearch(service: YouTubeApiService, artistName : String, artistId : Int,
+                                          pageToken: String, targetPage: Int, currentIteration: Int, currentDate: String) {
+        val searchCall = service.playlistResults(pageToken)
+        searchCall?.enqueue(object : Callback<YoutubeGetPlaylistResponse> {
+            override fun onResponse(call: Call<YoutubeGetPlaylistResponse>, response: Response<YoutubeGetPlaylistResponse>) {
+                if (response.isSuccessful){
+
+                    if (currentIteration != targetPage) {
+                        val nextPageToken = response.body()?.nextPageToken.toString()
+                        callYoutubePlaylistSearch(service, artistName, artistId, nextPageToken, targetPage, currentIteration + 1, currentDate)
+                    } else if (response.body()?.items?.count()!! > 0) {
+                        val song = response.body()?.items?.random()
+                        val title = Html.fromHtml(song!!.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                        val songObj = Song(title, currentDate, song.snippet!!.resourceId!!.videoId, artistId)
+                        insertSong(songObj)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<YoutubeGetPlaylistResponse>, t: Throwable) {
+                t.printStackTrace()
+            }
+        })
+    }
+
+    private fun callYoutubeSearch(service: YouTubeApiService, artistName : String, artistId : Int,
+                                  pageToken: String, targetPage: Int, currentIteration: Int, currentDate: String) {
+        val searchCall = service.results(artistName, pageToken)
+        searchCall?.enqueue(object : Callback<YoutubeGetResponse> {
+            override fun onResponse(call: Call<YoutubeGetResponse>, response: Response<YoutubeGetResponse>) {
+                if (response.isSuccessful){
+                    if (currentIteration != targetPage) {
+                        val nextPageToken = response.body()?.nextPageToken.toString()
+                        callYoutubeSearch(service, artistName, artistId, nextPageToken, targetPage, currentIteration + 1, currentDate)
+                    } else if (response.body()?.items?.count()!! > 0) {
+                        val song = response.body()?.items?.random()
+                        val title = Html.fromHtml(song!!.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                        val songObj = Song(title, currentDate, song.id!!.videoId, artistId)
+                        insertSong(songObj)
+                    }
+
+                    // println("First song TITLE: " + response.body()?.items?.get(0)?.snippet!!.title)
+                }
+            }
+            override fun onFailure(call: Call<YoutubeGetResponse>, t: Throwable) {
+                t.printStackTrace()
+            }
+        })
+    }
+
     private fun queryForVideo(artistName : String, artistId : Int) {
         val retrofit = Retrofit.Builder()
             .baseUrl(YouTubeApiService.YOUTUBE_SEARCH_BASE_URL)
@@ -253,40 +302,22 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val sdf = SimpleDateFormat("dd-M-yyyy")
         val currentDate = sdf.format(Date())
 
+        val db = this.readableDatabase
+        val query = "SELECT $preferences_COL_VALUE FROM $preferences_TABLE_NAME WHERE $preferences_COL_PARAMETER='videoRange'"
+        val result = db.rawQuery(query, null)
+        result.moveToFirst()
+        val outcome = result.getInt(0)
+        result.close()
+        db.close()
+
+        // possible outcomes: 50, 100, 150, 200
+        val pageRange = outcome / 50
+        val targetPage = (1..pageRange).random()
+
         if(artistName != playlist) {
-            val searchCall = service.results(artistName)
-            searchCall?.enqueue(object : Callback<YoutubeGetResponse> {
-                override fun onResponse(call: Call<YoutubeGetResponse>, response: Response<YoutubeGetResponse>) {
-                    if (response.isSuccessful){
-                        if (response.body()?.items?.count()!! > 0) {
-                            val song = response.body()?.items?.random()
-                            val title = Html.fromHtml(song!!.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
-                            val songObj = Song(title, currentDate.toString(), song.id!!.videoId, artistId)
-                            insertSong(songObj)
-                        }
-                    }
-                }
-                override fun onFailure(call: Call<YoutubeGetResponse>, t: Throwable) {
-                    t.printStackTrace()
-                }
-            })
+            callYoutubeSearch(service, artistName, artistId, "", targetPage, 0, currentDate)
         } else if (artistName == playlist) {
-            val searchCall = service.playlistResults()
-            searchCall?.enqueue(object : Callback<YoutubeGetPlaylistResponse> {
-                override fun onResponse(call: Call<YoutubeGetPlaylistResponse>, response: Response<YoutubeGetPlaylistResponse>) {
-                    if (response.isSuccessful){
-                        if (response.body()?.items?.count()!! > 0) {
-                            val song = response.body()?.items?.random()
-                            val title = Html.fromHtml(song!!.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
-                            val songObj = Song(title, currentDate.toString(), song.snippet!!.resourceId!!.videoId, artistId)
-                            insertSong(songObj)
-                        }
-                    }
-                }
-                override fun onFailure(call: Call<YoutubeGetPlaylistResponse>, t: Throwable) {
-                    t.printStackTrace()
-                }
-            })
+            callYoutubePlaylistSearch(service, artistName, artistId, "", targetPage, 0, currentDate)
         }
 
     }
