@@ -30,6 +30,10 @@ const val song_COL_ARTISTID = "artistId"
 const val artist_TABLE_NAME = "Artists"
 const val artist_COL_NAME = "name"
 
+const val preferences_TABLE_NAME = "Preferences"
+const val preferences_COL_PARAMETER = "parameter"
+const val preferences_COL_VALUE = "value"
+
 const val playlist = "playlist"
 
 class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
@@ -49,7 +53,24 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 song_COL_URL + " VARCHAR(256)," +
                 song_COL_ARTISTID + " INTEGER REFERENCES " + artist_TABLE_NAME + "(" + COL_ID + "));"  // !!! NOT ON DELETE CASCADE!
 
-        db?.execSQL(createSongsTable);
+        db?.execSQL(createSongsTable)
+
+        val createParametersTable = "CREATE TABLE $preferences_TABLE_NAME (" +
+                "$COL_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "$preferences_COL_PARAMETER VARCHAR(50)," +
+                "$preferences_COL_VALUE VARCHAR(50)" +
+                ");"
+
+        db?.execSQL(createParametersTable)
+
+        val addVideoRangePref = "INSERT INTO $preferences_TABLE_NAME " +
+                "($preferences_COL_PARAMETER, $preferences_COL_VALUE) " +
+                "VALUES ('videoRange', '150');"
+
+        // INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)
+        // VALUES ('Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway');
+
+        db?.execSQL(addVideoRangePref)
     }
 
     // Executed when device holds older version of Database
