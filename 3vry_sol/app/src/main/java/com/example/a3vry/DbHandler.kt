@@ -44,7 +44,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "$artist_COL_NAME VARCHAR(256)" +
                 ");"
 
-        db?.execSQL(createBandsTable);
+        db?.execSQL(createBandsTable)
 
         val createSongsTable = "CREATE TABLE " + song_TABLE_NAME + " (" +
                 COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
