@@ -78,6 +78,18 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         TODO("Not yet implemented")
     }
 
+    fun updatePreference(preference: Preference) {
+        val db = this.writableDatabase
+        val cv = ContentValues()
+        cv.put(preferences_COL_PARAMETER, preference.parameter)
+        cv.put(preferences_COL_VALUE, preference.value)
+        val result = db.update(preferences_TABLE_NAME, cv, "$preferences_COL_PARAMETER=?", arrayOf(preference.parameter)).toLong()
+        if(result <= 0 ) {
+            Toast.makeText(context, context.getString(R.string.failedPrefInsertion), Toast.LENGTH_SHORT).show()
+        }
+        db.close()
+    }
+
     fun insertSong(song: Song) {
         val db = this.writableDatabase
         val cv = ContentValues()
