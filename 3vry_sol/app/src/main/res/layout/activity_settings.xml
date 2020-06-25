@@ -101,6 +101,37 @@
                 android:text="@string/playlistSettingDescription"
         />
 
+        <TextView
+                android:id="@+id/searchingRangeHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rangeSettingHeader"
+                android:layout_marginTop="15sp"
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="7sp"
+        />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:textSize="12sp"
+                android:text="@string/rangeSettingDescription"
+        />
+
+        <Button
+                android:id="@+id/changeSearchRangeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:layout_marginStart="17sp"
+                android:layout_marginEnd="20sp"
+                android:text="@string/rangeSettingBtn"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/colorWhite"
+        />
+
         <Button
                 android:id="@+id/wipeSongsBtn"
                 android:layout_width="match_parent"
