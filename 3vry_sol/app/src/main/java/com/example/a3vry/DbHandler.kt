@@ -65,10 +65,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         val addVideoRangePref = "INSERT INTO $preferences_TABLE_NAME " +
                 "($preferences_COL_PARAMETER, $preferences_COL_VALUE) " +
-                "VALUES ('videoRange', '150');"
-
-        // INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)
-        // VALUES ('Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway');
+                "VALUES " +
+                "('videoRange', '150'), " +
+                "('videoDuration', 'short');"
 
         db?.execSQL(addVideoRangePref)
     }
@@ -193,12 +192,12 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
     }
 
-    fun getPrefValue(parameter: String) : Int {
+    fun getPrefValue(parameter: String) : String {
         val db = this.readableDatabase
         val query = "SELECT $preferences_COL_VALUE FROM $preferences_TABLE_NAME WHERE $preferences_COL_PARAMETER='$parameter'"
         val result = db.rawQuery(query, null)
         result.moveToFirst()
-        val outcome = result.getInt(0)
+        val outcome = result.getString(0)
         result.close()
         db.close()
         return outcome
@@ -289,15 +288,16 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         })
     }
 
-    private fun callYoutubeSearch(service: YouTubeApiService, artistName : String, artistId : Int,
-                                  pageToken: String, targetPage: Int, currentIteration: Int, currentDate: String) {
-        val searchCall = service.results(artistName, pageToken)
+    private fun callYoutubeSearch(service: YouTubeApiService, artistName : String, artistId : Int, pageToken: String,
+                                  targetPage: Int, currentIteration: Int, currentDate: String, videoDuration: String) {
+        val searchCall = service.results(artistName, pageToken, videoDuration)
         searchCall?.enqueue(object : Callback<YoutubeGetResponse> {
             override fun onResponse(call: Call<YoutubeGetResponse>, response: Response<YoutubeGetResponse>) {
                 if (response.isSuccessful){
                     if (currentIteration != targetPage) {
                         val nextPageToken = response.body()?.nextPageToken.toString()
-                        callYoutubeSearch(service, artistName, artistId, nextPageToken, targetPage, currentIteration + 1, currentDate)
+                        callYoutubeSearch(service, artistName, artistId, nextPageToken,
+                                targetPage, currentIteration + 1, currentDate, videoDuration)
                     } else if (response.body()?.items?.count()!! > 0) {
                         val song = response.body()?.items?.random()
                         val title = Html.fromHtml(song!!.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
@@ -327,11 +327,12 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         val outcome = getPrefValue("videoRange")
         // possible outcomes: 50, 100, 150, 200
-        val pageRange = outcome / 50
+        val pageRange = outcome.toInt() / 50
         val targetPage = (1..pageRange).random()
 
         if(artistName != playlist) {
-            callYoutubeSearch(service, artistName, artistId, "", targetPage, 0, currentDate)
+            val videoDuration = getPrefValue("videoDuration")
+            callYoutubeSearch(service, artistName, artistId, "", targetPage, 0, currentDate, videoDuration)
         } else if (artistName == playlist) {
             callYoutubePlaylistSearch(service, artistName, artistId, "", targetPage, 0, currentDate)
         }

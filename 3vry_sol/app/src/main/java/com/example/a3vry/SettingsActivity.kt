@@ -2,6 +2,7 @@ package com.example.a3vry
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
@@ -46,75 +47,84 @@ class SettingsActivity : AppCompatActivity() {
         val isPlaylistEnabled = db.checkIfPlaylistIsEnabled()
         if(isPlaylistEnabled) {
             disablePlaylistBtn.isVisible = true
-            setStatusOnTextView(this.getString(R.string.enabled), greenColor)
+            setStatusOnPlaylistTextView(this.getString(R.string.enabled), greenColor)
         } else {
             enablePlaylistBtn.isVisible = true
-            setStatusOnTextView(this.getString(R.string.disabled), redColor)
+            setStatusOnPlaylistTextView(this.getString(R.string.disabled), redColor)
         }
 
         disablePlaylistBtn.setOnClickListener {
             db.removePlaylistAsArtist()
             swapButtons()
-            setStatusOnTextView(this.getString(R.string.disabled), redColor)
+            setStatusOnPlaylistTextView(this.getString(R.string.disabled), redColor)
         }
         enablePlaylistBtn.setOnClickListener {
             db.addPlaylistAsArtist()
             swapButtons()
-            setStatusOnTextView(this.getString(R.string.enabled), greenColor)
+            setStatusOnPlaylistTextView(this.getString(R.string.enabled), greenColor)
         }
 
-        when(db.getPrefValue(videoRange)) {
-            50 -> {
-                searchingRangeHeader.text =
-                    HtmlCompat.fromHtml("${this.getString(R.string.rangeSettingHeader)} <strong>50</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY)
-            }
-            100 -> {
-                searchingRangeHeader.text =
-                    HtmlCompat.fromHtml("${this.getString(R.string.rangeSettingHeader)} <strong>100</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY)
-            }
-            150 -> {
-                searchingRangeHeader.text =
-                    HtmlCompat.fromHtml("${this.getString(R.string.rangeSettingHeader)} <strong>150</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY)
-            }
-            200 -> {
-                searchingRangeHeader.text =
-                    HtmlCompat.fromHtml("${this.getString(R.string.rangeSettingHeader)} <strong>200</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY)
-            }
-        }
+        val currentVr = db.getPrefValue(videoRange)
+        setStatusOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), currentVr)
 
-        val options = arrayOf<CharSequence>("50", "100", "150", "200")
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(this.getString(R.string.selectOption))
-        builder.setItems(options) { _, outcome ->
-            when (outcome) {
-                0 -> {
-                    db.updatePreference(Preference(videoRange, "50"))
-                    searchingRangeHeader.text =
-                        HtmlCompat.fromHtml("${this.getString(R.string.rangeSettingHeader)} <strong>50</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY)
-                }
-                1 -> {
-                    db.updatePreference(Preference(videoRange, "100"))
-                    searchingRangeHeader.text =
-                        HtmlCompat.fromHtml("${this.getString(R.string.rangeSettingHeader)} <strong>100</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY)
-                }
-                2 -> {
-                    db.updatePreference(Preference(videoRange, "150"))
-                    searchingRangeHeader.text =
-                        HtmlCompat.fromHtml("${this.getString(R.string.rangeSettingHeader)} <strong>150</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY)
-                }
-                3 -> {
-                    db.updatePreference(Preference(videoRange, "200"))
-                    searchingRangeHeader.text =
-                        HtmlCompat.fromHtml("${this.getString(R.string.rangeSettingHeader)} <strong>200</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY)
-                }
-            }
-        }
+        val currentVd = db.getPrefValue(videoDuration)
+        setStatusOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), currentVd)
+
         changeSearchRangeBtn.setOnClickListener {
+            val options = arrayOf<CharSequence>("50", "100", "150", "200")
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(this.getString(R.string.selectOption))
+            builder.setItems(options) { _, outcome ->
+                when (outcome) {
+                    0 -> {
+                        db.updatePreference(Preference(videoRange, "50"))
+                        setStatusOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), "50")
+                    }
+                    1 -> {
+                        db.updatePreference(Preference(videoRange, "100"))
+                        setStatusOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), "100")
+                    }
+                    2 -> {
+                        db.updatePreference(Preference(videoRange, "150"))
+                        setStatusOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), "150")
+                    }
+                    3 -> {
+                        db.updatePreference(Preference(videoRange, "200"))
+                        setStatusOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), "200")
+                    }
+                }
+            }
+            builder.show()
+        }
+        changeVideoDurationBtn.setOnClickListener {
+            val options = arrayOf<CharSequence>("short (less than 4 minutes)", "medium (4 - 20 minutes)", "long (more than 20 minutes)")
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(this.getString(R.string.selectOption))
+            builder.setItems(options) { _, outcome ->
+                when (outcome) {
+                    0 -> {
+                        db.updatePreference(Preference(videoDuration, "short"))
+                        setStatusOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), "short")
+                    }
+                    1 -> {
+                        db.updatePreference(Preference(videoDuration, "medium"))
+                        setStatusOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), "medium")
+                    }
+                    2 -> {
+                        db.updatePreference(Preference(videoDuration, "long"))
+                        setStatusOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), "long")
+                    }
+                }
+            }
             builder.show()
         }
     }
 
-    private fun setStatusOnTextView(status: String, color: String) {
+    private fun setStatusOnTextView(textView: TextView, text: String, value: String) {
+        textView.text = HtmlCompat.fromHtml("$text <strong>$value</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
+    private fun setStatusOnPlaylistTextView(status: String, color: String) {
         playlistStatusTextView.text = HtmlCompat.fromHtml("<font color='$color'>$status</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
@@ -125,5 +135,6 @@ class SettingsActivity : AppCompatActivity() {
 
     companion object {
         const val videoRange = "videoRange"
+        const val videoDuration = "videoDuration"
     }
 }

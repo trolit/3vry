@@ -32,8 +32,10 @@
     <string name="rangeSettingHeader">YouTube searching range:</string>
     <string name="rangeSettingDescription">This parameter defines how many tracks are considered into process of choosing track. Tracks are ordered by views amount to prevent odd outcomes. You can change the range using below button.</string>
     <string name="rangeSettingBtn">Change range</string>
-    <string name="selectOption">Select Option</string>
-
+    <string name="selectOption">Select option</string>
+    <string name="videoDurationHeader">Video duration: </string>
+    <string name="videoDurationDescription">Specify the duration of videos found in YouTube service. Note that this option applies only to the tracks found from specific artist.</string>
+    <string name="videoDurationBtn">Change duration</string>
 
     <!-- .kt files -->
     <string name="failedPrefInsertion">Preference insertion failed :(</string>

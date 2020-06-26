@@ -42,8 +42,8 @@ class SongsActivity : YouTubeBaseActivity() {
 
 interface YouTubeApiService {
     // Get results by query
-    @GET("search?key=$YOUTUBE_KEY_API&part=snippet&type=video&maxResults=50&topicId=/m/04rlf&videoCategoryId=10&order=viewCount&videoDuration=short")
-    fun results(@Query("q") q: String?, @Query("pageToken") pageToken: String?): Call<YoutubeGetResponse>?
+    @GET("search?key=$YOUTUBE_KEY_API&part=snippet&type=video&maxResults=50&topicId=/m/04rlf&videoCategoryId=10&order=viewCount")
+    fun results(@Query("q") q: String?, @Query("pageToken") pageToken: String?, @Query("videoDuration") videoDuration: String?): Call<YoutubeGetResponse>?
     // Get results from app author playlist
     @GET("playlistItems?key=$YOUTUBE_KEY_API&part=snippet&maxResults=50&playlistId=PLCrKXyV2OjXi2VF42Dimxvv9fnOH3JEl6")
     fun playlistResults(@Query("pageToken") pageToken: String?): Call<YoutubeGetPlaylistResponse>?

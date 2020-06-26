@@ -21,128 +21,165 @@
             app:borderWidth="2dp"
     />
 
-    <LinearLayout
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="15dp"
-                android:layout_gravity="center_horizontal"
-                android:tint="@color/colorPrimary"
-                android:src="@drawable/ic_cogs"
-                android:contentDescription="@string/settingsIconDescription"
-        />
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_text"
-                android:textSize="16sp"
-                android:layout_marginBottom="20dp"
-                android:textAlignment="center"
-        />
-
-        <TextView
-                android:id="@+id/playlistStatusTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginTop="4sp"
-                android:layout_marginStart="20sp"
-                android:layout_marginEnd="12sp"
-        />
+            android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:tint="@color/colorPrimary"
+                    android:src="@drawable/ic_cogs"
+                    android:contentDescription="@string/settingsIconDescription"
+            />
 
             <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_text"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="20dp"
+                    android:textAlignment="center"
+            />
+
+            <TextView
+                    android:id="@+id/playlistStatusTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/playlistSettingHeader"
+                    android:text=""
                     android:layout_marginTop="4sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="12sp"
+            />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/playlistSettingHeader"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginStart="20sp"
+                        android:layout_marginEnd="7sp"
+                />
+
+                <ImageView
+                        android:id="@+id/enablePlaylistBtn"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:tint="@color/colorPrimary"
+                        android:src="@drawable/ic_check_circle"
+                        android:contentDescription="@string/enableIconDescription"
+                        android:visibility="gone"
+                />
+
+                <ImageView
+                        android:id="@+id/disablePlaylistBtn"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:tint="@color/colorRed"
+                        android:src="@drawable/ic_times_circle"
+                        android:contentDescription="@string/disableIconDescription"
+                        android:visibility="gone"
+                />
+            </LinearLayout>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:textSize="12sp"
+                    android:text="@string/playlistSettingDescription"
+            />
+
+            <TextView
+                    android:id="@+id/searchingRangeHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rangeSettingHeader"
+                    android:layout_marginTop="15sp"
                     android:layout_marginStart="20sp"
                     android:layout_marginEnd="7sp"
             />
 
-            <ImageView
-                    android:id="@+id/enablePlaylistBtn"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_vertical"
-                    android:tint="@color/colorPrimary"
-                    android:src="@drawable/ic_check_circle"
-                    android:contentDescription="@string/enableIconDescription"
-                    android:visibility="gone"
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:textSize="12sp"
+                    android:text="@string/rangeSettingDescription"
             />
 
-            <ImageView
-                    android:id="@+id/disablePlaylistBtn"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_vertical"
-                    android:tint="@color/colorRed"
-                    android:src="@drawable/ic_times_circle"
-                    android:contentDescription="@string/disableIconDescription"
-                    android:visibility="gone"
+            <Button
+                    android:id="@+id/changeSearchRangeBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginStart="17sp"
+                    android:layout_marginEnd="20sp"
+                    android:text="@string/rangeSettingBtn"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:textColor="@color/colorWhite"
+            />
+
+            <TextView
+                    android:id="@+id/videoDurationHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/videoDurationHeader"
+                    android:layout_marginTop="15sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="7sp"
+            />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:textSize="12sp"
+                    android:text="@string/videoDurationDescription"
+            />
+
+            <Button
+                    android:id="@+id/changeVideoDurationBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginStart="17sp"
+                    android:layout_marginEnd="20sp"
+                    android:text="@string/videoDurationBtn"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:textColor="@color/colorWhite"
+            />
+
+            <Button
+                    android:id="@+id/wipeSongsBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginStart="17sp"
+                    android:layout_marginEnd="20sp"
+                    android:text="@string/wipeDataBtnText"
+                    android:backgroundTint="@color/colorRed"
+                    android:textColor="@color/colorWhite"
             />
         </LinearLayout>
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
-                android:layout_marginEnd="20sp"
-                android:textSize="12sp"
-                android:text="@string/playlistSettingDescription"
-        />
-
-        <TextView
-                android:id="@+id/searchingRangeHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rangeSettingHeader"
-                android:layout_marginTop="15sp"
-                android:layout_marginStart="20sp"
-                android:layout_marginEnd="7sp"
-        />
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
-                android:layout_marginEnd="20sp"
-                android:textSize="12sp"
-                android:text="@string/rangeSettingDescription"
-        />
-
-        <Button
-                android:id="@+id/changeSearchRangeBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5sp"
-                android:layout_marginStart="17sp"
-                android:layout_marginEnd="20sp"
-                android:text="@string/rangeSettingBtn"
-                android:backgroundTint="@color/colorPrimary"
-                android:textColor="@color/colorWhite"
-        />
-
-        <Button
-                android:id="@+id/wipeSongsBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
-                android:layout_marginStart="17sp"
-                android:layout_marginEnd="20sp"
-                android:text="@string/wipeDataBtnText"
-                android:backgroundTint="@color/colorRed"
-                android:textColor="@color/colorWhite"
-        />
-    </LinearLayout>
+    </ScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
