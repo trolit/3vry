@@ -53,5 +53,6 @@ interface YouTubeApiService {
     // ********************************************************************
     companion object {
         const val YOUTUBE_SEARCH_BASE_URL = "https://www.googleapis.com/youtube/v3/"
+        const val YOUTUBE_KEY_API : String = "FILL THIS PLACE WITH YOUR YOUTUBE API"
     }
 }
