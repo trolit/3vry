@@ -2,7 +2,9 @@ package com.example.a3vry
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
@@ -24,6 +26,8 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val db = DbHandler(this)
+
+        // SETUP WIPE SONGS BUTTON
         val result = db.checkIfTableContainsAtLeastOneObject("Songs")
         if(result) {
             wipeSongsBtn.setOnClickListener {
@@ -44,31 +48,40 @@ class SettingsActivity : AppCompatActivity() {
             wipeSongsBtn.isVisible = false
         }
 
+        // SETUP PLAYLIST
         val isPlaylistEnabled = db.checkIfPlaylistIsEnabled()
         if(isPlaylistEnabled) {
             disablePlaylistBtn.isVisible = true
-            setStatusOnPlaylistTextView(this.getString(R.string.enabled), greenColor)
+            setStatusOnTextView(playlistStatusTextView, enabled, greenColor)
         } else {
             enablePlaylistBtn.isVisible = true
-            setStatusOnPlaylistTextView(this.getString(R.string.disabled), redColor)
+            setStatusOnTextView(playlistStatusTextView, disabled, redColor)
         }
-
         disablePlaylistBtn.setOnClickListener {
             db.removePlaylistAsArtist()
-            swapButtons()
-            setStatusOnPlaylistTextView(this.getString(R.string.disabled), redColor)
+            swapButtons(enablePlaylistBtn, disablePlaylistBtn)
+            setStatusOnTextView(playlistStatusTextView, disabled, redColor)
         }
         enablePlaylistBtn.setOnClickListener {
             db.addPlaylistAsArtist()
-            swapButtons()
-            setStatusOnPlaylistTextView(this.getString(R.string.enabled), greenColor)
+            swapButtons(enablePlaylistBtn, disablePlaylistBtn)
+            setStatusOnTextView(playlistStatusTextView, enabled, greenColor)
         }
 
+        // SETUP ACOUSTIC SETTING
+        setupPrefSetting(db, enableAcousticBtn, disableAcousticBtn, includeAcoustic, greenColor, redColor,
+            this.getString(R.string.acousticEnabled), this.getString(R.string.acousticDisabled), acousticStatusTextView)
+
+        // SETUP COVER SETTING
+        setupPrefSetting(db, enableCoversBtn, disableCoversBtn, includeCovers, greenColor, redColor,
+            this.getString(R.string.coverEnabled), this.getString(R.string.coverDisabled), coverStatusTextView)
+
+        // SETUP VIDEO RANGE AND VIDEO DURATION SETTINGS
         val currentVr = db.getPrefValue(videoRange)
-        setStatusOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), currentVr)
+        setCurrentValueOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), currentVr)
 
         val currentVd = db.getPrefValue(videoDuration)
-        setStatusOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), currentVd)
+        setCurrentValueOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), currentVd)
 
         changeSearchRangeBtn.setOnClickListener {
             val options = arrayOf<CharSequence>("50", "100", "150", "200")
@@ -78,19 +91,19 @@ class SettingsActivity : AppCompatActivity() {
                 when (outcome) {
                     0 -> {
                         db.updatePreference(Preference(videoRange, "50"))
-                        setStatusOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), "50")
+                        setCurrentValueOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), "50")
                     }
                     1 -> {
                         db.updatePreference(Preference(videoRange, "100"))
-                        setStatusOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), "100")
+                        setCurrentValueOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), "100")
                     }
                     2 -> {
                         db.updatePreference(Preference(videoRange, "150"))
-                        setStatusOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), "150")
+                        setCurrentValueOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), "150")
                     }
                     3 -> {
                         db.updatePreference(Preference(videoRange, "200"))
-                        setStatusOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), "200")
+                        setCurrentValueOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), "200")
                     }
                 }
             }
@@ -104,15 +117,15 @@ class SettingsActivity : AppCompatActivity() {
                 when (outcome) {
                     0 -> {
                         db.updatePreference(Preference(videoDuration, "short"))
-                        setStatusOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), "short")
+                        setCurrentValueOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), "short")
                     }
                     1 -> {
                         db.updatePreference(Preference(videoDuration, "medium"))
-                        setStatusOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), "medium")
+                        setCurrentValueOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), "medium")
                     }
                     2 -> {
                         db.updatePreference(Preference(videoDuration, "long"))
-                        setStatusOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), "long")
+                        setCurrentValueOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), "long")
                     }
                 }
             }
@@ -120,21 +133,55 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setStatusOnTextView(textView: TextView, text: String, value: String) {
+    private fun setupPrefSetting(db: DbHandler, enableBtn: ImageView, disableBtn: ImageView,
+                                 prefKey: String, positiveColor: String, negativeColor: String,
+                                 enableMsg: String, disableMsg: String, headerTextView: TextView) {
+
+        val currentPrefSetting = db.getPrefValue(prefKey)
+
+        // Setup UI
+        if(currentPrefSetting == "disabled") {
+            enableBtn.isVisible = true
+            setStatusOnTextView(headerTextView, disabled, negativeColor)
+        } else if(currentPrefSetting == "enabled") {
+            disableBtn.isVisible = true
+            setStatusOnTextView(headerTextView, enabled, positiveColor)
+        }
+
+        // Setup Buttons
+        enableBtn.setOnClickListener {
+            db.updatePreference(Preference(includeCovers, "enabled"))
+            setStatusOnTextView(headerTextView, enabled, positiveColor)
+            swapButtons(enableBtn, disableBtn)
+            Toast.makeText(this, enableMsg, Toast.LENGTH_SHORT).show()
+        }
+        disableBtn.setOnClickListener {
+            db.updatePreference(Preference(includeCovers, "disabled"))
+            setStatusOnTextView(headerTextView, disabled, negativeColor)
+            swapButtons(enableBtn, disableBtn)
+            Toast.makeText(this, disableMsg, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setCurrentValueOnTextView(textView: TextView, text: String, value: String) {
         textView.text = HtmlCompat.fromHtml("$text <strong>$value</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
-    private fun setStatusOnPlaylistTextView(status: String, color: String) {
-        playlistStatusTextView.text = HtmlCompat.fromHtml("<font color='$color'>$status</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
+    private fun setStatusOnTextView(textView: TextView, status: String, color: String) {
+        textView.text = HtmlCompat.fromHtml("<font color='$color'>$status</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
-    private fun swapButtons() {
-        disablePlaylistBtn.isVisible = !disablePlaylistBtn.isVisible
-        enablePlaylistBtn.isVisible = !enablePlaylistBtn.isVisible
+    private fun swapButtons(btn1: ImageView, btn2: ImageView) {
+        btn1.isVisible = !btn1.isVisible
+        btn2.isVisible = !btn2.isVisible
     }
 
     companion object {
         const val videoRange = "videoRange"
         const val videoDuration = "videoDuration"
+        const val enabled = "ENABLED"
+        const val disabled = "DISABLED"
+        const val includeCovers = "includeCovers"
+        const val includeAcoustic = "includeAcoustic"
     }
 }
