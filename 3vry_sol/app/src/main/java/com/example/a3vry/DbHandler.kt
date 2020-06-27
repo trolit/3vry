@@ -301,8 +301,10 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                         callYoutubeSearch(service, artistName, artistId, nextPageToken,
                                 targetPage, currentIteration + 1, currentDate, videoDuration)
                     } else if (response.body()?.items?.count()!! > 0) {
-                        val song = response.body()?.items?.random()
-                        val title = Html.fromHtml(song!!.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                        val includeCoversResult = getPrefValue("includeCovers")
+                        val includeAcousticResult = getPrefValue("includeAcoustic")
+                        val song = returnFilteredSong(includeCoversResult, includeAcousticResult, response.body()?.items!!)
+                        val title = Html.fromHtml(song.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
                         val songObj = Song(title, currentDate, song.id!!.videoId, artistId)
                         insertSong(songObj)
                     }
@@ -314,6 +316,34 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 t.printStackTrace()
             }
         })
+    }
+
+    private fun returnFilteredSong (coverStatus: String, acousticStatus: String,
+                                    songList: List<YoutubeSingleItem>) : YoutubeSingleItem {
+        var song : YoutubeSingleItem
+        // allow both: cover and acoustic in the title
+        if(coverStatus == "enabled" && acousticStatus == "enabled") {
+            return songList.random()
+        // ban acoustic word
+        } else if (coverStatus == "enabled" && acousticStatus == "disabled") {
+            do {
+                song = songList.random()
+            } while (song.snippet!!.title.contains("acoustic", ignoreCase = true))
+            return song
+        // ban cover word
+        } else if (coverStatus == "disabled" && acousticStatus == "enabled") {
+            do {
+                song = songList.random()
+            } while (song.snippet!!.title.contains("cover", ignoreCase = true))
+            return song
+        // ban acoustic and cover words
+        } else {
+            do {
+                song = songList.random()
+            } while (song.snippet!!.title.contains("cover", ignoreCase = true) ||
+                song.snippet!!.title.contains("acoustic", ignoreCase = true))
+            return song
+        }
     }
 
     private fun queryForVideo(artistName : String, artistId : Int) {
