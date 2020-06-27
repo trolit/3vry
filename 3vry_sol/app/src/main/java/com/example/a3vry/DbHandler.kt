@@ -67,7 +67,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "($preferences_COL_PARAMETER, $preferences_COL_VALUE) " +
                 "VALUES " +
                 "('videoRange', '150'), " +
-                "('videoDuration', 'short');"
+                "('videoDuration', 'short'), " +
+                "('includeCovers','disabled'), " +
+                "('includeAcoustic', 'disabled');"
 
         db?.execSQL(addVideoRangePref)
     }
