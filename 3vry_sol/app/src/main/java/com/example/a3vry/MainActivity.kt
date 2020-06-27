@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Build notification and check for Internet availability
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(returnNotificationChannel())
 
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
             notificationManager.notify(NOTIFICATION_ID, builder.build())
         }
 
+        // Set UI buttons
         viewArtistsBtn.setOnClickListener {
             startActivity(Intent(this, ArtistsActivity::class.java))
         }

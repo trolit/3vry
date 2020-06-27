@@ -76,13 +76,13 @@ class SettingsActivity : AppCompatActivity() {
         setupPrefSetting(db, enableCoversBtn, disableCoversBtn, includeCovers, greenColor, redColor,
             this.getString(R.string.coverEnabled), this.getString(R.string.coverDisabled), coverStatusTextView)
 
-        // SETUP VIDEO RANGE AND VIDEO DURATION SETTINGS
+        // SETUP VIDEO RANGE AND VIDEO DURATION DISPLAY DATA
         val currentVr = db.getPrefValue(videoRange)
         setCurrentValueOnTextView(searchingRangeHeader, this.getString(R.string.rangeSettingHeader), currentVr)
 
         val currentVd = db.getPrefValue(videoDuration)
         setCurrentValueOnTextView(videoDurationHeader, this.getString(R.string.videoDurationHeader), currentVd)
-
+        
         changeSearchRangeBtn.setOnClickListener {
             val options = arrayOf<CharSequence>("50", "100", "150", "200")
             val builder = AlertDialog.Builder(this)

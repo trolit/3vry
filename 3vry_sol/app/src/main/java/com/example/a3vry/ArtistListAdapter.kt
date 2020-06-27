@@ -23,12 +23,12 @@ class ArtistListAdapter(context: Context, var resource: Int, var artistList: Mut
 
         textViewBandName.text = artist.name
 
-        view.deleteBandBtn.setOnClickListener {
-            removeItem(position, artist.id)
-        }
-
         if(artist.name == "playlist") {
             view.deleteBandBtn.isVisible = false
+        } else {
+            view.deleteBandBtn.setOnClickListener {
+                removeItem(position, artist.id)
+            }
         }
         return view
     }
