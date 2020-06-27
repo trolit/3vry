@@ -10,6 +10,8 @@
     <string name="exploreInformation_text">Explore 3VRY information</string>
     <string name="what_text">What..?</string>
     <string name="why_text">Why..?</string>
+    <string name="notificationTitle"><![CDATA[<font color=\'#9F001C\'>No Internet connection</font>]]></string>
+    <string name="notificationMsg">Please note that without Internet connection you won\'t receive new daily track or be able to watch current ones through the YouTube player.</string>
 
     <!-- Artists activity -->
     <string name="bandDialogAddBtn_text">Insert</string>
