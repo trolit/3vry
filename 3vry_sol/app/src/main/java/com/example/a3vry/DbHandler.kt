@@ -236,7 +236,6 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val query = "SELECT EXISTS (SELECT * FROM $song_TABLE_NAME WHERE $song_COL_DATETIME='$currentDate' LIMIT 1);"
         val cursor : Cursor = db.rawQuery(query, null)
         cursor.moveToFirst()
-        println("Current date => $currentDate")
         // if true, there is already song assigned to that date
         if(cursor.getInt(0) == 1) {
             // do nothing
@@ -401,6 +400,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         val sdf = SimpleDateFormat("dd-M-yyyy")
         val currentDate = sdf.format(Date())
+        println("Current date => $currentDate")
 
         val outcome = getPrefValue("videoRange")
         // possible outcomes: 50, 100, 150, 200
