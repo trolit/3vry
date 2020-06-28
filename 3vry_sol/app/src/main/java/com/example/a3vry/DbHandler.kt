@@ -69,7 +69,8 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "('videoRange', '150'), " +
                 "('videoDuration', 'short'), " +
                 "('includeCovers','disabled'), " +
-                "('includeAcoustic', 'disabled');"
+                "('includeAcoustic', 'disabled'), " +
+                "('includeLive', 'disabled');"
 
         db?.execSQL(addVideoRangePref)
     }
@@ -304,10 +305,18 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     } else if (response.body()?.items?.count()!! > 0) {
                         val includeCoversResult = getPrefValue("includeCovers")
                         val includeAcousticResult = getPrefValue("includeAcoustic")
-                        val song = returnFilteredSong(includeCoversResult, includeAcousticResult, response.body()?.items!!)
-                        val title = Html.fromHtml(song.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
-                        val songObj = Song(title, currentDate, song.id!!.videoId, artistId)
-                        insertSong(songObj)
+                        val includeLiveResult = getPrefValue("includeLive")
+                        val song = returnFilteredSong(includeCoversResult, includeAcousticResult,
+                                                      includeLiveResult, response.body()?.items!!)
+                        if(song != null) {
+                            val title = Html.fromHtml(song.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                            val songObj = Song(title, currentDate, song.id!!.videoId, artistId)
+                            insertSong(songObj)
+                        } else {
+                            println("****************************************************")
+                            println("Song not inserted into the Db, method returned null.")
+                            println("****************************************************")
+                        }
                     }
 
                     // println("First song TITLE: " + response.body()?.items?.get(0)?.snippet!!.title)
@@ -319,32 +328,59 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         })
     }
 
-    private fun returnFilteredSong (coverStatus: String, acousticStatus: String,
-                                    songList: List<YoutubeSingleItem>) : YoutubeSingleItem {
-        var song : YoutubeSingleItem
-        // allow both: cover and acoustic in the title
-        if(coverStatus == "enabled" && acousticStatus == "enabled") {
+    private fun returnFilteredSong (coverStatus: String, acousticStatus: String, liveStatus: String,
+                                    songList: List<YoutubeSingleItem>) : YoutubeSingleItem? {
+        val enabled = "enabled"
+        val disabled = "disabled"
+        val cover = "cover"
+        val acoustic = "acoustic"
+        val live = "live"
+
+        if(coverStatus == enabled && acousticStatus == enabled && liveStatus == enabled) {
             return songList.random()
-        // ban acoustic word
-        } else if (coverStatus == "enabled" && acousticStatus == "disabled") {
-            do {
-                song = songList.random()
-            } while (song.snippet!!.title.contains("acoustic", ignoreCase = true))
-            return song
-        // ban cover word
-        } else if (coverStatus == "disabled" && acousticStatus == "enabled") {
-            do {
-                song = songList.random()
-            } while (song.snippet!!.title.contains("cover", ignoreCase = true))
-            return song
-        // ban acoustic and cover words
-        } else {
-            do {
-                song = songList.random()
-            } while (song.snippet!!.title.contains("cover", ignoreCase = true) ||
-                song.snippet!!.title.contains("acoustic", ignoreCase = true))
-            return song
+        } else if (coverStatus == disabled && acousticStatus == disabled && liveStatus == disabled) {
+            return song(songList, cover, acoustic, live)
+        } else if (coverStatus == disabled && acousticStatus == disabled) {
+            return song(songList, cover, acoustic)
+        } else if (acousticStatus == disabled && liveStatus == disabled) {
+            return song(songList, acoustic, live)
+        } else if (coverStatus == disabled && liveStatus == disabled) {
+            return song(songList, cover, live)
+        } else if (coverStatus == disabled) {
+            return song(songList, cover)
+        } else if (acousticStatus == disabled) {
+            return song(songList, acoustic)
+        } else if (liveStatus == disabled) {
+            return song(songList, liveStatus)
         }
+        return null
+    }
+
+    private fun song(songList: List<YoutubeSingleItem>, p1: String) : YoutubeSingleItem {
+        var song : YoutubeSingleItem
+        do {
+            song = songList.random()
+        } while (song.snippet!!.title.contains(p1, ignoreCase = true))
+        return song
+    }
+
+    private fun song(songList: List<YoutubeSingleItem>, p1: String, p2: String) : YoutubeSingleItem {
+        var song : YoutubeSingleItem
+        do {
+            song = songList.random()
+        } while (song.snippet!!.title.contains(p1, ignoreCase = true) ||
+                song.snippet!!.title.contains(p2, ignoreCase = true))
+        return song
+    }
+
+    private fun song(songList: List<YoutubeSingleItem>, p1: String, p2: String, p3: String) : YoutubeSingleItem {
+        var song : YoutubeSingleItem
+        do {
+            song = songList.random()
+        } while (song.snippet!!.title.contains(p1, ignoreCase = true) ||
+            song.snippet!!.title.contains(p2, ignoreCase = true) ||
+            song.snippet!!.title.contains(p3, ignoreCase = true))
+        return song
     }
 
     private fun queryForVideo(artistName : String, artistId : Int) {
