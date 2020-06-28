@@ -18,9 +18,6 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val greenColor = "#16A085"
-        val redColor = "#9F001C"
-
         backToMainMenuBtn.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
@@ -69,12 +66,19 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // SETUP ACOUSTIC SETTING
-        setupPrefSetting(db, enableAcousticBtn, disableAcousticBtn, includeAcoustic, greenColor, redColor,
-            this.getString(R.string.acousticEnabled), this.getString(R.string.acousticDisabled), acousticStatusTextView)
+        setupPrefSetting(db, enableAcousticBtn, disableAcousticBtn, includeAcoustic, this.getString(R.string.acousticEnabled),
+            this.getString(R.string.acousticDisabled), acousticStatusTextView
+        )
 
         // SETUP COVER SETTING
-        setupPrefSetting(db, enableCoversBtn, disableCoversBtn, includeCovers, greenColor, redColor,
-            this.getString(R.string.coverEnabled), this.getString(R.string.coverDisabled), coverStatusTextView)
+        setupPrefSetting(db, enableCoversBtn, disableCoversBtn, includeCovers, this.getString(R.string.coverEnabled),
+            this.getString(R.string.coverDisabled), coverStatusTextView
+        )
+
+        // SETUP LIVE SETTING
+        setupPrefSetting(db, enableLiveBtn, disableLiveBtn, includeLive, this.getString(R.string.liveEnabled),
+            this.getString(R.string.liveDisabled), liveStatusTextView
+        )
 
         // SETUP VIDEO RANGE AND VIDEO DURATION DISPLAY DATA
         val currentVr = db.getPrefValue(videoRange)
@@ -133,31 +137,31 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupPrefSetting(db: DbHandler, enableBtn: ImageView, disableBtn: ImageView,
-                                 prefKey: String, positiveColor: String, negativeColor: String,
-                                 enableMsg: String, disableMsg: String, headerTextView: TextView) {
-
+    private fun setupPrefSetting(
+        db: DbHandler, enableBtn: ImageView, disableBtn: ImageView,
+        prefKey: String, enableMsg: String, disableMsg: String,
+        headerTextView: TextView
+    ) {
         val currentPrefSetting = db.getPrefValue(prefKey)
-
         // Setup UI
         if(currentPrefSetting == "disabled") {
             enableBtn.isVisible = true
-            setStatusOnTextView(headerTextView, disabled, negativeColor)
+            setStatusOnTextView(headerTextView, disabled, redColor)
         } else if(currentPrefSetting == "enabled") {
             disableBtn.isVisible = true
-            setStatusOnTextView(headerTextView, enabled, positiveColor)
+            setStatusOnTextView(headerTextView, enabled, greenColor)
         }
 
         // Setup Buttons
         enableBtn.setOnClickListener {
-            db.updatePreference(Preference(includeCovers, "enabled"))
-            setStatusOnTextView(headerTextView, enabled, positiveColor)
+            db.updatePreference(Preference(prefKey, "enabled"))
+            setStatusOnTextView(headerTextView, enabled, greenColor)
             swapButtons(enableBtn, disableBtn)
             Toast.makeText(this, enableMsg, Toast.LENGTH_SHORT).show()
         }
         disableBtn.setOnClickListener {
-            db.updatePreference(Preference(includeCovers, "disabled"))
-            setStatusOnTextView(headerTextView, disabled, negativeColor)
+            db.updatePreference(Preference(prefKey, "disabled"))
+            setStatusOnTextView(headerTextView, disabled, redColor)
             swapButtons(enableBtn, disableBtn)
             Toast.makeText(this, disableMsg, Toast.LENGTH_SHORT).show()
         }
@@ -183,5 +187,8 @@ class SettingsActivity : AppCompatActivity() {
         const val disabled = "DISABLED"
         const val includeCovers = "includeCovers"
         const val includeAcoustic = "includeAcoustic"
+        const val includeLive = "includeLive"
+        const val greenColor = "#16A085"
+        const val redColor = "#9F001C"
     }
 }

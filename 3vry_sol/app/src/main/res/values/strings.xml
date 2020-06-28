@@ -46,6 +46,11 @@
     <string name="coverDescription">Toggle this option to include in searching pool songs with phrase \'cover\' in the title. This feature does not apply to app author playlist.</string>
     <string name="coverEnabled">Covers enabled.</string>
     <string name="coverDisabled">Covers disabled.</string>
+    <string name="adjustSettingsNote">Use icons and/or buttons to adjust settings</string>
+    <string name="liveHeader">Include live songs:</string>
+    <string name="liveDescription">When enabled, videos with phrase \'live\' won\'t be ignored while searching new song. This feature does not apply to app author playlist.</string>
+    <string name="liveEnabled">Lives enabled.</string>
+    <string name="liveDisabled">Lives disabled.</string>
 
     <!-- .kt files -->
     <string name="failedPrefInsertion">Preference insertion failed :(</string>

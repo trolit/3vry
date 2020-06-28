@@ -45,7 +45,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/settings_text"
                     android:textSize="16sp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="5sp"
+                    android:textAlignment="center"
+            />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/adjustSettingsNote"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="20sp"
                     android:textAlignment="center"
             />
 
@@ -78,8 +87,8 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:tint="@color/colorPrimary"
-                        android:src="@drawable/ic_check_circle"
+                        android:tint="@color/colorRed"
+                        android:src="@drawable/ic_times_circle"
                         android:contentDescription="@string/enableIconDescription"
                         android:visibility="gone"
                 />
@@ -89,8 +98,8 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:tint="@color/colorRed"
-                        android:src="@drawable/ic_times_circle"
+                        android:tint="@color/colorPrimary"
+                        android:src="@drawable/ic_check_circle"
                         android:contentDescription="@string/disableIconDescription"
                         android:visibility="gone"
                 />
@@ -142,8 +151,8 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:tint="@color/colorPrimary"
-                        android:src="@drawable/ic_check_circle"
+                        android:tint="@color/colorRed"
+                        android:src="@drawable/ic_times_circle"
                         android:contentDescription="@string/enableIconDescription"
                         android:visibility="gone"
                 />
@@ -153,8 +162,8 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:tint="@color/colorRed"
-                        android:src="@drawable/ic_times_circle"
+                        android:tint="@color/colorPrimary"
+                        android:src="@drawable/ic_check_circle"
                         android:contentDescription="@string/disableIconDescription"
                         android:visibility="gone"
                 />
@@ -206,8 +215,8 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:tint="@color/colorPrimary"
-                        android:src="@drawable/ic_check_circle"
+                        android:tint="@color/colorRed"
+                        android:src="@drawable/ic_times_circle"
                         android:contentDescription="@string/enableIconDescription"
                         android:visibility="gone"
                 />
@@ -217,8 +226,8 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:tint="@color/colorRed"
-                        android:src="@drawable/ic_times_circle"
+                        android:tint="@color/colorPrimary"
+                        android:src="@drawable/ic_check_circle"
                         android:contentDescription="@string/disableIconDescription"
                         android:visibility="gone"
                 />
@@ -231,6 +240,70 @@
                     android:layout_marginEnd="20sp"
                     android:textSize="12sp"
                     android:text="@string/coverDescription"
+            />
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:background="@color/colorPrimary"/>
+
+            <TextView
+                    android:id="@+id/liveStatusTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginTop="4sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="12sp"
+            />
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/liveHeader"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginStart="20sp"
+                        android:layout_marginEnd="7sp"
+                />
+
+                <ImageView
+                        android:id="@+id/enableLiveBtn"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:tint="@color/colorRed"
+                        android:src="@drawable/ic_times_circle"
+                        android:contentDescription="@string/enableIconDescription"
+                        android:visibility="gone"
+                />
+
+                <ImageView
+                        android:id="@+id/disableLiveBtn"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:tint="@color/colorPrimary"
+                        android:src="@drawable/ic_check_circle"
+                        android:contentDescription="@string/disableIconDescription"
+                        android:visibility="gone"
+                />
+            </LinearLayout>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:textSize="12sp"
+                    android:text="@string/liveDescription"
             />
 
             <View
