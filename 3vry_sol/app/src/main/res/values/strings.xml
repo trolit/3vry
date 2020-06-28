@@ -22,11 +22,11 @@
     <string name="addArtistDialogHint">Enter artist or band name</string>
 
     <!-- Songs activity -->
-    <string name="noSongsMessage">Song list is currently empty :(\n Add at least one artist to begin.</string>
+    <string name="noSongsMessage">Song list is currently empty :(\n Add at least one artist to start getting tracks offers.</string>
 
     <!-- Settings activity -->
     <string name="settingsIconDescription">Settings section icon</string>
-    <string name="playlistSettingDescription">If enabled 3vry app author playlist will be included in artists section. Recommended option. My playlist contains very wide range of genres. Maybe you will find something interesting :)</string>
+    <string name="playlistSettingDescription">If enabled 3vry app author playlist will be included in the artists section. Recommended option. Playlist contains very wide range of genres. Maybe you will find something interesting :)</string>
     <string name="playlistSettingHeader">Include app author playlist:</string>
     <string name="enableIconDescription">Enable option icon</string>
     <string name="disableIconDescription">Disable option icon</string>
@@ -36,14 +36,14 @@
     <string name="rangeSettingBtn">Change range</string>
     <string name="selectOption">Select option</string>
     <string name="videoDurationHeader">Video duration: </string>
-    <string name="videoDurationDescription">Specify the duration of videos found in YouTube service. Note that this option applies only to the tracks found from specific artist.</string>
+    <string name="videoDurationDescription">Specify the duration of videos found in the YouTube service. Note that the option applies only to the tracks found from specific artist.</string>
     <string name="videoDurationBtn">Change duration</string>
     <string name="acousticHeader">Include acoustic songs:</string>
     <string name="acousticDescription">Enable this option to include in YouTube searching pool songs with phrase \'acoustic\' in the title. This feature does not apply to app author playlist.</string>
     <string name="acousticEnabled">Acoustic titles enabled.</string>
     <string name="acousticDisabled">Acoustic titles disabled.</string>
     <string name="coverHeader">Include cover songs:</string>
-    <string name="coverDescription">Toggle this option to include in searching pool songs with phrase \'cover\' in the title. This feature does not apply to app author playlist.</string>
+    <string name="coverDescription">Toggle this option to include in the searching pool songs with phrase \'cover\' in the title. This feature does not apply to app author playlist.</string>
     <string name="coverEnabled">Covers enabled.</string>
     <string name="coverDisabled">Covers disabled.</string>
     <string name="adjustSettingsNote">Use icons and/or buttons to adjust settings</string>
@@ -55,17 +55,17 @@
     <!-- .kt files -->
     <string name="failedPrefInsertion">Preference insertion failed :(</string>
     <string name="failedSongInsertion">Song insertion failed :(</string>
-    <string name="succededSongInsertion">New song added to your list!</string>
+    <string name="succededSongInsertion">A new song has been added to your list</string>
     <string name="failedArtistInsertion">Error occurred, artist not added!</string>
     <string name="succededArtistInsertion">Artist added correctly!</string>
     <string name="nTracksRemoved">track(s) removed.</string>
     <string name="playlistEnabled">Playlist enabled.</string>
     <string name="playlistDisabled">Playlist disabled.</string>
     <string name="playlistNotDisabled">Error, playlist not disabled.</string>
-    <string name="artistsMissing">There is no artists to add new song.</string>
+    <string name="artistsMissing">Artists section is empty. Cannot find new song.</string>
     <string name="elementRemoved">Element removed successfully.</string>
     <string name="elementNotRemoved">Error, element not removed!</string>
-    <string name="confirmDeleteOperation">Are you sure you want to delete?</string>
+    <string name="confirmDeleteOperation">Are you sure you want to delete this?</string>
     <string name="rawYes">Yes</string>
     <string name="rawNo">No</string>
     <string name="missingArtistName">Please fill in artist name.</string>
