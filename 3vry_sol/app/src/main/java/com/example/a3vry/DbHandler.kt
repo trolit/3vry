@@ -337,7 +337,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val live = "live"
 
         if(coverStatus == enabled && acousticStatus == enabled && liveStatus == enabled) {
-            return songList.random()
+            return song(songList)
         } else if (coverStatus == disabled && acousticStatus == disabled && liveStatus == disabled) {
             return song(songList, cover, acoustic, live)
         } else if (coverStatus == disabled && acousticStatus == disabled) {
@@ -356,30 +356,51 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return null
     }
 
+    private val karaoke = "karaoke" // remove karaoke phrase from song search
+    private fun song(songList: List<YoutubeSingleItem>) : YoutubeSingleItem {
+        var song : YoutubeSingleItem
+        do {
+            song = songList.random()
+        } while (song.snippet!!.title.contains(karaoke, ignoreCase = true))
+        return song
+    }
     private fun song(songList: List<YoutubeSingleItem>, p1: String) : YoutubeSingleItem {
         var song : YoutubeSingleItem
         do {
             song = songList.random()
-        } while (song.snippet!!.title.contains(p1, ignoreCase = true))
+        } while (song.snippet!!.title.contains(p1, ignoreCase = true) ||
+                song.snippet!!.title.contains(karaoke, ignoreCase = true))
         return song
     }
-
     private fun song(songList: List<YoutubeSingleItem>, p1: String, p2: String) : YoutubeSingleItem {
         var song : YoutubeSingleItem
         do {
             song = songList.random()
         } while (song.snippet!!.title.contains(p1, ignoreCase = true) ||
-                song.snippet!!.title.contains(p2, ignoreCase = true))
+                song.snippet!!.title.contains(p2, ignoreCase = true) ||
+                song.snippet!!.title.contains(karaoke, ignoreCase = true))
         return song
     }
-
     private fun song(songList: List<YoutubeSingleItem>, p1: String, p2: String, p3: String) : YoutubeSingleItem {
         var song : YoutubeSingleItem
         do {
             song = songList.random()
         } while (song.snippet!!.title.contains(p1, ignoreCase = true) ||
             song.snippet!!.title.contains(p2, ignoreCase = true) ||
-            song.snippet!!.title.contains(p3, ignoreCase = true))
+            song.snippet!!.title.contains(p3, ignoreCase = true) ||
+            song.snippet!!.title.contains(karaoke, ignoreCase = true))
+        return song
+    }
+
+    private fun song(songList: List<YoutubeSingleItem>, p1: String, p2: String, p3: String, p4: String) : YoutubeSingleItem {
+        var song : YoutubeSingleItem
+        do {
+            song = songList.random()
+        } while (song.snippet!!.title.contains(p1, ignoreCase = true) ||
+                song.snippet!!.title.contains(p2, ignoreCase = true) ||
+                song.snippet!!.title.contains(p3, ignoreCase = true) ||
+                song.snippet!!.title.contains(p4, ignoreCase = true) ||
+                song.snippet!!.title.contains(karaoke, ignoreCase = true))
         return song
     }
 
