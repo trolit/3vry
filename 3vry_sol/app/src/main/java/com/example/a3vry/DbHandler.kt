@@ -245,8 +245,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             val result = getArtists()
             if(result.count() > 0) {
                 // 2. Get random artist
-                result.shuffle()
-                val artist = result[0]
+                val artist = result.random()
                 // 3. Make query to youtube & insert song
                 queryForVideo(artist.name, artist.id)
             } else {
