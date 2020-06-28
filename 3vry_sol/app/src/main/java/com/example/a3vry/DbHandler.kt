@@ -282,7 +282,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                         val songObj = Song(title, currentDate, song.snippet!!.resourceId!!.videoId, artistId)
                         insertSong(songObj)
                     }
-                } else if (response.errorBody() != null) {
+                } else if (response.errorBody()!!.string().contains("exceeded")) {
                     Toast.makeText(context, context.getString(R.string.failedToAddNewSong), Toast.LENGTH_SHORT).show()
                 }
             }
@@ -320,7 +320,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     }
 
                     // println("First song TITLE: " + response.body()?.items?.get(0)?.snippet!!.title)
-                } else if (response.errorBody() != null) {
+                } else if (response.errorBody()!!.string().contains("exceeded")) {
                     Toast.makeText(context, context.getString(R.string.failedToAddNewSong), Toast.LENGTH_SHORT).show()
                 }
             }
