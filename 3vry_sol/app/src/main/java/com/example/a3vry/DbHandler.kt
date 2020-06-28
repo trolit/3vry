@@ -392,18 +392,6 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return song
     }
 
-    private fun song(songList: List<YoutubeSingleItem>, p1: String, p2: String, p3: String, p4: String) : YoutubeSingleItem {
-        var song : YoutubeSingleItem
-        do {
-            song = songList.random()
-        } while (song.snippet!!.title.contains(p1, ignoreCase = true) ||
-                song.snippet!!.title.contains(p2, ignoreCase = true) ||
-                song.snippet!!.title.contains(p3, ignoreCase = true) ||
-                song.snippet!!.title.contains(p4, ignoreCase = true) ||
-                song.snippet!!.title.contains(karaoke, ignoreCase = true))
-        return song
-    }
-
     private fun queryForVideo(artistName : String, artistId : Int) {
         val retrofit = Retrofit.Builder()
             .baseUrl(YouTubeApiService.YOUTUBE_SEARCH_BASE_URL)
