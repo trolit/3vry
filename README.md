@@ -33,6 +33,7 @@
 <h2>Used libraries</h2>
 
 - <a href="https://github.com/square/retrofit">Retrofit 2.9.0</a>
+- <a href="https://github.com/square/moshi">Moshi JSON Parser 2.9.0</a>
 - <a href="https://github.com/sqlite/sqlite">SQLite</a>
 - <a href="https://fontawesome.com/">Font Awesome icons</a>
 - <a href="https://developers.google.com/youtube/android/player/downloads">YouTube Android Player API</a>
