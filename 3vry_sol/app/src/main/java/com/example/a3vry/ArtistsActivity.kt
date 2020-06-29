@@ -21,6 +21,7 @@ class ArtistsActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
+        // SET ADAPTER AND CREATE BTN
         val db = DbHandler(this)
         val artists = db.getArtists()
 
