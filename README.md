@@ -42,7 +42,7 @@ Minimum required Android version to use 3vry: <strong>7.0 (Nougat)</strong>
 
 Targetted Android OS: <strong>10.0 (Android Q)</strong>
 
-<p align="justify">You can download the *.apk installation file by clicking <a href="FILL!!">here</a>. <strong>Note that the original 3vry solution developed by <a href="https://github.com/trolit">trolit</a></strong> is not currently available on any other pages delivering software than this GitHub repository. Guaranteed, safe way to obtain the app without suspicious modifications is to download it through <strong>the link given above</strong>! Other pages are unverified. Any information that user will add/generate through 3vry is kept on local device storage and is not shared further without user's knowledge. App <strong>will never</strong> prompt for permissions other than detailed in the documentation, show advertisements. There is no IOS version of the application. </p>
+<p align="justify">You can download the *.apk installation file by clicking <a href="FILL!!">here</a>. <strong>Note that the original 3vry solution developed by <a href="https://github.com/trolit">trolit</a></strong> is not currently available on any other pages delivering software than this GitHub repository. Guaranteed, safe way to obtain the app without suspicious modifications is to download it through <strong>the link given above</strong>! Other pages are unverified. Any information that user will add/generate through 3vry is kept on local device storage and is not shared further without user's knowledge. App <strong>will never</strong> prompt for permissions other than detailed in the documentation, show advertisements. There is no IOS version of the application. Compiled version is using YouTube standard queries upper limit(10 000). If app is used properly, each user generates at most 6 queries per day. This means that the app in it's current state can be used by 1666 users before exceeding daily query limit.</p>
 
 <p align="justify">To proceed with the downloaded apk, refer to the Android documentation <a href="https://developer.android.com/studio/publish#publishing-unknown">HERE</a> on how to enable 3rd party app installation(if you did not enable that option before) and then simply launch apk file while using Android device. </p>
 
@@ -56,7 +56,7 @@ Targetted Android OS: <strong>10.0 (Android Q)</strong>
 
 <h2>Running project</h2>
 
-<p align="justify">If you would like to run the app in debug mode, keep in mind that you need to add your own YouTube API key in the SongsActivity(line 56). </p>
+<p align="justify">If you would like to run the app in the debug mode by yourself, open the project and add your own YouTube API key in the SongsActivity(line 56). Simply run the app on AVD that matches required version described above.</p>
 
 <h2>License</h2>
 
