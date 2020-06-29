@@ -1,2 +1,68 @@
-# 3vry
- deq
+<h2>3vry</h2>
+
+<img src="https://img.shields.io/badge/Platform-Android-red?color=2DE22B&style=flat-square" alt="Platform badge"/> <img src="https://img.shields.io/badge/Supported language-EN-red?color=E41570&style=flat-square" alt="Language badge"/>
+
+<p align="center"><img src="https://raw.githubusercontent.com/trolit/document-and-compare/storage/images/github_1.png" width="550" alt="3vry logo"></p>
+
+<p align="justify">3vry is a project made for Android OS that promotes listening to music. User adds his/her favourite artists and receives each day single track offer from randomly picked artist. Songs are picked from YouTube service using Android Player library and can be watched through application. Track searching rules can be adjusted in the settings section. It's also possible to include app author playlist in the artists pool(contains wide and interesting range of genres:>). Main purpose of the 3vry was to find out Kotlin language and IntelliJ IDEA IDE from JetBrains after making mobile app <a href="https://github.com/trolit/document-and-compare">docAndCom</a> in Xamarin.Forms. However, at the same time I also wanted to achieve something that encourages to listen to at least 1 song per day. Music has great impact on mind, determines feelings. It's crucial element in video games and cinematography. 3vry can also be treated as option to discover tracks that user did not hear before.</p>
+
+<h2>Screens</h2>
+<h6>*Made using Android Emulator </h6>
+
+| | | | | |
+| :---: | :---: | :---: | :---: | :---: |
+| <img src="https://placehold.it/350x140" alt="#toadd" height="300"/> | <img src="https://placehold.it/350x140" alt="#toadd" height="300"/> | <img src="https://placehold.it/350x140" alt="#toadd" height="300"/> | <img src="https://placehold.it/350x140" alt="#toadd" height="300"/> | <img src="https://placehold.it/350x140" alt="#toadd" height="300"/> |
+| <img src="https://placehold.it/350x140" alt="#toadd" height="300"/> | <img src="https://placehold.it/350x140" alt="#toadd" height="300"/> | <img src="https://placehold.it/350x140" alt="#toadd" height="300"/> | <img src="https://placehold.it/350x140" alt="#toadd" height="300"/> | <img src="https://placehold.it/350x140" alt="#toadd" height="300"/> |
+<!-- For image table, it's highly recommended to have the same resolution images. 
+ To find best results(no stretches, equal cells), both axis should be adjusted manually. -->
+
+<h2>Tested on</h2>
+
+- Physical device: Huawei Y7, OS. Android 7.0(API 24), res. 720 x 1280
+- Physical device: Huawei P20, OS. Android 9.0(API 28), res. 2244 x 1080
+- Android emulator: Nexus S 4" phone, OS. Android 8.1(API 27), res. 480 x 800
+
+<h2>Permissions needed</h2>
+
+:white_check_mark: <strong>INTERNET</strong> to make queries to YouTube API and be able to play songs from the list<br><br>
+:white_check_mark: <strong>ACCESS NETWORK STATE</strong> to show on main menu screen message that Internet connection is not established <br>
+<!-- If you did not specify icon, simply overwrite Id put between : : characters with desired icon name -->
+<!-- Supported by GitHub icon list can be found here: https://gist.github.com/rxaviers/7360908 -->
+
+<h2>Used libraries</h2>
+
+- <a href="https://github.com/square/retrofit">Retrofit 2.9.0</a>
+- <a href="https://github.com/sqlite/sqlite">SQLite</a>
+- <a href="https://fontawesome.com/">Font Awesome icons</a>
+- <a href="https://developers.google.com/youtube/android/player/downloads">YouTube Android Player API</a>
+
+<h2>Download & info</h2>
+
+Minimum required Android version to use 3vry: <strong>7.0 (Nougat)</strong>
+
+Targetted Android OS: <strong>10.0 (Android Q)</strong>
+
+<p align="justify">You can download the *.apk installation file by clicking <a href="FILL!!">here</a>. <strong>Note that the original 3vry solution developed by <a href="https://github.com/trolit">trolit</a></strong> is not currently available on any other pages delivering software than this GitHub repository. Guaranteed, safe way to obtain the app without suspicious modifications is to download it through <strong>the link given above</strong>! Other pages are unverified. Any information that user will add/generate through 3vry is kept on local device storage and is not shared further without user's knowledge. App <strong>will never</strong> prompt for permissions other than detailed in the documentation, show advertisements. There is no IOS version of the application. Compiled version is using YouTube standard queries upper limit(10 000). If app is used properly, each user generates from 100(1 page) to 400(4 pages) queries per day(estimated cost on 06.2020 from <a href="https://developers.google.com/youtube/v3/determine_quota_cost">quota calculator</a>). Query cost depends on two aspects: how many tracks may be considered into search from settings section and randomized page number. If user set 150 tracks per search, app can make from 1 to 3 queries, each query returns 50 tracks. Assuming that all users set 200 tracks range in settings, and get the biggest possible page number(4), 25 users will be able to receive their tracks. In the least case of 100 unit cost per user, track would get 10 000 / 100 = <strong>100 users</strong>.</p>
+
+<p align="justify">To proceed with the downloaded apk, refer to the Android documentation <a href="https://developer.android.com/studio/publish#publishing-unknown">HERE</a> on how to enable 3rd party app installation(if you did not enable that option before) and then simply launch apk file while using Android device. </p>
+
+<h2>Possible features</h2>
+
+- Improve Db Handler using <a href="https://developer.android.com/topic/libraries/architecture/room">Room lib</a>
+- Change rawQueries into queries(according to stackoverflow, rawQueries are more vulnerable to SQL Injection, however app Db is not that interesting..)
+- Remove from Settings: include cover, acoustic, live and add instead section where user can define custom list of banned words
+- Add section where users can add their own playlists to the searching pool
+- Fix weird behaviour when turning on fullscreen from YouTubePlayerView 
+
+<h2>Running project</h2>
+
+<p align="justify">If you would like to run the app in the debug mode by yourself, open the project and add your own YouTube API key in the SongsActivity(line 56). Simply run the app on AVD that matches required version described above.</p>
+
+<h2>License</h2>
+
+<p align="justify">Standard MIT license (c) 2020 Paweł Idzikowski. Publishing the 1 to 1 solution on other sites must be discussed with it's founder first!</p>
+
+<br/>
+<br/>
+
+Template generated using <a href="https://github.com/trolit/EzGitDoc">EzGitDoc</a>
