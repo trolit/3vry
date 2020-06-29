@@ -80,6 +80,10 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         TODO("Not yet implemented")
     }
 
+    // **************************************************************
+    // PREFERENCES TABLE OPERATIONS
+    // **************************************************************
+
     fun updatePreference(preference: Preference) {
         val db = this.writableDatabase
         val cv = ContentValues()
@@ -93,24 +97,20 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
     }
 
-    fun insertSong(song: Song) {
-        val db = this.writableDatabase
-        val cv = ContentValues()
-        if(song.title.length >= 62) {   // max 62 characters, if reached, add 3 dots
-            song.title = song.title.take(62) + "..."
-        }
-        cv.put(song_COL_TITLE, song.title)
-        cv.put(song_COL_DATETIME, song.dateTime)
-        cv.put(song_COL_URL, song.url)
-        cv.put(song_COL_ARTISTID, song.artistId)
-        val result = db.insert(song_TABLE_NAME, null, cv)
-        if(result == (-1).toLong()) {
-            Toast.makeText(context, context.getString(R.string.failedSongInsertion), Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, context.getString(R.string.succededSongInsertion), Toast.LENGTH_SHORT).show()
-        }
+    fun getPrefValue(parameter: String) : String {
+        val db = this.readableDatabase
+        val query = "SELECT $preferences_COL_VALUE FROM $preferences_TABLE_NAME WHERE $preferences_COL_PARAMETER='$parameter'"
+        val result = db.rawQuery(query, null)
+        result.moveToFirst()
+        val outcome = result.getString(0)
+        result.close()
         db.close()
+        return outcome
     }
+
+    // **************************************************************
+    // ARTISTS TABLE OPERATIONS
+    // **************************************************************
 
     fun insertBand(artist: Artist) {
         val db = this.writableDatabase
@@ -144,28 +144,6 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return list
     }
 
-    fun wipeAllSongs() {
-        val db = this.writableDatabase
-        val result = db.delete(song_TABLE_NAME, "1", null);
-        Toast.makeText(context, "$result " + context.getString(R.string.nTracksRemoved), Toast.LENGTH_SHORT).show()
-        db.close()
-    }
-
-    fun checkIfTableContainsAtLeastOneObject(tableName: String) : Boolean {
-        val db = this.readableDatabase
-        val query = "SELECT count(*) FROM $tableName LIMIT 1"
-        val result = db.rawQuery(query, null)
-        result.moveToFirst()
-        if(result.getInt(0) > 0) {
-            result.close()
-            db.close()
-            return true
-        }
-        result.close()
-        db.close()
-        return false
-    }
-
     fun checkIfPlaylistIsEnabled() : Boolean {
         val db = this.readableDatabase
         val query = "SELECT 1 FROM $artist_TABLE_NAME WHERE $artist_COL_NAME='$playlist' LIMIT 1;"
@@ -196,15 +174,34 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
     }
 
-    fun getPrefValue(parameter: String) : String {
-        val db = this.readableDatabase
-        val query = "SELECT $preferences_COL_VALUE FROM $preferences_TABLE_NAME WHERE $preferences_COL_PARAMETER='$parameter'"
-        val result = db.rawQuery(query, null)
-        result.moveToFirst()
-        val outcome = result.getString(0)
-        result.close()
+    // **************************************************************
+    // SONGS TABLE OPERATIONS
+    // **************************************************************
+
+    fun insertSong(song: Song) {
+        val db = this.writableDatabase
+        val cv = ContentValues()
+        if(song.title.length >= 62) {   // max 62 characters, if reached, add 3 dots
+            song.title = song.title.take(62) + "..."
+        }
+        cv.put(song_COL_TITLE, song.title)
+        cv.put(song_COL_DATETIME, song.dateTime)
+        cv.put(song_COL_URL, song.url)
+        cv.put(song_COL_ARTISTID, song.artistId)
+        val result = db.insert(song_TABLE_NAME, null, cv)
+        if(result == (-1).toLong()) {
+            Toast.makeText(context, context.getString(R.string.failedSongInsertion), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, context.getString(R.string.succededSongInsertion), Toast.LENGTH_SHORT).show()
+        }
         db.close()
-        return outcome
+    }
+
+    fun wipeAllSongs() {
+        val db = this.writableDatabase
+        val result = db.delete(song_TABLE_NAME, "1", null);
+        Toast.makeText(context, "$result " + context.getString(R.string.nTracksRemoved), Toast.LENGTH_SHORT).show()
+        db.close()
     }
 
     fun getSongs() : MutableList<Song> {
@@ -231,7 +228,6 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun checkForNewSong() {
         val sdf = SimpleDateFormat("dd-M-yyyy")
         val currentDate = sdf.format(Date())
-        // currentDate = LocalDate.parse("2020-06-22")
         val db = this.readableDatabase
         val query = "SELECT EXISTS (SELECT * FROM $song_TABLE_NAME WHERE $song_COL_DATETIME='$currentDate' LIMIT 1);"
         val cursor : Cursor = db.rawQuery(query, null)
@@ -255,6 +251,25 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
     }
 
+    // **************************************************************
+    // GENERAL OPERATIONS
+    // **************************************************************
+
+    fun checkIfTableContainsAtLeastOneObject(tableName: String) : Boolean {
+        val db = this.readableDatabase
+        val query = "SELECT count(*) FROM $tableName LIMIT 1"
+        val result = db.rawQuery(query, null)
+        result.moveToFirst()
+        if(result.getInt(0) > 0) {
+            result.close()
+            db.close()
+            return true
+        }
+        result.close()
+        db.close()
+        return false
+    }
+
     fun deleteRowFromDb(id: Int, tableName: String) {
         val db = this.writableDatabase
         val result = db.delete(tableName, "$COL_ID=?", arrayOf(id.toString())).toLong()
@@ -263,6 +278,35 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             Toast.makeText(context, context.getString(R.string.elementNotRemoved), Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(context, context.getString(R.string.elementRemoved), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // **************************************************************
+    // OPERATIONS ON YOUTUBE API
+    // **************************************************************
+
+    private fun queryForVideo(artistName : String, artistId : Int) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(YouTubeApiService.YOUTUBE_SEARCH_BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(YouTubeApiService::class.java)
+
+        val sdf = SimpleDateFormat("dd-M-yyyy")
+        val currentDate = sdf.format(Date())
+        println("Current date => $currentDate")
+
+        val outcome = getPrefValue("videoRange")
+        // possible outcomes: 50, 100, 150, 200
+        val pageRange = outcome.toInt() / 50
+        val targetPage = (1..pageRange).random()
+
+        if(artistName != playlist) {
+            val videoDuration = getPrefValue("videoDuration")
+            callYoutubeSearch(service, artistName, artistId, "", targetPage, 0, currentDate, videoDuration)
+        } else if (artistName == playlist) {
+            callYoutubePlaylistSearch(service, artistName, artistId, "", targetPage, 0, currentDate)
         }
     }
 
@@ -301,13 +345,13 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     if (currentIteration != targetPage) {
                         val nextPageToken = response.body()?.nextPageToken.toString()
                         callYoutubeSearch(service, artistName, artistId, nextPageToken,
-                                targetPage, currentIteration + 1, currentDate, videoDuration)
+                            targetPage, currentIteration + 1, currentDate, videoDuration)
                     } else if (response.body()?.items?.count()!! > 0) {
                         val includeCoversResult = getPrefValue("includeCovers")
                         val includeAcousticResult = getPrefValue("includeAcoustic")
                         val includeLiveResult = getPrefValue("includeLive")
                         val song = returnFilteredSong(includeCoversResult, includeAcousticResult,
-                                                      includeLiveResult, response.body()?.items!!)
+                            includeLiveResult, response.body()?.items!!)
                         if(song != null) {
                             val title = Html.fromHtml(song.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
                             val songObj = Song(title, currentDate, song.id!!.videoId, artistId)
@@ -318,7 +362,6 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                             println("****************************************************")
                         }
                     }
-
                     // println("First song TITLE: " + response.body()?.items?.get(0)?.snippet!!.title)
                 } else if (response.errorBody()!!.string().contains("exceeded")) {
                     Toast.makeText(context, context.getString(R.string.failedToAddNewSong), Toast.LENGTH_SHORT).show()
@@ -371,7 +414,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         do {
             song = songList.random()
         } while (song.snippet!!.title.contains(p1, ignoreCase = true) ||
-                song.snippet!!.title.contains(karaoke, ignoreCase = true))
+            song.snippet!!.title.contains(karaoke, ignoreCase = true))
         return song
     }
     private fun song(songList: List<YoutubeSingleItem>, p1: String, p2: String) : YoutubeSingleItem {
@@ -379,8 +422,8 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         do {
             song = songList.random()
         } while (song.snippet!!.title.contains(p1, ignoreCase = true) ||
-                song.snippet!!.title.contains(p2, ignoreCase = true) ||
-                song.snippet!!.title.contains(karaoke, ignoreCase = true))
+            song.snippet!!.title.contains(p2, ignoreCase = true) ||
+            song.snippet!!.title.contains(karaoke, ignoreCase = true))
         return song
     }
     private fun song(songList: List<YoutubeSingleItem>, p1: String, p2: String, p3: String) : YoutubeSingleItem {
@@ -392,31 +435,5 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             song.snippet!!.title.contains(p3, ignoreCase = true) ||
             song.snippet!!.title.contains(karaoke, ignoreCase = true))
         return song
-    }
-
-    private fun queryForVideo(artistName : String, artistId : Int) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(YouTubeApiService.YOUTUBE_SEARCH_BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(YouTubeApiService::class.java)
-
-        val sdf = SimpleDateFormat("dd-M-yyyy")
-        val currentDate = sdf.format(Date())
-        println("Current date => $currentDate")
-
-        val outcome = getPrefValue("videoRange")
-        // possible outcomes: 50, 100, 150, 200
-        val pageRange = outcome.toInt() / 50
-        val targetPage = (1..pageRange).random()
-
-        if(artistName != playlist) {
-            val videoDuration = getPrefValue("videoDuration")
-            callYoutubeSearch(service, artistName, artistId, "", targetPage, 0, currentDate, videoDuration)
-        } else if (artistName == playlist) {
-            callYoutubePlaylistSearch(service, artistName, artistId, "", targetPage, 0, currentDate)
-        }
-
     }
 }
