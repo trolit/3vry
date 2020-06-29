@@ -18,6 +18,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val db = DbHandler(this)
+        val isArtistsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Artists")
+
         // PROGRAM NETWORK CONNECTION VERIFIER
         // SOURCE: https://stackoverflow.com/questions/25678216/android-internet-connectivity-change-listener
         val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -26,6 +29,10 @@ class MainActivity : AppCompatActivity() {
                 //take action when network connection is gained
                 runOnUiThread {
                     noInternetConnTextView.isVisible = false
+                    
+                    if(isArtistsTableNotEmpty) {
+                        db.checkForNewSong()
+                    }
                 }
             }
             override fun onLost(network: Network?) {
@@ -68,12 +75,9 @@ class MainActivity : AppCompatActivity() {
             builder.show()
         }
 
-        val db = DbHandler(this)
-        val isArtistsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Artists")
+
         val isSongsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Songs")
-        if(isArtistsTableNotEmpty) {
-            db.checkForNewSong()
-        } else if(!isArtistsTableNotEmpty && !isSongsTableNotEmpty) {
+        if(!isArtistsTableNotEmpty && !isSongsTableNotEmpty) {
             // override viewArtistsBtn functionality
             viewSongsBtn.setOnClickListener {
                 val builder = AlertDialog.Builder(this)
