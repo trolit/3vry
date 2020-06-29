@@ -82,7 +82,8 @@
     <string name="enabled">ENABLED</string>
     <string name="disabled">DISABLED</string>
     <string name="somethingWentWrong">Error: Something went wrong!</string>
-    <string name="failedToAddNewSong">Song requests limit per day exceeded.</string>
+    <string name="dailyQuotaLimitExceeded">Song requests limit per day exceeded.</string>
+    <string name="songNotAdded">New song not added to the list.</string>
 
     <!-- Other -->
     <string name="activity_songsLabel">SongsActivity</string>

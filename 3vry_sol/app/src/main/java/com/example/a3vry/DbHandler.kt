@@ -327,7 +327,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                         insertSong(songObj)
                     }
                 } else if (response.errorBody()!!.string().contains("exceeded")) {
-                    Toast.makeText(context, context.getString(R.string.failedToAddNewSong), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.dailyQuotaLimitExceeded), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, context.getString(R.string.songNotAdded), Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<YoutubeGetPlaylistResponse>, t: Throwable) {
@@ -364,7 +366,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     }
                     // println("First song TITLE: " + response.body()?.items?.get(0)?.snippet!!.title)
                 } else if (response.errorBody()!!.string().contains("exceeded")) {
-                    Toast.makeText(context, context.getString(R.string.failedToAddNewSong), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.dailyQuotaLimitExceeded), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, context.getString(R.string.songNotAdded), Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<YoutubeGetResponse>, t: Throwable) {
