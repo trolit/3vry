@@ -9,10 +9,12 @@
 <h2>Screens</h2>
 <h6>*Made using Android Emulator </h6>
 
-| | | | | |
-| :---: | :---: | :---: | :---: | :---: |
-| <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/1.PNG" alt="#toadd" height="300"/> | <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/2.PNG" alt="#toadd" height="300"/> | <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/3.PNG" alt="#toadd" height="300"/> | <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/4.PNG" alt="#toadd" height="300"/> | <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/5.PNG" alt="#toadd" height="300"/> |
-| <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/6.PNG" alt="#toadd" height="300"/> | <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/7.PNG" alt="#toadd" height="300"/> | <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/8.PNG" alt="#toadd" height="300"/> | <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/9.PNG" alt="#toadd" height="300"/> | <img src="https://placehold.it/350x140" alt="#toadd" height="300"/> |
+| | |
+| :---: | :---: |
+| <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/1.PNG" alt="#toadd" height="300"/> | <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/2.PNG" alt="#toadd" height="300"/> |
+| <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/3.PNG" alt="#toadd" height="300"/> | <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/4.PNG" alt="#toadd" height="300"/> |
+| <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/5.PNG" alt="#toadd" height="300"/> | <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/6.PNG" alt="#toadd" height="300"/> |
+| <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/7.PNG" alt="#toadd" height="300"/> | <img src="https://raw.githubusercontent.com/trolit/3vry/images/images/8.PNG" alt="#toadd" height="300"/> |
 <!-- For image table, it's highly recommended to have the same resolution images. 
  To find best results(no stretches, equal cells), both axis should be adjusted manually. -->
 
