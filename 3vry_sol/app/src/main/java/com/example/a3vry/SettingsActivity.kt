@@ -63,12 +63,12 @@ class SettingsActivity : AppCompatActivity() {
             setStatusOnTextView(playlistStatusTextView, disabled, redColor)
         }
         disablePlaylistBtn.setOnClickListener {
-            db.removePlaylistAsArtist()
+            db.removeAuthorPlaylist()
             swapButtons(enablePlaylistBtn, disablePlaylistBtn)
             setStatusOnTextView(playlistStatusTextView, disabled, redColor)
         }
         enablePlaylistBtn.setOnClickListener {
-            db.addPlaylistAsArtist()
+            db.addAuthorPlaylist()
             swapButtons(enablePlaylistBtn, disablePlaylistBtn)
             setStatusOnTextView(playlistStatusTextView, enabled, greenColor)
         }

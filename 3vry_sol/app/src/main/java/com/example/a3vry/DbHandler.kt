@@ -41,6 +41,8 @@ const val playlists_COL_PLAYLISTID = "playlistId"
 
 const val playlist = "playlist"
 
+const val appAuthorPlaylist = "PLCrKXyV2OjXi2VF42Dimxvv9fnOH3JEl6"
+
 class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     // Runs when device does not contain Database
     override fun onCreate(db: SQLiteDatabase?) {
@@ -174,6 +176,22 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
     }
 
+    fun addAuthorPlaylist() {
+        insertPlaylist(Playlist(appAuthorPlaylist))
+        Toast.makeText(context, context.getString(R.string.playlistEnabled), Toast.LENGTH_SHORT).show()
+    }
+
+    fun removeAuthorPlaylist() {
+        val db = this.writableDatabase
+        val res = db.delete(playlists_TABLE_NAME, "$playlists_COL_PLAYLISTID='$appAuthorPlaylist'", null).toLong()
+        if(res != (-1).toLong()) {
+            Toast.makeText(context, context.getString(R.string.playlistDisabled), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, context.getString(R.string.playlistNotDisabled), Toast.LENGTH_SHORT).show()
+        }
+        db.close()
+    }
+
     // **************************************************************
     // KEYWORDS TABLE OPERATIONS
     // **************************************************************
@@ -258,22 +276,6 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         result.close()
         db.close()
         return false
-    }
-
-    fun addPlaylistAsArtist() {
-        insertBand(Artist(playlist))
-        Toast.makeText(context, context.getString(R.string.playlistEnabled), Toast.LENGTH_SHORT).show()
-    }
-
-    fun removePlaylistAsArtist() {
-        val db = this.writableDatabase
-        val res = db.delete(artist_TABLE_NAME, "$artist_COL_NAME='$playlist'", null).toLong()
-        if(res != (-1).toLong()) {
-            Toast.makeText(context, context.getString(R.string.playlistDisabled), Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, context.getString(R.string.playlistNotDisabled), Toast.LENGTH_SHORT).show()
-        }
-        db.close()
     }
 
     // **************************************************************

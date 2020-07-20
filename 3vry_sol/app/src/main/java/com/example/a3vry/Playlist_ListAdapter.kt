@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.playlists_list_item.view.*
 
 class Playlist_ListAdapter(context: Context, var resource: Int, var listOfPlaylists: MutableList<Playlist>) :
@@ -21,18 +22,21 @@ class Playlist_ListAdapter(context: Context, var resource: Int, var listOfPlayli
 
         textViewPlaylistName.text = playlist.playlistId
 
-        view.deletePlaylistBtn.setOnClickListener {
-            val alertDialogBuilder = buildAlertDialog(context)
-            alertDialogBuilder.setPositiveButton(context.getString(R.string.rawYes)) { _: DialogInterface, _: Int ->
-                val db = DbHandler(context)
-                db.deleteRowFromDb(playlist.id, playlists_TABLE_NAME)
-                listOfPlaylists.removeAt(position)
-                notifyDataSetChanged()
+        if(playlist.playlistId == appAuthorPlaylist) {
+            view.deletePlaylistBtn.isVisible = false
+        } else {
+            view.deletePlaylistBtn.setOnClickListener {
+                val alertDialogBuilder = buildAlertDialog(context)
+                alertDialogBuilder.setPositiveButton(context.getString(R.string.rawYes)) { _: DialogInterface, _: Int ->
+                    val db = DbHandler(context)
+                    db.deleteRowFromDb(playlist.id, playlists_TABLE_NAME)
+                    listOfPlaylists.removeAt(position)
+                    notifyDataSetChanged()
+                }
+                val alertDialog = alertDialogBuilder.create()
+                alertDialog.show()
             }
-            val alertDialog = alertDialogBuilder.create()
-            alertDialog.show()
         }
-
         return view
     }
 }

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.artists_list_item.view.*
 
 class ArtistListAdapter(context: Context, var resource: Int, var artistList: MutableList<Artist>) :
@@ -22,20 +21,16 @@ class ArtistListAdapter(context: Context, var resource: Int, var artistList: Mut
 
         textViewBandName.text = artist.name
 
-        if(artist.name == "playlist") {
-            view.deleteBandBtn.isVisible = false
-        } else {
-            view.deleteBandBtn.setOnClickListener {
-                val alertDialogBuilder = buildAlertDialog(context)
-                alertDialogBuilder.setPositiveButton(context.getString(R.string.rawYes)) { _: DialogInterface, _: Int ->
-                    val db = DbHandler(context)
-                    db.deleteRowFromDb(artist.id, artist_TABLE_NAME)
-                    artistList.removeAt(position)
-                    notifyDataSetChanged()
-                }
-                val alertDialog = alertDialogBuilder.create()
-                alertDialog.show()
+        view.deleteBandBtn.setOnClickListener {
+            val alertDialogBuilder = buildAlertDialog(context)
+            alertDialogBuilder.setPositiveButton(context.getString(R.string.rawYes)) { _: DialogInterface, _: Int ->
+                val db = DbHandler(context)
+                db.deleteRowFromDb(artist.id, artist_TABLE_NAME)
+                artistList.removeAt(position)
+                notifyDataSetChanged()
             }
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
         }
         return view
     }
