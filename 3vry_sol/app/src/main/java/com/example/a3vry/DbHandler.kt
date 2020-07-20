@@ -139,7 +139,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         if(result.moveToFirst()) {
             do {
-                var playlist = Playlist()
+                val playlist = Playlist()
                 playlist.id = result.getString(0).toInt()
                 playlist.playlistId = result.getString(1).toString()
                 list.add(playlist)
@@ -167,6 +167,36 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     // KEYWORDS TABLE OPERATIONS
     // **************************************************************
 
+    fun getKeywords() : MutableList<Keyword> {
+        val list : MutableList<Keyword> = ArrayList()
+        val db = this.readableDatabase
+        val result = db.query(keywords_TABLE_NAME, null, null, null, null, null, null, null)
+
+        if(result.moveToFirst()) {
+            do {
+                val keyword = Keyword()
+                keyword.id = result.getString(0).toInt()
+                keyword.name = result.getString(1).toString()
+                list.add(keyword)
+            } while (result.moveToNext())
+        }
+        result.close()
+        db.close()
+        return list
+    }
+
+    fun insertKeyword(keyword: Keyword) {
+        val db = this.writableDatabase
+        val cv = ContentValues()
+        cv.put(keywords_COL_NAME, keyword.name)
+        val result = db.insert(keywords_TABLE_NAME, null, cv)
+        if(result == (-1).toLong()) {
+            Toast.makeText(context, context.getString(R.string.failedKeywordInsertion), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, context.getString(R.string.succededKeywordInsertion), Toast.LENGTH_SHORT).show()
+        }
+        db.close()
+    }
 
     // **************************************************************
     // ARTISTS TABLE OPERATIONS
