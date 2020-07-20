@@ -19,8 +19,7 @@ class SongsActivity : YouTubeBaseActivity() {
         setContentView(R.layout.activity_songs)
 
         backToMainMenuBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
