@@ -8,6 +8,20 @@
         tools:context=".PlaylistActivity">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/playlistDialogToggleBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                app:fabCustomSize="32dp"
+                android:scaleType="center"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/colorPrimary"
+                app:backgroundTint="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_plus"
+                app:borderWidth="2dp"
+        />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/backToMainMenuBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
