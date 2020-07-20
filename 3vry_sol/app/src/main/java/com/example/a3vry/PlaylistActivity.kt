@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_playlist.*
 import kotlinx.android.synthetic.main.activity_settings.backToMainMenuBtn
-import kotlinx.android.synthetic.main.add_artist_dialog.view.*
 import kotlinx.android.synthetic.main.add_playlist_dialog.view.*
 
 class PlaylistActivity : AppCompatActivity() {
@@ -18,7 +17,7 @@ class PlaylistActivity : AppCompatActivity() {
         setContentView(R.layout.activity_playlist)
 
         backToMainMenuBtn.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         // SET ADAPTER AND ADD NEW PLAYLIST BTN
@@ -53,7 +52,7 @@ class PlaylistActivity : AppCompatActivity() {
                 }
             }
             // handle bandDialogCancelBtn
-            mDialogView.bandDialogCancelBtn.setOnClickListener {
+            mDialogView.playlistDialogCancelBtn.setOnClickListener {
                 mAlertDialog.dismiss()
             }
         }
