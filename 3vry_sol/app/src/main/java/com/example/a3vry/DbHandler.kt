@@ -191,6 +191,22 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
     }
 
+    fun checkIfPlaylistIsEnabled() : Boolean {
+        val db = this.readableDatabase
+        val selection = "$playlists_COL_PLAYLISTID=?"
+        val selectionArgs = arrayOf(appAuthorPlaylist)
+        val limit = "1"
+        val result = db.query(playlists_TABLE_NAME, null, selection, selectionArgs, null, null, null, limit)
+        if(result.count > 0) {
+            result.close()
+            db.close()
+            return true
+        }
+        result.close()
+        db.close()
+        return false
+    }
+
     // **************************************************************
     // KEYWORDS TABLE OPERATIONS
     // **************************************************************
