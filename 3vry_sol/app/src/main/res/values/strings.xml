@@ -82,6 +82,8 @@
 
     <!-- Keywords activity -->
     <string name="keywords_subheader">List of words that will be ignored during track search</string>
+    <string name="addKeywordDalogHint">Enter keyword</string>
+    <string name="addKeywordIconDescription">Add keyword icon</string>
 
     <!-- .kt files -->
     <string name="failedPrefInsertion">Preference insertion failed :(</string>
@@ -105,6 +107,7 @@
     <string name="rawNo">No</string>
     <string name="missingArtistName">Please fill in artist name.</string>
     <string name="missingPlaylistId">Please fill in playlist Id before using insert button.</string>
+    <string name="missingKeywordName">Please fill in keyword input field.</string>
     <string name="htmlOk"><![CDATA[<font color=\'#16A085\'>Ok</font>]]></string>
     <string name="appDefinition">
         <![CDATA[<font color=\'#16A085\'>What is 3vry?</font><br/><br/><small>Open source application created by <font color=\'#16A085\'>github.com/trolit</font> using Kotlin language that allows user to add favourite artists and get randomly single track offer each day from YouTube. It\'s also possible to include app author playlist(visit Settings section).<br/><br/>3vry requires Internet permission to make requests to YouTube service. App does not gather any personal data and source code is available at:<br/><br/><font color=\'#16A085\'>https://github.com/trolit/3vry</font></small>]]></string>
