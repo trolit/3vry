@@ -74,10 +74,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "($preferences_COL_PARAMETER, $preferences_COL_VALUE) " +
                 "VALUES " +
                 "('videoRange', '150'), " +
-                "('videoDuration', 'short'), " +
-                "('includeCovers','disabled'), " +
-                "('includeAcoustic', 'disabled'), " +
-                "('includeLive', 'disabled');"
+                "('videoDuration', 'short');"
 
         db?.execSQL(addDefaultPrefs)
 
@@ -100,7 +97,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "('live'), " +
                 "('parody'), " +
                 "('cover'), " +
-                "('fan');"
+                "('fan'), " +
+                "('karaoke'), " +
+                "('instrumental');"
 
         db?.execSQL(addDefaultKeywords)
     }
