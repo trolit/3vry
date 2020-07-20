@@ -1,6 +1,7 @@
 package com.example.a3vry
 
 import android.content.Context
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +22,15 @@ class KeywordListAdapter(context: Context, var resource: Int, var listOfKeywords
         textViewKeywordName.text = keyword.name
 
         view.deleteKeywordBtn.setOnClickListener {
-            removeItem(context, position, keyword.id, keywords_TABLE_NAME, listOfKeywords)
-            notifyDataSetChanged()
+            val alertDialogBuilder = buildAlertDialog(context)
+            alertDialogBuilder.setPositiveButton(context.getString(R.string.rawYes)) { _: DialogInterface, _: Int ->
+                val db = DbHandler(context)
+                db.deleteRowFromDb(keyword.id, keywords_TABLE_NAME)
+                listOfKeywords.removeAt(position)
+                notifyDataSetChanged()
+            }
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
         }
 
         return view

@@ -1,6 +1,5 @@
 package com.example.a3vry
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.view.LayoutInflater
@@ -27,27 +26,17 @@ class ArtistListAdapter(context: Context, var resource: Int, var artistList: Mut
             view.deleteBandBtn.isVisible = false
         } else {
             view.deleteBandBtn.setOnClickListener {
-                removeItem(position, artist.id)
+                val alertDialogBuilder = buildAlertDialog(context)
+                alertDialogBuilder.setPositiveButton(context.getString(R.string.rawYes)) { _: DialogInterface, _: Int ->
+                    val db = DbHandler(context)
+                    db.deleteRowFromDb(artist.id, artist_TABLE_NAME)
+                    artistList.removeAt(position)
+                    notifyDataSetChanged()
+                }
+                val alertDialog = alertDialogBuilder.create()
+                alertDialog.show()
             }
         }
         return view
-    }
-
-    private fun removeItem(pos: Int, artistId: Int) {
-        val alertDialogBuilder = AlertDialog.Builder(context)
-        alertDialogBuilder.setTitle(context.getString(R.string.confirmDeleteOperation))
-
-        alertDialogBuilder.setPositiveButton(context.getString(R.string.rawYes)) { _: DialogInterface, _: Int ->
-            val db = DbHandler(context)
-            db.deleteRowFromDb(artistId, artist_TABLE_NAME)
-            artistList.removeAt(pos)
-            notifyDataSetChanged()
-        }
-        alertDialogBuilder.setNegativeButton(context.getString(R.string.rawNo)) { _: DialogInterface, _: Int ->
-            // empty
-        }
-
-        val alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
     }
 }

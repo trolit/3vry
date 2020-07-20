@@ -1,6 +1,5 @@
 package com.example.a3vry
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.view.LayoutInflater
@@ -23,8 +22,15 @@ class Playlist_ListAdapter(context: Context, var resource: Int, var listOfPlayli
         textViewPlaylistName.text = playlist.playlistId
 
         view.deletePlaylistBtn.setOnClickListener {
-            removeItem(context, position, playlist.id, playlists_TABLE_NAME, listOfPlaylists)
-            notifyDataSetChanged()
+            val alertDialogBuilder = buildAlertDialog(context)
+            alertDialogBuilder.setPositiveButton(context.getString(R.string.rawYes)) { _: DialogInterface, _: Int ->
+                val db = DbHandler(context)
+                db.deleteRowFromDb(playlist.id, playlists_TABLE_NAME)
+                listOfPlaylists.removeAt(position)
+                notifyDataSetChanged()
+            }
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
         }
 
         return view
