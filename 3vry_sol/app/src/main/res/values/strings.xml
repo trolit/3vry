@@ -78,6 +78,7 @@
     <!-- Playlist activity -->
     <string name="playlist_subheader">List of custom playlists identities</string>
     <string name="addPlaylistDalogHint">Enter valid playlist Id</string>
+    <string name="addPlaylistIconDescription">Add playlist icon</string>
 
     <!-- Keywords activity -->
     <string name="keywords_subheader">List of words that will be ignored during track search</string>
@@ -85,9 +86,13 @@
     <!-- .kt files -->
     <string name="failedPrefInsertion">Preference insertion failed :(</string>
     <string name="failedSongInsertion">Song insertion failed :(</string>
-    <string name="succededSongInsertion">A new song has been added to your list</string>
     <string name="failedArtistInsertion">Error occurred, artist not added!</string>
+    <string name="failedPlaylistInsertion">Playlist insertion failed</string>
+    <string name="failedKeywordInsertion">Keyword not added :[</string>
     <string name="succededArtistInsertion">Artist added correctly!</string>
+    <string name="succededSongInsertion">A new song has been added to your list</string>
+    <string name="succededPlaylistInsertion">Playlist added correctly</string>
+    <string name="succededKeywordInsertion">Keyword added</string>
     <string name="nTracksRemoved">track(s) removed.</string>
     <string name="playlistEnabled">Playlist enabled.</string>
     <string name="playlistDisabled">Playlist disabled.</string>
@@ -99,6 +104,7 @@
     <string name="rawYes">Yes</string>
     <string name="rawNo">No</string>
     <string name="missingArtistName">Please fill in artist name.</string>
+    <string name="missingPlaylistId">Please fill in playlist Id before using insert button.</string>
     <string name="htmlOk"><![CDATA[<font color=\'#16A085\'>Ok</font>]]></string>
     <string name="appDefinition">
         <![CDATA[<font color=\'#16A085\'>What is 3vry?</font><br/><br/><small>Open source application created by <font color=\'#16A085\'>github.com/trolit</font> using Kotlin language that allows user to add favourite artists and get randomly single track offer each day from YouTube. It\'s also possible to include app author playlist(visit Settings section).<br/><br/>3vry requires Internet permission to make requests to YouTube service. App does not gather any personal data and source code is available at:<br/><br/><font color=\'#16A085\'>https://github.com/trolit/3vry</font></small>]]></string>

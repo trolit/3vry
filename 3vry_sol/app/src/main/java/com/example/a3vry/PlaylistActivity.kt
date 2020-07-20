@@ -1,12 +1,61 @@
 package com.example.a3vry
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_playlist.*
+import kotlinx.android.synthetic.main.activity_settings.backToMainMenuBtn
+import kotlinx.android.synthetic.main.add_artist_dialog.view.*
+import kotlinx.android.synthetic.main.add_playlist_dialog.view.*
 
 class PlaylistActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playlist)
+
+        backToMainMenuBtn.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        // SET ADAPTER AND ADD NEW PLAYLIST BTN
+        val db = DbHandler(this)
+        val playlists = db.getPlaylists()
+
+        val adapter = Playlist_ListAdapter(this, R.layout.playlists_list_item, playlists)
+        playlist_List.adapter = adapter
+
+        playlistDialogToggleBtn.setOnClickListener {
+            // inflate dialog with custom view
+            val mDialogView = LayoutInflater.from(this).inflate(R.layout.add_playlist_dialog, null)
+            // alert dialog builder
+            val mBuilder = AlertDialog.Builder(this)
+                .setView(mDialogView)
+                .setTitle("New playlist")
+                .setMessage("Please write in the field below ONLY playlistId, e.g. https://www.youtube.com/playlist?list=playlistId")
+            // show dialog
+            val mAlertDialog = mBuilder.show()
+            // handle bandDialogAddBtn
+            mDialogView.playlistDialogAddBtn.setOnClickListener {
+                mAlertDialog.dismiss()
+                // get data
+                val name = mDialogView.playlistDialogName.text.toString()
+                if(name.isNotEmpty()) {
+                    val playlist = Playlist(name)
+                    db.insertPlaylist(playlist)
+                    adapter.add(playlist)
+                    adapter.notifyDataSetChanged()
+                } else {
+                    Toast.makeText(this, this.getString(R.string.missingPlaylistId), Toast.LENGTH_SHORT).show()
+                }
+            }
+            // handle bandDialogCancelBtn
+            mDialogView.bandDialogCancelBtn.setOnClickListener {
+                mAlertDialog.dismiss()
+            }
+        }
     }
 }
