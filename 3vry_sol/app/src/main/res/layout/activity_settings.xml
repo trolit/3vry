@@ -58,6 +58,34 @@
                     android:textAlignment="center"
             />
 
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:weightSum="2">
+
+                <Button
+                        android:id="@+id/viewPlaylistsBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:text="@string/playlists_text"
+                        android:textColor="@color/colorWhite"
+                        android:backgroundTint="@color/colorLightGreen"
+                        android:layout_weight="1"
+                />
+
+                <Button
+                        android:id="@+id/viewKeywordsBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:text="@string/keywords_text"
+                        android:textColor="@color/colorWhite"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:layout_weight="1"
+                />
+            </LinearLayout>
+
             <TextView
                     android:id="@+id/playlistStatusTextView"
                     android:layout_width="wrap_content"

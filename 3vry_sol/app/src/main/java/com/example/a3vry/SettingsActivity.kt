@@ -24,6 +24,14 @@ class SettingsActivity : AppCompatActivity() {
 
         val db = DbHandler(this)
 
+        viewPlaylistsBtn.setOnClickListener {
+            startActivity(Intent(this, PlaylistActivity::class.java))
+        }
+
+        viewKeywordsBtn.setOnClickListener {
+            startActivity(Intent(this, KeywordsActivity::class.java))
+        }
+
         // SETUP WIPE SONGS BUTTON
         val result = db.checkIfTableContainsAtLeastOneObject("Songs")
         if(result) {
