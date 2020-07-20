@@ -33,6 +33,12 @@ const val preferences_TABLE_NAME = "Preferences"
 const val preferences_COL_PARAMETER = "parameter"
 const val preferences_COL_VALUE = "value"
 
+const val keywords_TABLE_NAME = "Keywords"
+const val keywords_COL_NAME = "name"
+
+const val playlists_TABLE_NAME = "Playlists"
+const val playlists_COL_PLAYLISTID = "playlistId"
+
 const val playlist = "playlist"
 
 class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
@@ -62,7 +68,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         db?.execSQL(createParametersTable)
 
-        val addVideoRangePref = "INSERT INTO $preferences_TABLE_NAME " +
+        val addDefaultPrefs = "INSERT INTO $preferences_TABLE_NAME " +
                 "($preferences_COL_PARAMETER, $preferences_COL_VALUE) " +
                 "VALUES " +
                 "('videoRange', '150'), " +
@@ -71,7 +77,19 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "('includeAcoustic', 'disabled'), " +
                 "('includeLive', 'disabled');"
 
-        db?.execSQL(addVideoRangePref)
+        db?.execSQL(addDefaultPrefs)
+
+        val createPlaylistsTable = "CREATE TABLE $playlists_TABLE_NAME (" +
+                "$COL_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "$playlists_COL_PLAYLISTID VARCHAR(150));"
+
+        db?.execSQL(createPlaylistsTable)
+
+        val createKeywordsTable = "CREATE TABLE $keywords_TABLE_NAME (" +
+                "$COL_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "$keywords_COL_NAME VARCHAR(70));"
+
+        db?.execSQL(createKeywordsTable)
     }
 
     // Executed when device holds older version of Database
@@ -109,6 +127,46 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
         return outcome
     }
+
+    // **************************************************************
+    // PLAYLISTS TABLE OPERATIONS
+    // **************************************************************
+
+    fun getPlaylists() : MutableList<Playlist> {
+        val list : MutableList<Playlist> = ArrayList()
+        val db = this.readableDatabase
+        val result = db.query(playlists_TABLE_NAME, null, null, null, null, null, null, null)
+
+        if(result.moveToFirst()) {
+            do {
+                var playlist = Playlist()
+                playlist.id = result.getString(0).toInt()
+                playlist.playlistId = result.getString(1).toString()
+                list.add(playlist)
+            } while (result.moveToNext())
+        }
+        result.close()
+        db.close()
+        return list
+    }
+
+    fun insertPlaylist(playlist: Playlist) {
+        val db = this.writableDatabase
+        val cv = ContentValues()
+        cv.put(playlists_COL_PLAYLISTID, playlist.playlistId)
+        val result = db.insert(playlists_TABLE_NAME, null, cv)
+        if(result == (-1).toLong()) {
+            Toast.makeText(context, context.getString(R.string.failedPlaylistInsertion), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, context.getString(R.string.succededPlaylistInsertion), Toast.LENGTH_SHORT).show()
+        }
+        db.close()
+    }
+
+    // **************************************************************
+    // KEYWORDS TABLE OPERATIONS
+    // **************************************************************
+
 
     // **************************************************************
     // ARTISTS TABLE OPERATIONS
