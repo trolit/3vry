@@ -2,7 +2,6 @@ package com.example.a3vry
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.text.Html
@@ -99,8 +98,11 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun getPrefValue(parameter: String) : String {
         val db = this.readableDatabase
-        val query = "SELECT $preferences_COL_VALUE FROM $preferences_TABLE_NAME WHERE $preferences_COL_PARAMETER='$parameter'"
-        val result = db.rawQuery(query, null)
+        val columns = arrayOf(preferences_COL_VALUE)
+        val selection = "$preferences_COL_PARAMETER=?"
+        val selectionArgs = arrayOf(parameter)
+        val limit = "1"
+        val result = db.query(preferences_TABLE_NAME, columns, selection, selectionArgs, null, null, null, limit)
         result.moveToFirst()
         val outcome = result.getString(0)
         result.close()
@@ -128,8 +130,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun getArtists() : MutableList<Artist> {
         val list : MutableList<Artist> = ArrayList()
         val db = this.readableDatabase
-        val query = "SELECT * FROM $artist_TABLE_NAME"
-        val result = db.rawQuery(query, null)
+        val result = db.query(artist_TABLE_NAME, null, null, null, null, null, null, null)
 
         if(result.moveToFirst()) {
             do {
@@ -146,8 +147,10 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun checkIfPlaylistIsEnabled() : Boolean {
         val db = this.readableDatabase
-        val query = "SELECT 1 FROM $artist_TABLE_NAME WHERE $artist_COL_NAME='$playlist' LIMIT 1;"
-        val result = db.rawQuery(query, null)
+        val selection = "$artist_COL_NAME=?"
+        val selectionArgs = arrayOf(playlist)
+        val limit = "1"
+        val result = db.query(artist_TABLE_NAME, null, selection, selectionArgs, null, null, null, limit)
         if(result.count > 0) {
             result.close()
             db.close()
@@ -207,8 +210,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun getSongs() : MutableList<Song> {
         val list : MutableList<Song> = ArrayList()
         val db = this.readableDatabase
-        val query = "SELECT * FROM $song_TABLE_NAME"
-        val result = db.rawQuery(query, null)
+        val result = db.query(song_TABLE_NAME, null, null, null, null, null, null, null)
         if(result.moveToFirst()) {
             do {
                 val song = Song()
@@ -229,25 +231,27 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val sdf = SimpleDateFormat("dd-M-yyyy")
         val currentDate = sdf.format(Date())
         val db = this.readableDatabase
-        val query = "SELECT EXISTS (SELECT * FROM $song_TABLE_NAME WHERE $song_COL_DATETIME='$currentDate' LIMIT 1);"
-        val cursor : Cursor = db.rawQuery(query, null)
-        cursor.moveToFirst()
+        val selection = "$song_COL_DATETIME=?"
+        val selectionArgs = arrayOf(currentDate)
+        val limit = "1"
+        val queryResult = db.query(song_TABLE_NAME, null, selection, selectionArgs, null, null, null, limit)
+        queryResult.moveToFirst()
         // if true, there is already song assigned to that date
-        if(cursor.getInt(0) == 1) {
+        if(queryResult.getInt(0) == 1) {
             // do nothing
         } else {
             // 1. Get artists
-            val result = getArtists()
-            if(result.count() > 0) {
+            val artists = getArtists()
+            if(artists.count() > 0) {
                 // 2. Get random artist
-                val artist = result.random()
+                val artist = artists.random()
                 // 3. Make query to youtube & insert song
                 queryForVideo(artist.name, artist.id)
             } else {
                 Toast.makeText(context, context.getString(R.string.artistsMissing), Toast.LENGTH_SHORT).show()
             }
         }
-        cursor.close()
+        queryResult.close()
         db.close()
     }
 
@@ -257,8 +261,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun checkIfTableContainsAtLeastOneObject(tableName: String) : Boolean {
         val db = this.readableDatabase
-        val query = "SELECT count(*) FROM $tableName LIMIT 1"
-        val result = db.rawQuery(query, null)
+        val columns = arrayOf("count(*)")
+        val limit = "1"
+        val result = db.query(tableName, columns, null, null, null, null, null, limit)
         result.moveToFirst()
         if(result.getInt(0) > 0) {
             result.close()
