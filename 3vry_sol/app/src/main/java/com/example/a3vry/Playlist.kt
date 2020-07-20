@@ -7,4 +7,8 @@ class Playlist {
     constructor(playlistId: String) {
         this.playlistId = playlistId
     }
+
+    constructor() {
+        
+    }
 }
