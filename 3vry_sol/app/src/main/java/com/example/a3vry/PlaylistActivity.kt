@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.HtmlCompat
 import kotlinx.android.synthetic.main.activity_playlist.*
 import kotlinx.android.synthetic.main.activity_settings.backToMainMenuBtn
 import kotlinx.android.synthetic.main.add_playlist_dialog.view.*
@@ -34,7 +35,7 @@ class PlaylistActivity : AppCompatActivity() {
             val mBuilder = AlertDialog.Builder(this)
                 .setView(mDialogView)
                 .setTitle("New playlist")
-                .setMessage("Please write in the field below ONLY playlistId, e.g. https://www.youtube.com/playlist?list=playlistId")
+                .setMessage(HtmlCompat.fromHtml("Please write in the field below ONLY playlistId, <br/> e.g. URL: <br/> https://www.youtube.com/playlist?list=<strong>playlistId</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY))
             // show dialog
             val mAlertDialog = mBuilder.show()
             // handle bandDialogAddBtn
