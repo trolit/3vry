@@ -7,4 +7,8 @@ class Keyword {
     constructor(name: String) {
         this.name = name
     }
+
+    constructor() {
+
+    }
 }
