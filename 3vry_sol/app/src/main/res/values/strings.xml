@@ -77,6 +77,7 @@
 
     <!-- Playlist activity -->
     <string name="playlist_subheader">List of custom playlists identities</string>
+    <string name="addPlaylistDalogHint">Enter valid playlist Id</string>
 
     <!-- Keywords activity -->
     <string name="keywords_subheader">List of words that will be ignored during track search</string>
