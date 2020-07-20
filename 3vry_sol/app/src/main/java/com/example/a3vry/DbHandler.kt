@@ -90,6 +90,17 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "$keywords_COL_NAME VARCHAR(70));"
 
         db?.execSQL(createKeywordsTable)
+
+        val addDefaultKeywords = "INSERT INTO $keywords_TABLE_NAME " +
+                "($keywords_COL_NAME) " +
+                "VALUES " +
+                "('acoustic'), " +
+                "('live'), " +
+                "('parody'), " +
+                "('cover'), " +
+                "('fan');"
+
+        db?.execSQL(addDefaultKeywords)
     }
 
     // Executed when device holds older version of Database
