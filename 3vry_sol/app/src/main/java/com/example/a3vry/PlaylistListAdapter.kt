@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.playlists_list_item.view.*
 
-class Playlist_ListAdapter(context: Context, var resource: Int, var listOfPlaylists: MutableList<Playlist>) :
+class PlaylistListAdapter(context: Context, var resource: Int, var listOfPlaylists: MutableList<Playlist>) :
     ArrayAdapter<Playlist>(context, resource, listOfPlaylists) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -25,6 +25,7 @@ class Playlist_ListAdapter(context: Context, var resource: Int, var listOfPlayli
         if(playlist.playlistId == appAuthorPlaylist) {
             view.deletePlaylistBtn.isVisible = false
         } else {
+            view.deletePlaylistBtn.isVisible = true
             view.deletePlaylistBtn.setOnClickListener {
                 val alertDialogBuilder = buildAlertDialog(context)
                 alertDialogBuilder.setPositiveButton(context.getString(R.string.rawYes)) { _: DialogInterface, _: Int ->

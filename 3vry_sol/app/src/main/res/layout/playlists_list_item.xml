@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Placeholder"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:layout_weight="1"
             android:maxLines="30"/>
     <ImageView

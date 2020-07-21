@@ -152,7 +152,6 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val list : MutableList<Playlist> = ArrayList()
         val db = this.readableDatabase
         val result = db.query(playlists_TABLE_NAME, null, null, null, null, null, null, null)
-
         if(result.moveToFirst()) {
             do {
                 val playlist = Playlist()

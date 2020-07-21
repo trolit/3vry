@@ -44,7 +44,7 @@ class PlaylistActivity : AppCompatActivity() {
             emptyListMessage.isVisible = true
         }
 
-        val adapter = Playlist_ListAdapter(this, R.layout.playlists_list_item, playlists)
+        val adapter = PlaylistListAdapter(this, R.layout.playlists_list_item, playlists)
         playlist_List.adapter = adapter
 
         playlistDialogToggleBtn.setOnClickListener {
