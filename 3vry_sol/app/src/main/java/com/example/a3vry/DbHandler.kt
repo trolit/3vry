@@ -530,6 +530,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val searchCall = service.playlistResults(pageToken, playlistId)
         searchCall?.enqueue(object : Callback<YoutubeGetPlaylistResponse> {
             override fun onResponse(call: Call<YoutubeGetPlaylistResponse>, response: Response<YoutubeGetPlaylistResponse>) {
+                val errorBodyAsString: String = response.errorBody()!!.string()
                 if (response.isSuccessful){
 
                     if (currentIteration != targetPage) {
@@ -549,7 +550,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 } else if (response.errorBody()!!.string().contains("exceeded")) {
                     Toast.makeText(context, context.getString(R.string.dailyQuotaLimitExceeded), Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(context, context.getString(R.string.songNotAdded), Toast.LENGTH_SHORT).show()
+                    tryToReturnApiErrorMessage(context, errorBodyAsString)
                 }
                 lookingForSongLayoutReference!!.isVisible = false
             }
@@ -565,6 +566,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val searchCall = service.results(artistName, pageToken, videoDuration)
         searchCall?.enqueue(object : Callback<YoutubeGetResponse> {
             override fun onResponse(call: Call<YoutubeGetResponse>, response: Response<YoutubeGetResponse>) {
+                val errorBodyAsString: String = response.errorBody()!!.string()
                 if (response.isSuccessful){
                     if (currentIteration != targetPage) {
                         val nextPageToken = response.body()?.nextPageToken.toString()
@@ -584,7 +586,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 } else if (response.errorBody()!!.string().contains("exceeded")) {
                     Toast.makeText(context, context.getString(R.string.dailyQuotaLimitExceeded), Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(context, context.getString(R.string.songNotAdded), Toast.LENGTH_SHORT).show()
+                    tryToReturnApiErrorMessage(context, errorBodyAsString)
                 }
                 lookingForSongLayoutReference!!.isVisible = false
             }
