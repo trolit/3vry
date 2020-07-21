@@ -62,8 +62,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="40dp"
-                    android:weightSum="2">
+                    android:gravity="center">
 
                 <Button
                         android:id="@+id/viewPlaylistsBtn"
@@ -72,7 +71,6 @@
                         android:text="@string/playlists_text"
                         android:textColor="@color/colorWhite"
                         android:backgroundTint="@color/colorLightGreen"
-                        android:layout_weight="1"
                 />
 
                 <Button
@@ -82,7 +80,6 @@
                         android:text="@string/keywords_text"
                         android:textColor="@color/colorWhite"
                         android:backgroundTint="@color/colorPrimary"
-                        android:layout_weight="1"
                 />
             </LinearLayout>
 
@@ -91,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:layout_marginTop="4sp"
+                    android:layout_marginTop="15sp"
                     android:layout_marginStart="20sp"
                     android:layout_marginEnd="12sp"
             />
