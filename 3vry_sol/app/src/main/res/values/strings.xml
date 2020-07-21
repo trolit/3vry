@@ -77,6 +77,7 @@
     <string name="failedSongInsertion">Song insertion failed :(</string>
     <string name="failedArtistInsertion">Error occurred, artist not added!</string>
     <string name="failedPlaylistInsertion">Playlist insertion failed</string>
+    <string name="failedPlaylistInsertionDuplicate">This playlist already exists</string>
     <string name="failedKeywordInsertion">Keyword not added :[</string>
     <string name="succededArtistInsertion">Artist added correctly!</string>
     <string name="succededSongInsertion">A new song has been added to your list</string>

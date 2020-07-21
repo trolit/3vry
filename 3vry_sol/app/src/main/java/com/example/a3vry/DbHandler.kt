@@ -167,16 +167,37 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     fun insertPlaylist(playlist: Playlist) {
-        val db = this.writableDatabase
-        val cv = ContentValues()
-        cv.put(playlists_COL_PLAYLISTID, playlist.playlistId)
-        val result = db.insert(playlists_TABLE_NAME, null, cv)
-        if(result == (-1).toLong()) {
-            Toast.makeText(context, context.getString(R.string.failedPlaylistInsertion), Toast.LENGTH_SHORT).show()
+        if(checkIfPlaylistAlreadyExists(playlist.playlistId)) {
+            Toast.makeText(context, context.getString(R.string.failedPlaylistInsertionDuplicate), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, context.getString(R.string.succededPlaylistInsertion), Toast.LENGTH_SHORT).show()
+            val db = this.writableDatabase
+            val cv = ContentValues()
+            cv.put(playlists_COL_PLAYLISTID, playlist.playlistId)
+            val result = db.insert(playlists_TABLE_NAME, null, cv)
+            if (result == (-1).toLong()) {
+                Toast.makeText(context, context.getString(R.string.failedPlaylistInsertion), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, context.getString(R.string.succededPlaylistInsertion), Toast.LENGTH_SHORT)
+                    .show()
+            }
+            db.close()
         }
+    }
+
+    private fun checkIfPlaylistAlreadyExists(playlistId: String) : Boolean {
+        val db = this.readableDatabase
+        val columns = arrayOf("1")
+        val selection = "$playlists_COL_PLAYLISTID=?"
+        val selectionArgs = arrayOf(playlistId)
+        val limit = "1"
+        val queryResult = db.query(playlists_TABLE_NAME, columns, selection, selectionArgs, null, null, null, limit)
+        val resultValue = queryResult.count
+        queryResult.close()
         db.close()
+        if(resultValue == 1) {
+            return true
+        }
+        return false
     }
 
     fun addAuthorPlaylist() {
