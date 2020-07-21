@@ -56,6 +56,21 @@ Targetted Android OS: <strong>10.0 (Android Q)</strong>
 - Add section where users can add their own playlists to the searching pool
 - Fix weird behaviour when turning on fullscreen from YouTubePlayerView 
 
+<h2>Changelog</h2>
+
+<h4>22.07.2020 (v1.1)</h4>
+
+- removed include live/cover/acoustic from Settings and added Keyword section instead
+- added Playlist section that can hold user defined playlists
+- added try..catch block for getting error on nonclarified API response fails
+- added to main menu note that indicates process of searching video
+- added repeating artist/playlist/keyword validation on insert
+- changed the way how video is randomized from artists and/or playlists
+- changed rawQueries into queries
+- moved app author playlist from Artist section to Playlist
+- adjusted playlistResults action to be used by all defined playlist Id's
+- restricted wipe songs button(visible when 3vry has at least 2 tracks)
+
 <h2>Running project</h2>
 
 <p align="justify">If you would like to run the app in the debug mode by yourself, open the project and add your own YouTube API key in the SongsActivity(line 56). Simply run the app on AVD that matches required version described above.</p>
