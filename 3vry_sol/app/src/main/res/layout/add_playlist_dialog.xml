@@ -15,7 +15,7 @@
                 android:padding="3dp"
                 android:src="@drawable/ic_compact_disc"
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="80dp"
                 android:tint="@color/colorPrimary"
                 android:layout_gravity="center"
                 android:contentDescription="@string/addArtistIconDescription"/>
@@ -29,6 +29,29 @@
                 android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+            <Button
+                    android:id="@+id/validatePlaylistIdDialogBtn"
+                    android:backgroundTint="@color/darkGreen"
+                    android:textColor="@color/colorWhite"
+                    android:text="@string/validateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/validationResultDialogTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="checking.."
+                    android:layout_marginStart="15sp"
+                    android:visibility="gone"
+            />
+        </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"

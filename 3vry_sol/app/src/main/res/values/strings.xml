@@ -64,6 +64,9 @@
     <string name="addPlaylistHint"><![CDATA[<small>Please write in the field below ONLY playlistId, e.g. URL: <br/> www.youtube.com/playlist?list=<strong>playlistId</strong></small>]]></string>
     <string name="playlistSectionEmpty">\n List is currently empty.. \n Add first playlist by using + button
     </string>
+    <string name="validPlaylistId"><![CDATA[PlaylistId is <font color=\'#00B300\'>OK</font>]]></string>
+    <string name="invalidPlaylistId"><![CDATA[PlaylistId <font color=\'#B30000\'>invalid</font>]]></string>
+    <string name="validateBtn">Validate ID</string>
 
     <!-- Keywords activity -->
     <string name="keywords_subheader">List of words that will be ignored during track search</string>

@@ -3,6 +3,7 @@ package com.example.a3vry
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,11 @@ import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_playlist.*
 import kotlinx.android.synthetic.main.activity_settings.backToMainMenuBtn
 import kotlinx.android.synthetic.main.add_playlist_dialog.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 class PlaylistActivity : AppCompatActivity() {
 
@@ -41,6 +47,9 @@ class PlaylistActivity : AppCompatActivity() {
                 .setView(mDialogView)
                 .setTitle("New playlist")
                 .setMessage(HtmlCompat.fromHtml(this.getString(R.string.addPlaylistHint), HtmlCompat.FROM_HTML_MODE_LEGACY))
+
+            mDialogView.validationResultDialogTextView.isVisible = false
+
             // show dialog
             val mAlertDialog = mBuilder.show()
             // handle bandDialogAddBtn
@@ -60,10 +69,44 @@ class PlaylistActivity : AppCompatActivity() {
                     Toast.makeText(this, this.getString(R.string.missingPlaylistId), Toast.LENGTH_SHORT).show()
                 }
             }
+            mDialogView.validatePlaylistIdDialogBtn.setOnClickListener {
+                val playlistId = mDialogView.playlistDialogName.text.toString()
+                if(playlistId.isNotEmpty()) {
+                    mDialogView.validationResultDialogTextView.text ="checking.."
+                    isPlaylistIdValid(playlistId, mDialogView.validationResultDialogTextView)
+                }
+            }
+
             // handle bandDialogCancelBtn
             mDialogView.playlistDialogCancelBtn.setOnClickListener {
                 mAlertDialog.dismiss()
             }
         }
+    }
+
+    private fun isPlaylistIdValid(playlistId: String, viewValidationResultTextEdit: TextView) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(YouTubeApiService.YOUTUBE_SEARCH_BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(YouTubeApiService::class.java)
+
+        val searchCall = service.validatePlaylist(playlistId)
+        searchCall?.enqueue(object : Callback<YoutubeGetPlaylistResponse> {
+            override fun onResponse(call: Call<YoutubeGetPlaylistResponse>, response: Response<YoutubeGetPlaylistResponse>) {
+                viewValidationResultTextEdit.isVisible = true
+                if (response.isSuccessful){
+                    viewValidationResultTextEdit.text =
+                        HtmlCompat.fromHtml(getString(R.string.validPlaylistId), HtmlCompat.FROM_HTML_MODE_LEGACY)
+                } else if (response.errorBody()!!.string().contains("parameter cannot be found")) {
+                    viewValidationResultTextEdit.text =
+                        HtmlCompat.fromHtml(getString(R.string.invalidPlaylistId), HtmlCompat.FROM_HTML_MODE_LEGACY)
+                }
+            }
+            override fun onFailure(call: Call<YoutubeGetPlaylistResponse>, t: Throwable) {
+                t.printStackTrace()
+            }
+        })
     }
 }
