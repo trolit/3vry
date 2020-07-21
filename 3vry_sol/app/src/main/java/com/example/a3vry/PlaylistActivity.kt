@@ -28,6 +28,14 @@ class PlaylistActivity : AppCompatActivity() {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
 
+        // Build Retrofit2 service
+        val retrofit = Retrofit.Builder()
+            .baseUrl(YouTubeApiService.YOUTUBE_SEARCH_BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(YouTubeApiService::class.java)
+
         // SET ADAPTER AND ADD NEW PLAYLIST BTN
         val db = DbHandler(this)
         val playlists = db.getPlaylists()
@@ -73,7 +81,7 @@ class PlaylistActivity : AppCompatActivity() {
                 val playlistId = mDialogView.playlistDialogName.text.toString()
                 if(playlistId.isNotEmpty()) {
                     mDialogView.validationResultDialogTextView.text ="checking.."
-                    isPlaylistIdValid(playlistId, mDialogView.validationResultDialogTextView)
+                    isPlaylistIdValid(service, playlistId, mDialogView.validationResultDialogTextView)
                 }
             }
 
@@ -84,14 +92,7 @@ class PlaylistActivity : AppCompatActivity() {
         }
     }
 
-    private fun isPlaylistIdValid(playlistId: String, viewValidationResultTextEdit: TextView) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(YouTubeApiService.YOUTUBE_SEARCH_BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(YouTubeApiService::class.java)
-
+    private fun isPlaylistIdValid(service: YouTubeApiService, playlistId: String, viewValidationResultTextEdit: TextView) {
         val searchCall = service.validatePlaylist(playlistId)
         searchCall?.enqueue(object : Callback<YoutubeGetPlaylistResponse> {
             override fun onResponse(call: Call<YoutubeGetPlaylistResponse>, response: Response<YoutubeGetPlaylistResponse>) {
