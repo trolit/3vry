@@ -77,11 +77,13 @@ class MainActivity : AppCompatActivity() {
 
 
         val isSongsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Songs")
-        if(!isArtistsTableNotEmpty && !isSongsTableNotEmpty) {
+        val isPlaylistsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Playlists")
+
+        if(!isArtistsTableNotEmpty && !isSongsTableNotEmpty && !isPlaylistsTableNotEmpty) {
             // override viewArtistsBtn functionality
             viewSongsBtn.setOnClickListener {
                 val builder = AlertDialog.Builder(this)
-                builder.setMessage(HtmlCompat.fromHtml(this.getString(R.string.noArtistsAndSongsMessage), HtmlCompat.FROM_HTML_MODE_LEGACY))
+                builder.setMessage(HtmlCompat.fromHtml(this.getString(R.string.noArtistsAndPlaylistsFirstTrackMessage), HtmlCompat.FROM_HTML_MODE_LEGACY))
                     .setPositiveButton(HtmlCompat.fromHtml(this.getString(R.string.htmlOk), HtmlCompat.FROM_HTML_MODE_LEGACY)
                     ) { _, _ ->
                         // dismiss
@@ -93,10 +95,10 @@ class MainActivity : AppCompatActivity() {
                 builder.create()
                 builder.show()
             }
-        } else if(!isArtistsTableNotEmpty && isSongsTableNotEmpty) {
+        } else if(!isArtistsTableNotEmpty && !isPlaylistsTableNotEmpty && isSongsTableNotEmpty) {
             viewSongsBtn.setOnClickListener {
                 val builder = AlertDialog.Builder(this)
-                builder.setMessage(HtmlCompat.fromHtml(this.getString(R.string.noArtistsMessage), HtmlCompat.FROM_HTML_MODE_LEGACY))
+                builder.setMessage(HtmlCompat.fromHtml(this.getString(R.string.noArtistsAndPlaylistsMessage), HtmlCompat.FROM_HTML_MODE_LEGACY))
                     .setPositiveButton(HtmlCompat.fromHtml(this.getString(R.string.htmlOk), HtmlCompat.FROM_HTML_MODE_LEGACY)
                     ) { _, _ ->
                         intentSongsActivity()
