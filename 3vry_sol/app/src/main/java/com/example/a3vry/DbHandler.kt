@@ -166,7 +166,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     fun insertPlaylist(playlist: Playlist) {
-        if(checkIfPlaylistAlreadyExists(playlist.playlistId)) {
+        if(checkIfElementAlreadyExists(playlists_TABLE_NAME, playlists_COL_PLAYLISTID, playlist.playlistId)) {
             Toast.makeText(context, context.getString(R.string.failedPlaylistInsertionDuplicate), Toast.LENGTH_SHORT).show()
         } else {
             val db = this.writableDatabase
@@ -181,22 +181,6 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             }
             db.close()
         }
-    }
-
-    private fun checkIfPlaylistAlreadyExists(playlistId: String) : Boolean {
-        val db = this.readableDatabase
-        val columns = arrayOf("1")
-        val selection = "$playlists_COL_PLAYLISTID=?"
-        val selectionArgs = arrayOf(playlistId)
-        val limit = "1"
-        val queryResult = db.query(playlists_TABLE_NAME, columns, selection, selectionArgs, null, null, null, limit)
-        val resultValue = queryResult.count
-        queryResult.close()
-        db.close()
-        if(resultValue == 1) {
-            return true
-        }
-        return false
     }
 
     fun addAuthorPlaylist() {
@@ -254,16 +238,20 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     fun insertKeyword(keyword: Keyword) {
-        val db = this.writableDatabase
-        val cv = ContentValues()
-        cv.put(keywords_COL_NAME, keyword.name)
-        val result = db.insert(keywords_TABLE_NAME, null, cv)
-        if(result == (-1).toLong()) {
-            Toast.makeText(context, context.getString(R.string.failedKeywordInsertion), Toast.LENGTH_SHORT).show()
+        if(checkIfElementAlreadyExists(keywords_TABLE_NAME, keywords_COL_NAME, keyword.name)) {
+            Toast.makeText(context, context.getString(R.string.failedKeywordInsertionDuplicate), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, context.getString(R.string.succededKeywordInsertion), Toast.LENGTH_SHORT).show()
+            val db = this.writableDatabase
+            val cv = ContentValues()
+            cv.put(keywords_COL_NAME, keyword.name)
+            val result = db.insert(keywords_TABLE_NAME, null, cv)
+            if(result == (-1).toLong()) {
+                Toast.makeText(context, context.getString(R.string.failedKeywordInsertion), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, context.getString(R.string.succededKeywordInsertion), Toast.LENGTH_SHORT).show()
+            }
+            db.close()
         }
-        db.close()
     }
 
     // **************************************************************
@@ -271,16 +259,20 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     // **************************************************************
 
     fun insertBand(artist: Artist) {
-        val db = this.writableDatabase
-        val cv = ContentValues()
-        cv.put(artist_COL_NAME, artist.name)
-        val result = db.insert(artist_TABLE_NAME, null, cv)
-        if(result == (-1).toLong()) {
-            Toast.makeText(context, context.getString(R.string.failedArtistInsertion), Toast.LENGTH_SHORT).show()
+        if(checkIfElementAlreadyExists(artist_TABLE_NAME, artist_COL_NAME, artist.name)) {
+            Toast.makeText(context, context.getString(R.string.failedArtistInsertionDuplicate), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, context.getString(R.string.succededArtistInsertion), Toast.LENGTH_SHORT).show()
+            val db = this.writableDatabase
+            val cv = ContentValues()
+            cv.put(artist_COL_NAME, artist.name)
+            val result = db.insert(artist_TABLE_NAME, null, cv)
+            if(result == (-1).toLong()) {
+                Toast.makeText(context, context.getString(R.string.failedArtistInsertion), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, context.getString(R.string.succededArtistInsertion), Toast.LENGTH_SHORT).show()
+            }
+            db.close()
         }
-        db.close()
     }
 
     fun getArtists() : MutableList<Artist> {
@@ -412,6 +404,22 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     // **************************************************************
     // GENERAL OPERATIONS
     // **************************************************************
+
+    private fun checkIfElementAlreadyExists(tableName: String, columnName: String, identifier: String) : Boolean {
+        val db = this.readableDatabase
+        val columns = arrayOf("1")
+        val selection = "$columnName=?"
+        val selectionArgs = arrayOf(identifier)
+        val limit = "1"
+        val queryResult = db.query(tableName, columns, selection, selectionArgs, null, null, null, limit)
+        val resultValue = queryResult.count
+        queryResult.close()
+        db.close()
+        if(resultValue == 1) {
+            return true
+        }
+        return false
+    }
 
     private fun getObjectByRowNumber(rowNumber: Int, tableName: String): Cursor {
         val db = this.readableDatabase
