@@ -55,7 +55,9 @@ Targetted Android OS: <strong>10.0 (Android Q)</strong>
 - Change rawQueries into queries(according to stackoverflow, rawQueries are more vulnerable to SQL Injection, however app Db is not that interesting..)
 - Remove from Settings: include cover, acoustic, live and add instead section where user can define custom list of banned words
 - Add section where users can add their own playlists to the searching pool
-- Fix weird behaviour when turning on fullscreen from YouTubePlayerView 
+- Fix weird behaviour when turning on fullscreen from YouTubePlayerView
+- Add indicator that demonstrates song searching
+- Limit song data wipe(at least 2 tracks)
 
 <h2>Changelog</h2>
 
