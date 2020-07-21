@@ -165,7 +165,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return list
     }
 
-    fun insertPlaylist(playlist: Playlist) {
+    fun insertPlaylist(playlist: Playlist, playlistListAdapter: PlaylistListAdapter) {
         if(checkIfElementAlreadyExists(playlists_TABLE_NAME, playlists_COL_PLAYLISTID, playlist.playlistId)) {
             Toast.makeText(context, context.getString(R.string.failedPlaylistInsertionDuplicate), Toast.LENGTH_SHORT).show()
         } else {
@@ -176,6 +176,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             if (result == (-1).toLong()) {
                 Toast.makeText(context, context.getString(R.string.failedPlaylistInsertion), Toast.LENGTH_SHORT).show()
             } else {
+                playlist.id = result.toInt()
+                playlistListAdapter.add(playlist)
+                playlistListAdapter.notifyDataSetChanged()
                 Toast.makeText(context, context.getString(R.string.succededPlaylistInsertion), Toast.LENGTH_SHORT)
                     .show()
             }
@@ -184,8 +187,18 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     fun addAuthorPlaylist() {
-        insertPlaylist(Playlist(appAuthorPlaylist))
-        Toast.makeText(context, context.getString(R.string.playlistEnabled), Toast.LENGTH_SHORT).show()
+        if(checkIfElementAlreadyExists(playlists_TABLE_NAME, playlists_COL_PLAYLISTID, appAuthorPlaylist)) {
+            Toast.makeText(context, context.getString(R.string.failedPlaylistInsertionDuplicate), Toast.LENGTH_SHORT).show()
+        } else {
+            val db = this.writableDatabase
+            val cv = ContentValues()
+            cv.put(playlists_COL_PLAYLISTID, appAuthorPlaylist)
+            val result = db.insert(playlists_TABLE_NAME, null, cv)
+            if (result != (-1).toLong()) {
+                Toast.makeText(context, context.getString(R.string.playlistEnabled), Toast.LENGTH_SHORT).show()
+            }
+            db.close()
+        }
     }
 
     fun removeAuthorPlaylist() {
@@ -237,7 +250,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return list
     }
 
-    fun insertKeyword(keyword: Keyword) {
+    fun insertKeyword(keyword: Keyword, keywordListAdapter: KeywordListAdapter) {
         if(checkIfElementAlreadyExists(keywords_TABLE_NAME, keywords_COL_NAME, keyword.name)) {
             Toast.makeText(context, context.getString(R.string.failedKeywordInsertionDuplicate), Toast.LENGTH_SHORT).show()
         } else {
@@ -248,6 +261,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             if(result == (-1).toLong()) {
                 Toast.makeText(context, context.getString(R.string.failedKeywordInsertion), Toast.LENGTH_SHORT).show()
             } else {
+                keyword.id = result.toInt()
+                keywordListAdapter.add(keyword)
+                keywordListAdapter.notifyDataSetChanged()
                 Toast.makeText(context, context.getString(R.string.succededKeywordInsertion), Toast.LENGTH_SHORT).show()
             }
             db.close()
@@ -258,7 +274,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     // ARTISTS TABLE OPERATIONS
     // **************************************************************
 
-    fun insertBand(artist: Artist) {
+    fun insertBand(artist: Artist, artistListAdapter: ArtistListAdapter) {
         if(checkIfElementAlreadyExists(artist_TABLE_NAME, artist_COL_NAME, artist.name)) {
             Toast.makeText(context, context.getString(R.string.failedArtistInsertionDuplicate), Toast.LENGTH_SHORT).show()
         } else {
@@ -269,6 +285,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             if(result == (-1).toLong()) {
                 Toast.makeText(context, context.getString(R.string.failedArtistInsertion), Toast.LENGTH_SHORT).show()
             } else {
+                artist.id = result.toInt()
+                artistListAdapter.add(artist)
+                artistListAdapter.notifyDataSetChanged()
                 Toast.makeText(context, context.getString(R.string.succededArtistInsertion), Toast.LENGTH_SHORT).show()
             }
             db.close()

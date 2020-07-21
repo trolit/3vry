@@ -67,9 +67,7 @@ class PlaylistActivity : AppCompatActivity() {
                 val name = mDialogView.playlistDialogName.text.toString()
                 if(name.isNotEmpty()) {
                     val playlist = Playlist(name)
-                    db.insertPlaylist(playlist)
-                    adapter.add(playlist)
-                    adapter.notifyDataSetChanged()
+                    db.insertPlaylist(playlist, adapter)
                     if(emptyListMessage.isVisible) {
                         emptyListMessage.isVisible = false
                     }

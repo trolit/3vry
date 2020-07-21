@@ -49,9 +49,7 @@ class KeywordsActivity : AppCompatActivity() {
                 val name = mDialogView.keywordDialogName.text.toString()
                 if(name.isNotEmpty()) {
                     val keyword = Keyword(name)
-                    db.insertKeyword(keyword)
-                    adapter.add(keyword)
-                    adapter.notifyDataSetChanged()
+                    db.insertKeyword(keyword, adapter)
                     if(emptyListMessage.isVisible) {
                         emptyListMessage.isVisible = false
                     }

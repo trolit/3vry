@@ -47,9 +47,7 @@ class ArtistsActivity : AppCompatActivity() {
                 val name = mDialogView.bandDialogName.text.toString()
                 if(name.isNotEmpty()) {
                     val artist = Artist(name)
-                    db.insertBand(artist)
-                    adapter.add(artist)
-                    adapter.notifyDataSetChanged()
+                    db.insertBand(artist, adapter)
                     emptyArtistsListTextView.isVisible = false
                 } else {
                     Toast.makeText(this, this.getString(R.string.missingArtistName), Toast.LENGTH_SHORT).show()
