@@ -22,7 +22,7 @@
 
         <EditText
                 android:id="@+id/playlistDialogName"
-                android:hint="@string/addPlaylistDalogHint"
+                android:hint="@string/addPlaylistInputPlaceholder"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="15dp"
                 android:maxLength="150"

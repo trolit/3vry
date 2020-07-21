@@ -35,7 +35,7 @@ class PlaylistActivity : AppCompatActivity() {
             val mBuilder = AlertDialog.Builder(this)
                 .setView(mDialogView)
                 .setTitle("New playlist")
-                .setMessage(HtmlCompat.fromHtml("Please write in the field below ONLY playlistId, <br/> e.g. URL: <br/> https://www.youtube.com/playlist?list=<strong>playlistId</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY))
+                .setMessage(HtmlCompat.fromHtml(this.getString(R.string.addPlaylistHint), HtmlCompat.FROM_HTML_MODE_LEGACY))
             // show dialog
             val mAlertDialog = mBuilder.show()
             // handle bandDialogAddBtn

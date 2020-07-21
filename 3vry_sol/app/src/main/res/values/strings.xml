@@ -59,8 +59,9 @@
 
     <!-- Playlist activity -->
     <string name="playlist_subheader">List of custom playlists identities</string>
-    <string name="addPlaylistDalogHint">Enter valid playlist Id</string>
+    <string name="addPlaylistInputPlaceholder">Enter valid playlist Id</string>
     <string name="addPlaylistIconDescription">Add playlist icon</string>
+    <string name="addPlaylistHint"><![CDATA[<small>Please write in the field below ONLY playlistId, e.g. URL: <br/> www.youtube.com/playlist?list=<strong>playlistId</strong></small>]]></string>
 
     <!-- Keywords activity -->
     <string name="keywords_subheader">List of words that will be ignored during track search</string>
