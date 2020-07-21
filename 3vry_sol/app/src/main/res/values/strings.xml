@@ -55,25 +55,7 @@
         option applies only to the tracks found from specific artist.
     </string>
     <string name="videoDurationBtn">Change duration</string>
-    <string name="acousticHeader">Include acoustic songs:</string>
-    <string name="acousticDescription">Enable this option to include in YouTube searching pool songs with phrase
-        \'acoustic\' in the title. This feature does not apply to app author playlist.
-    </string>
-    <string name="acousticEnabled">Acoustic titles enabled.</string>
-    <string name="acousticDisabled">Acoustic titles disabled.</string>
-    <string name="coverHeader">Include cover songs:</string>
-    <string name="coverDescription">Toggle this option to include in the searching pool songs with phrase \'cover\' in
-        the title. This feature does not apply to app author playlist.
-    </string>
-    <string name="coverEnabled">Covers enabled.</string>
-    <string name="coverDisabled">Covers disabled.</string>
     <string name="adjustSettingsNote">Use icons and/or buttons to adjust settings</string>
-    <string name="liveHeader">Include live songs:</string>
-    <string name="liveDescription">When enabled, videos with phrase \'live\' won\'t be ignored while searching new song.
-        This feature does not apply to app author playlist.
-    </string>
-    <string name="liveEnabled">Lives enabled.</string>
-    <string name="liveDisabled">Lives disabled.</string>
 
     <!-- Playlist activity -->
     <string name="playlist_subheader">List of custom playlists identities</string>
