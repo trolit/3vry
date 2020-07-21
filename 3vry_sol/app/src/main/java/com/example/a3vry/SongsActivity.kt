@@ -19,8 +19,7 @@ class SongsActivity : YouTubeBaseActivity() {
         setContentView(R.layout.activity_songs)
 
         backToMainMenuBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -44,9 +43,14 @@ interface YouTubeApiService {
     // Get results by query
     @GET("search?key=$YOUTUBE_KEY_API&fields=nextPageToken,items(id(videoId),snippet(title))&part=snippet&type=video&videoSyndicated=true&videoEmbeddable=true&maxResults=50&topicId=/m/04rlf&videoCategoryId=10&order=viewCount")
     fun results(@Query("q") q: String?, @Query("pageToken") pageToken: String?, @Query("videoDuration") videoDuration: String?): Call<YoutubeGetResponse>?
+
     // Get results from app author playlist
-    @GET("playlistItems?key=$YOUTUBE_KEY_API&fields=nextPageToken,items(snippet(title, resourceId(videoId)))&part=snippet&type=video&videoSyndicated=true&videoEmbeddable=true&maxResults=50&playlistId=PLCrKXyV2OjXi2VF42Dimxvv9fnOH3JEl6")
-    fun playlistResults(@Query("pageToken") pageToken: String?): Call<YoutubeGetPlaylistResponse>?
+    @GET("playlistItems?key=$YOUTUBE_KEY_API&fields=nextPageToken,items(snippet(title, resourceId(videoId)))&part=snippet&type=video&videoSyndicated=true&videoEmbeddable=true&maxResults=50")
+    fun playlistResults(@Query("pageToken") pageToken: String?, @Query("playlistId") playlistId: String?): Call<YoutubeGetPlaylistResponse>?
+
+    // Validate playlist (3 quota cost per request)
+    @GET("playlistItems?key=$YOUTUBE_KEY_API&fields=items(snippet(title))&part=snippet&type=video&videoSyndicated=true&videoEmbeddable=true&maxResults=1")
+    fun validatePlaylist(@Query("playlistId") playlistId: String?): Call<YoutubeGetPlaylistResponse>?
 
     // ********************************************************************
     // BEFORE RUNNING 3VRY, MAKE SURE TO FILL IN YOUTUBE_KEY_API BELOW !! *

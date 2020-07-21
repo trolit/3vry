@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".PlaylistActivity">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/playlistDialogToggleBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                app:fabCustomSize="32dp"
+                android:scaleType="center"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/colorPrimary"
+                app:backgroundTint="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_plus"
+                app:borderWidth="2dp"
+        />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/backToMainMenuBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabCustomSize="32dp"
+                android:layout_gravity="top|start"
+                android:scaleType="center"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/colorLightCyan"
+                app:backgroundTint="@color/colorLightCyan"
+                app:srcCompat="@drawable/ic_arrow_left"
+                app:borderWidth="2dp"
+        />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:tint="@color/colorPrimary"
+                    android:src="@drawable/ic_compact_disc"
+                    android:contentDescription="@string/settingsIconDescription"
+            />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/playlists_text"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="5sp"
+                    android:textAlignment="center"
+            />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/playlist_subheader"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="20sp"
+                    android:textAlignment="center"
+            />
+
+            <TextView
+                    android:id="@+id/emptyListMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/playlistSectionEmpty"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="20sp"
+                    android:textAlignment="center"
+                    android:visibility="gone"
+            />
+
+            <ListView
+                    tools:listitem="@layout/playlists_list_item"
+                    android:id="@+id/playlist_List"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawSelectorOnTop="false"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="0dp"
+                    android:divider="@null"
+                    android:layout_marginEnd="15dp"
+            />
+        </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

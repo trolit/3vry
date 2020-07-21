@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp">
+
+    <TextView
+            android:id="@+id/textViewPlaylistName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Placeholder"
+            android:textSize="11sp"
+            android:layout_weight="1"
+            android:maxLines="30"/>
+    <ImageView
+            android:id="@+id/deletePlaylistBtn"
+            android:padding="3dp"
+            android:src="@drawable/ic_times"
+            android:background="@drawable/rounded_corners"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:tint="@color/colorWhite"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="6dp"/>
+</LinearLayout>

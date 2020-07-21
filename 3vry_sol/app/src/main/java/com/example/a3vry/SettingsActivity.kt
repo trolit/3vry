@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
@@ -24,8 +23,16 @@ class SettingsActivity : AppCompatActivity() {
 
         val db = DbHandler(this)
 
+        viewPlaylistsBtn.setOnClickListener {
+            startActivity(Intent(this, PlaylistActivity::class.java))
+        }
+
+        viewKeywordsBtn.setOnClickListener {
+            startActivity(Intent(this, KeywordsActivity::class.java))
+        }
+
         // SETUP WIPE SONGS BUTTON
-        val result = db.checkIfTableContainsAtLeastOneObject("Songs")
+        val result = db.checkIfTableContainsTwoSongs()
         if(result) {
             wipeSongsBtn.setOnClickListener {
                 val builder = AlertDialog.Builder(this)
@@ -55,30 +62,15 @@ class SettingsActivity : AppCompatActivity() {
             setStatusOnTextView(playlistStatusTextView, disabled, redColor)
         }
         disablePlaylistBtn.setOnClickListener {
-            db.removePlaylistAsArtist()
+            db.removeAuthorPlaylist()
             swapButtons(enablePlaylistBtn, disablePlaylistBtn)
             setStatusOnTextView(playlistStatusTextView, disabled, redColor)
         }
         enablePlaylistBtn.setOnClickListener {
-            db.addPlaylistAsArtist()
+            db.addAuthorPlaylist()
             swapButtons(enablePlaylistBtn, disablePlaylistBtn)
             setStatusOnTextView(playlistStatusTextView, enabled, greenColor)
         }
-
-        // SETUP ACOUSTIC SETTING
-        setupPrefSetting(db, enableAcousticBtn, disableAcousticBtn, includeAcoustic, this.getString(R.string.acousticEnabled),
-            this.getString(R.string.acousticDisabled), acousticStatusTextView
-        )
-
-        // SETUP COVER SETTING
-        setupPrefSetting(db, enableCoversBtn, disableCoversBtn, includeCovers, this.getString(R.string.coverEnabled),
-            this.getString(R.string.coverDisabled), coverStatusTextView
-        )
-
-        // SETUP LIVE SETTING
-        setupPrefSetting(db, enableLiveBtn, disableLiveBtn, includeLive, this.getString(R.string.liveEnabled),
-            this.getString(R.string.liveDisabled), liveStatusTextView
-        )
 
         // SETUP VIDEO RANGE AND VIDEO DURATION DISPLAY DATA
         val currentVr = db.getPrefValue(videoRange)
@@ -137,36 +129,6 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupPrefSetting(
-        db: DbHandler, enableBtn: ImageView, disableBtn: ImageView,
-        prefKey: String, enableMsg: String, disableMsg: String,
-        headerTextView: TextView
-    ) {
-        val currentPrefSetting = db.getPrefValue(prefKey)
-        // Setup UI
-        if(currentPrefSetting == "disabled") {
-            enableBtn.isVisible = true
-            setStatusOnTextView(headerTextView, disabled, redColor)
-        } else if(currentPrefSetting == "enabled") {
-            disableBtn.isVisible = true
-            setStatusOnTextView(headerTextView, enabled, greenColor)
-        }
-
-        // Setup Buttons
-        enableBtn.setOnClickListener {
-            db.updatePreference(Preference(prefKey, "enabled"))
-            setStatusOnTextView(headerTextView, enabled, greenColor)
-            swapButtons(enableBtn, disableBtn)
-            Toast.makeText(this, enableMsg, Toast.LENGTH_SHORT).show()
-        }
-        disableBtn.setOnClickListener {
-            db.updatePreference(Preference(prefKey, "disabled"))
-            setStatusOnTextView(headerTextView, disabled, redColor)
-            swapButtons(enableBtn, disableBtn)
-            Toast.makeText(this, disableMsg, Toast.LENGTH_SHORT).show()
-        }
-    }
-
     private fun setCurrentValueOnTextView(textView: TextView, text: String, value: String) {
         textView.text = HtmlCompat.fromHtml("$text <strong>$value</strong>", HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
@@ -185,9 +147,6 @@ class SettingsActivity : AppCompatActivity() {
         const val videoDuration = "videoDuration"
         const val enabled = "ENABLED"
         const val disabled = "DISABLED"
-        const val includeCovers = "includeCovers"
-        const val includeAcoustic = "includeAcoustic"
-        const val includeLive = "includeLive"
         const val greenColor = "#16A085"
         const val redColor = "#9F001C"
     }

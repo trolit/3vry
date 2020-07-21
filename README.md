@@ -37,6 +37,7 @@
 - <a href="https://github.com/sqlite/sqlite">SQLite</a>
 - <a href="https://fontawesome.com/">Font Awesome icons</a>
 - <a href="https://developers.google.com/youtube/android/player/downloads">YouTube Android Player API</a>
+- <a href="https://github.com/koral--/android-gif-drawable">android-gif-drawable</a>
 
 <h2>Download & info</h2>
 
@@ -57,6 +58,21 @@ Targetted Android OS: <strong>10.0 (Android Q)</strong>
 - Fix weird behaviour when turning on fullscreen from YouTubePlayerView
 - Add indicator that demonstrates song searching
 - Limit song data wipe(at least 2 tracks)
+
+<h2>Changelog</h2>
+
+<h4>22.07.2020 (v1.1)</h4>
+
+- removed include live/cover/acoustic from Settings and added Keyword section instead
+- added Playlist section that can hold user defined playlists
+- added try..catch block for getting error on nonclarified API response fails
+- added to main menu note that indicates process of searching video
+- added repeating artist/playlist/keyword validation on insert
+- changed the way how video is randomized from artists and/or playlists
+- changed rawQueries into queries
+- moved app author playlist from Artist section to Playlist
+- adjusted playlistResults action to be used by all defined playlist Id's
+- restricted wipe songs button(visible when 3vry has at least 2 tracks)
 
 <h2>Running project</h2>
 

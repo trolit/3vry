@@ -4,6 +4,8 @@
     <string name="artists_text">Artists</string>
     <string name="songs_text">Songs</string>
     <string name="settings_text">Settings</string>
+    <string name="playlists_text">My playlists</string>
+    <string name="keywords_text">Keywords</string>
 
     <!-- Main activity -->
     <string name="logoDescription">3vry app logo</string>
@@ -11,54 +13,81 @@
     <string name="what_text">What..?</string>
     <string name="why_text">Why..?</string>
     <string name="notificationTitle"><![CDATA[<font color=\'#9F001C\'>No Internet connection</font>]]></string>
-    <string name="notificationMsg">Please note that without Internet connection you won\'t receive new daily track or be able to watch current ones through the YouTube player.</string>
+    <string name="notificationMsg">Please note that without Internet connection you won\'t receive new daily track or be
+        able to watch current ones through the YouTube player.
+    </string>
     <string name="noInternetConn">No Internet connection</string>
+    <string name="searchingTrack">SEARCHING TRACK...</string>
 
     <!-- Artists activity -->
     <string name="bandDialogAddBtn_text">Insert</string>
     <string name="cancelBtn_text">Cancel</string>
-    <string name="artistsListEmpty">List is empty.. \n \n Use button located in the top right corner to add first artist ;) \n Or visit settings and enable app author playlist!</string>
+    <string name="artistsListEmpty">List is empty.. \n \n Use button located in the top right corner to add first artist ;)
+    </string>
     <string name="artistIconDescription">Artist section icon</string>
     <string name="addArtistIconDescription">Add artist icon</string>
     <string name="addArtistDialogHint">Enter artist or band name</string>
 
     <!-- Songs activity -->
-    <string name="noSongsMessage">Song list is currently empty :(\n Add at least one artist to start getting tracks offers.</string>
+    <string name="noSongsMessage">Song list is currently empty :(\n Add at least one artist to start getting tracks
+        offers.
+    </string>
 
     <!-- Settings activity -->
     <string name="settingsIconDescription">Settings section icon</string>
-    <string name="playlistSettingDescription">If enabled 3vry app author playlist will be included in the artists section. Recommended option. Playlist contains very wide range of genres. Maybe you will find something interesting :)</string>
+    <string name="playlistSettingDescription">If enabled 3vry app author playlist will be included in the artists
+        section. Recommended option. Playlist contains very wide range of genres. Maybe you will find something
+        interesting :)
+    </string>
     <string name="playlistSettingHeader">Include app author playlist:</string>
     <string name="enableIconDescription">Enable option icon</string>
     <string name="disableIconDescription">Disable option icon</string>
     <string name="wipeDataBtnText">Wipe song data</string>
     <string name="rangeSettingHeader">YouTube searching range:</string>
-    <string name="rangeSettingDescription">This parameter defines how many tracks are considered into process of choosing track. Tracks are ordered by views amount to prevent odd outcomes. You can change the range using below button.</string>
+    <string name="rangeSettingDescription">This parameter defines how many tracks are considered into process of
+        choosing track. Tracks are ordered by views amount to prevent odd outcomes. You can change the range using below
+        button.
+    </string>
     <string name="rangeSettingBtn">Change range</string>
     <string name="selectOption">Select option</string>
-    <string name="videoDurationHeader">Video duration: </string>
-    <string name="videoDurationDescription">Specify the duration of videos found in the YouTube service. Note that the option applies only to the tracks found from specific artist.</string>
+    <string name="videoDurationHeader">Video duration:</string>
+    <string name="videoDurationDescription">Specify the duration of videos found in the YouTube service. Note that the
+        option applies only to the tracks found from specific artist.
+    </string>
     <string name="videoDurationBtn">Change duration</string>
-    <string name="acousticHeader">Include acoustic songs:</string>
-    <string name="acousticDescription">Enable this option to include in YouTube searching pool songs with phrase \'acoustic\' in the title. This feature does not apply to app author playlist.</string>
-    <string name="acousticEnabled">Acoustic titles enabled.</string>
-    <string name="acousticDisabled">Acoustic titles disabled.</string>
-    <string name="coverHeader">Include cover songs:</string>
-    <string name="coverDescription">Toggle this option to include in the searching pool songs with phrase \'cover\' in the title. This feature does not apply to app author playlist.</string>
-    <string name="coverEnabled">Covers enabled.</string>
-    <string name="coverDisabled">Covers disabled.</string>
     <string name="adjustSettingsNote">Use icons and/or buttons to adjust settings</string>
-    <string name="liveHeader">Include live songs:</string>
-    <string name="liveDescription">When enabled, videos with phrase \'live\' won\'t be ignored while searching new song. This feature does not apply to app author playlist.</string>
-    <string name="liveEnabled">Lives enabled.</string>
-    <string name="liveDisabled">Lives disabled.</string>
+
+    <!-- Playlist activity -->
+    <string name="playlist_subheader">List of custom playlists identities</string>
+    <string name="addPlaylistInputPlaceholder">Enter valid playlist Id</string>
+    <string name="addPlaylistIconDescription">Add playlist icon</string>
+    <string name="addPlaylistHint"><![CDATA[<small>Please write in the field below ONLY playlistId, e.g. URL: <br/> www.youtube.com/playlist?list=<strong>playlistId</strong></small>]]></string>
+    <string name="playlistSectionEmpty">\n List is currently empty.. \n Add first playlist by using + button
+    </string>
+    <string name="validPlaylistId"><![CDATA[<font color=\'#00B300\'>OK</font>]]></string>
+    <string name="invalidPlaylistId"><![CDATA[<font color=\'#B30000\'>Invalid</font>]]></string>
+    <string name="validateBtn">Validate ID</string>
+
+    <!-- Keywords activity -->
+    <string name="keywords_subheader">List of words that will be ignored during track search</string>
+    <string name="addKeywordDalogHint">Enter keyword</string>
+    <string name="addKeywordIconDescription">Add keyword icon</string>
+    <string name="keywordSectionEmpty">\n No keywords found.. \n Add first by using + button
+    </string>
 
     <!-- .kt files -->
     <string name="failedPrefInsertion">Preference insertion failed :(</string>
     <string name="failedSongInsertion">Song insertion failed :(</string>
-    <string name="succededSongInsertion">A new song has been added to your list</string>
     <string name="failedArtistInsertion">Error occurred, artist not added!</string>
+    <string name="failedPlaylistInsertion">Playlist insertion failed</string>
+    <string name="failedPlaylistInsertionDuplicate">This playlist already exists</string>
+    <string name="failedArtistInsertionDuplicate">This artist is already on the list</string>
+    <string name="failedKeywordInsertionDuplicate">This keyword is already on the list</string>
+    <string name="failedKeywordInsertion">Keyword not added :[</string>
     <string name="succededArtistInsertion">Artist added correctly!</string>
+    <string name="succededSongInsertion">A new song has been added to your list</string>
+    <string name="succededPlaylistInsertion">Playlist added correctly</string>
+    <string name="succededKeywordInsertion">Keyword added</string>
     <string name="nTracksRemoved">track(s) removed.</string>
     <string name="playlistEnabled">Playlist enabled.</string>
     <string name="playlistDisabled">Playlist disabled.</string>
@@ -70,13 +99,20 @@
     <string name="rawYes">Yes</string>
     <string name="rawNo">No</string>
     <string name="missingArtistName">Please fill in artist name.</string>
+    <string name="missingPlaylistId">Please fill in playlist Id before using insert button.</string>
+    <string name="missingKeywordName">Please fill in keyword input field.</string>
     <string name="htmlOk"><![CDATA[<font color=\'#16A085\'>Ok</font>]]></string>
-    <string name="appDefinition"><![CDATA[<font color=\'#16A085\'>What is 3vry?</font><br/><br/><small>Open source application created by <font color=\'#16A085\'>github.com/trolit</font> using Kotlin language that allows user to add favourite artists and get randomly single track offer each day from YouTube. It\'s also possible to include app author playlist(visit Settings section).<br/><br/>3vry requires Internet permission to make requests to YouTube service. App does not gather any personal data and source code is available at:<br/><br/><font color=\'#16A085\'>https://github.com/trolit/3vry</font></small>]]></string>
-    <string name="appReason"><![CDATA[<font color=\'#16A085\'>Why 3vry?</font><br/><br/><small> By making 3vry I mainly wanted to meet Kotlin and IntelliJ IDEA IDE after Xamarin.Forms project but also make an app that will encourage to listen to at least one track each day. Listening to music has powerful impact on human mind. Music is very crucial in games and movies. Maybe with this tool you will find track(s) that you did not hear previously and get another favourite song(s)? Enjoy :)<br/><br/> ~Paweł Idzikowski(trolit)<br/>23.06.2020</small>]]></string>
-    <string name="noArtistsAndSongsMessage"><![CDATA[<font color=\'#16A085\'>Before you enter..</font><br/><br/><small> Please consider adding at least one artist or enabling app author playlist from settings section in order to receive your first track offer:) </small>]]></string>
-    <string name="noArtistsMessage"><![CDATA[<font color=\'#16A085\'>Reminder</font><br/><br/><small> You won\'t receive next track(s) unless you add at least one artist or enable app author playlist from settings menu. </small>]]></string>
+    <string name="appDefinition">
+        <![CDATA[<font color=\'#16A085\'>What is 3vry?</font><br/><br/><small>Open source application created by <font color=\'#16A085\'>github.com/trolit</font> using Kotlin language that allows user to add favourite artists and get randomly single track offer each day from YouTube. It\'s also possible to include app author playlist(visit Settings section).<br/><br/>3vry requires Internet permission to make requests to YouTube service. App does not gather any personal data and source code is available at:<br/><br/><font color=\'#16A085\'>https://github.com/trolit/3vry</font></small>]]></string>
+    <string name="appReason">
+        <![CDATA[<font color=\'#16A085\'>Why 3vry?</font><br/><br/><small> By making 3vry I mainly wanted to meet Kotlin and IntelliJ IDEA IDE after Xamarin.Forms project but also make an app that will encourage to listen to at least one track each day. Listening to music has powerful impact on human mind. Music is very crucial in games and movies. Maybe with this tool you will find track(s) that you did not hear previously and get another favourite song(s)? Enjoy :)<br/><br/> ~Paweł Idzikowski(trolit)<br/>23.06.2020</small>]]></string>
+    <string name="noArtistsAndPlaylistsFirstTrackMessage">
+        <![CDATA[<font color=\'#16A085\'>Before you enter..</font><br/><br/><small> Please consider adding at least one artist, playlist or enabling app author playlist from settings section in order to receive your first track offer:) </small>]]></string>
+    <string name="noArtistsAndPlaylistsMessage">
+        <![CDATA[<font color=\'#16A085\'>Reminder</font><br/><br/><small> You won\'t receive next track(s) unless you add at least one artist. playlist or enable app author playlist from settings menu. </small>]]></string>
     <string name="takeMeAnyway">Take me anyway</string>
-    <string name="songWipeConfirmation"><![CDATA[<font color=\'#9F001C\'>Warning!</font><br/><br/><small> This operation removes all songs listed in the application. After clicking YES you cannot undo that operation. Are you sure? </small>]]></string>
+    <string name="songWipeConfirmation">
+        <![CDATA[<font color=\'#9F001C\'>Warning!</font><br/><br/><small> This operation removes all songs listed in the application. After clicking YES you cannot undo that operation. Are you sure? </small>]]></string>
     <string name="htmlYes"><![CDATA[<font color=\'#9F001C\'>YES</font>]]></string>
     <string name="htmlNo"><![CDATA[<font color=\'#000000\'>NO</font>]]></string>
     <string name="enabled">ENABLED</string>

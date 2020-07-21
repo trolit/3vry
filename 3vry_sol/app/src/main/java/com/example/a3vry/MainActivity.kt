@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         val db = DbHandler(this)
         val isArtistsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Artists")
+        val isPlaylistsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Playlists")
 
         // PROGRAM NETWORK CONNECTION VERIFIER
         // SOURCE: https://stackoverflow.com/questions/25678216/android-internet-connectivity-change-listener
@@ -30,8 +31,8 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     noInternetConnTextView.isVisible = false
                     
-                    if(isArtistsTableNotEmpty) {
-                        db.checkForNewSong()
+                    if(isArtistsTableNotEmpty || isPlaylistsTableNotEmpty) {
+                        db.checkForNewSong(searchingTrackNote)
                     }
                 }
             }
@@ -77,11 +78,12 @@ class MainActivity : AppCompatActivity() {
 
 
         val isSongsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Songs")
-        if(!isArtistsTableNotEmpty && !isSongsTableNotEmpty) {
+
+        if(!isArtistsTableNotEmpty && !isSongsTableNotEmpty && !isPlaylistsTableNotEmpty) {
             // override viewArtistsBtn functionality
             viewSongsBtn.setOnClickListener {
                 val builder = AlertDialog.Builder(this)
-                builder.setMessage(HtmlCompat.fromHtml(this.getString(R.string.noArtistsAndSongsMessage), HtmlCompat.FROM_HTML_MODE_LEGACY))
+                builder.setMessage(HtmlCompat.fromHtml(this.getString(R.string.noArtistsAndPlaylistsFirstTrackMessage), HtmlCompat.FROM_HTML_MODE_LEGACY))
                     .setPositiveButton(HtmlCompat.fromHtml(this.getString(R.string.htmlOk), HtmlCompat.FROM_HTML_MODE_LEGACY)
                     ) { _, _ ->
                         // dismiss
@@ -93,10 +95,10 @@ class MainActivity : AppCompatActivity() {
                 builder.create()
                 builder.show()
             }
-        } else if(!isArtistsTableNotEmpty && isSongsTableNotEmpty) {
+        } else if(!isArtistsTableNotEmpty && !isPlaylistsTableNotEmpty && isSongsTableNotEmpty) {
             viewSongsBtn.setOnClickListener {
                 val builder = AlertDialog.Builder(this)
-                builder.setMessage(HtmlCompat.fromHtml(this.getString(R.string.noArtistsMessage), HtmlCompat.FROM_HTML_MODE_LEGACY))
+                builder.setMessage(HtmlCompat.fromHtml(this.getString(R.string.noArtistsAndPlaylistsMessage), HtmlCompat.FROM_HTML_MODE_LEGACY))
                     .setPositiveButton(HtmlCompat.fromHtml(this.getString(R.string.htmlOk), HtmlCompat.FROM_HTML_MODE_LEGACY)
                     ) { _, _ ->
                         intentSongsActivity()

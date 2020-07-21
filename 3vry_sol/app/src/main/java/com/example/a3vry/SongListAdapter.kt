@@ -49,9 +49,6 @@ class SongListAdapter(context: Context, var resource: Int, var songList: Mutable
         }
         textViewTitle.text = song.title
 
-        // println("SONG title => ${song.title}")
-        // println("SONG VideoId => ${song.url}")
-
         view.playVideoBtn.setOnClickListener {
             // If clicked button while video is paused, resume it
             if(youtubePlayerRef != null && !youtubePlayerRef!!.isPlaying && lastVideoRef == song.url) {

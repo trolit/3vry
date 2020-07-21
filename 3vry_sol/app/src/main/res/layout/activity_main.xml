@@ -27,6 +27,32 @@
                         android:visibility="visible"
                 />
 
+                <LinearLayout
+                        android:id="@+id/searchingTrackNote"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingTop="10sp"
+                        android:visibility="gone">
+
+                    <pl.droidsonroids.gif.GifImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            app:loopCount="0"
+                            android:src="@drawable/animated_gear_icon"
+                    />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/searchingTrack"
+                            android:layout_marginStart="10sp"
+                            android:gravity="center_vertical"
+                    />
+
+                </LinearLayout>
+
                 <ImageView
                         android:layout_marginTop="10dp"
                         android:layout_width="wrap_content"
