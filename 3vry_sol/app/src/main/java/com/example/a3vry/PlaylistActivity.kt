@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_playlist.*
 import kotlinx.android.synthetic.main.activity_settings.backToMainMenuBtn
 import kotlinx.android.synthetic.main.add_playlist_dialog.view.*
@@ -24,6 +25,10 @@ class PlaylistActivity : AppCompatActivity() {
         // SET ADAPTER AND ADD NEW PLAYLIST BTN
         val db = DbHandler(this)
         val playlists = db.getPlaylists()
+
+        if(playlists.count() <= 0) {
+            emptyListMessage.isVisible = true
+        }
 
         val adapter = Playlist_ListAdapter(this, R.layout.playlists_list_item, playlists)
         playlist_List.adapter = adapter
@@ -48,6 +53,9 @@ class PlaylistActivity : AppCompatActivity() {
                     db.insertPlaylist(playlist)
                     adapter.add(playlist)
                     adapter.notifyDataSetChanged()
+                    if(emptyListMessage.isVisible) {
+                        emptyListMessage.isVisible = false
+                    }
                 } else {
                     Toast.makeText(this, this.getString(R.string.missingPlaylistId), Toast.LENGTH_SHORT).show()
                 }

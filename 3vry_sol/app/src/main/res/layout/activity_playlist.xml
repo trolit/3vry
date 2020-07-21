@@ -68,6 +68,17 @@
                     android:textAlignment="center"
             />
 
+            <TextView
+                    android:id="@+id/emptyListMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/playlistSectionEmpty"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="20sp"
+                    android:textAlignment="center"
+                    android:visibility="gone"
+            />
+
             <ListView
                     tools:listitem="@layout/playlists_list_item"
                     android:id="@+id/playlist_List"
@@ -80,5 +91,4 @@
                     android:layout_marginEnd="15dp"
             />
         </LinearLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

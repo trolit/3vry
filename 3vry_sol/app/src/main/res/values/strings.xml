@@ -21,8 +21,7 @@
     <!-- Artists activity -->
     <string name="bandDialogAddBtn_text">Insert</string>
     <string name="cancelBtn_text">Cancel</string>
-    <string name="artistsListEmpty">List is empty.. \n \n Use button located in the top right corner to add first artist
-        ;) \n Or visit settings and enable app author playlist!
+    <string name="artistsListEmpty">List is empty.. \n \n Use button located in the top right corner to add first artist ;)
     </string>
     <string name="artistIconDescription">Artist section icon</string>
     <string name="addArtistIconDescription">Add artist icon</string>
@@ -62,11 +61,15 @@
     <string name="addPlaylistInputPlaceholder">Enter valid playlist Id</string>
     <string name="addPlaylistIconDescription">Add playlist icon</string>
     <string name="addPlaylistHint"><![CDATA[<small>Please write in the field below ONLY playlistId, e.g. URL: <br/> www.youtube.com/playlist?list=<strong>playlistId</strong></small>]]></string>
+    <string name="playlistSectionEmpty">\n List is currently empty.. \n Add first playlist by using + button
+    </string>
 
     <!-- Keywords activity -->
     <string name="keywords_subheader">List of words that will be ignored during track search</string>
     <string name="addKeywordDalogHint">Enter keyword</string>
     <string name="addKeywordIconDescription">Add keyword icon</string>
+    <string name="keywordSectionEmpty">\n No keywords found.. \n Add first by using + button
+    </string>
 
     <!-- .kt files -->
     <string name="failedPrefInsertion">Preference insertion failed :(</string>
