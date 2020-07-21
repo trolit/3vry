@@ -37,6 +37,7 @@
 - <a href="https://github.com/sqlite/sqlite">SQLite</a>
 - <a href="https://fontawesome.com/">Font Awesome icons</a>
 - <a href="https://developers.google.com/youtube/android/player/downloads">YouTube Android Player API</a>
+- <a href="https://github.com/koral--/android-gif-drawable">android-gif-drawable</a>
 
 <h2>Download & info</h2>
 
