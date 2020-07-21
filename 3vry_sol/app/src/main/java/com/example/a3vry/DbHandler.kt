@@ -309,6 +309,20 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
     }
 
+    fun checkIfTableContainsTwoSongs() : Boolean {
+        val db = this.readableDatabase
+        val columns = arrayOf("1")
+        val limit = "2"
+        val result = db.query(song_TABLE_NAME, columns, null, null, null, null, null, limit)
+        val numberOfSongs = result.count
+        result.close()
+        db.close()
+        if(numberOfSongs == 2) {
+            return true
+        }
+        return false
+    }
+
     fun getSongs() : MutableList<Song> {
         val list : MutableList<Song> = ArrayList()
         val db = this.readableDatabase
