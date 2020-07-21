@@ -6,8 +6,10 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.text.Html
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isVisible
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -343,7 +345,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return list.asReversed()
     }
 
-    fun checkForNewSong() {
+    private var lookingForSongLayoutReference : LinearLayout? = null
+
+    fun checkForNewSong(lookingForSongLayout: LinearLayout) {
         val sdf = SimpleDateFormat("dd-M-yyyy")
         val currentDate = sdf.format(Date())
         val db = this.readableDatabase
@@ -356,6 +360,9 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         if(songQueryResult.count >= 1) {
             // do nothing
         } else {
+            lookingForSongLayoutReference = lookingForSongLayout
+            lookingForSongLayoutReference!!.isVisible = true
+
             // Get artists & playlists
             val artistsAmount = returnNumberOfRows(artist_TABLE_NAME)
             val playlistsAmount = returnNumberOfRows(playlists_TABLE_NAME)
@@ -497,6 +504,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 } else {
                     Toast.makeText(context, context.getString(R.string.songNotAdded), Toast.LENGTH_SHORT).show()
                 }
+                lookingForSongLayoutReference!!.isVisible = false
             }
             override fun onFailure(call: Call<YoutubeGetPlaylistResponse>, t: Throwable) {
                 t.printStackTrace()
@@ -531,6 +539,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 } else {
                     Toast.makeText(context, context.getString(R.string.songNotAdded), Toast.LENGTH_SHORT).show()
                 }
+                lookingForSongLayoutReference!!.isVisible = false
             }
             override fun onFailure(call: Call<YoutubeGetResponse>, t: Throwable) {
                 t.printStackTrace()

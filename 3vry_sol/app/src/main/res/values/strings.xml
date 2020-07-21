@@ -17,6 +17,7 @@
         able to watch current ones through the YouTube player.
     </string>
     <string name="noInternetConn">No Internet connection</string>
+    <string name="searchingTrack">SEARCHING TRACK...</string>
 
     <!-- Artists activity -->
     <string name="bandDialogAddBtn_text">Insert</string>

@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         val db = DbHandler(this)
         val isArtistsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Artists")
+        val isPlaylistsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Playlists")
 
         // PROGRAM NETWORK CONNECTION VERIFIER
         // SOURCE: https://stackoverflow.com/questions/25678216/android-internet-connectivity-change-listener
@@ -30,8 +31,8 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     noInternetConnTextView.isVisible = false
                     
-                    if(isArtistsTableNotEmpty) {
-                        db.checkForNewSong()
+                    if(isArtistsTableNotEmpty || isPlaylistsTableNotEmpty) {
+                        db.checkForNewSong(searchingTrackNote)
                     }
                 }
             }
@@ -77,7 +78,6 @@ class MainActivity : AppCompatActivity() {
 
 
         val isSongsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Songs")
-        val isPlaylistsTableNotEmpty = db.checkIfTableContainsAtLeastOneObject("Playlists")
 
         if(!isArtistsTableNotEmpty && !isSongsTableNotEmpty && !isPlaylistsTableNotEmpty) {
             // override viewArtistsBtn functionality
