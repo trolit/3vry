@@ -2,6 +2,7 @@ package com.example.a3vry
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.text.Html
@@ -39,7 +40,8 @@ const val keywords_COL_NAME = "name"
 const val playlists_TABLE_NAME = "Playlists"
 const val playlists_COL_PLAYLISTID = "playlistId"
 
-const val playlist = "playlist"
+const val flag_playlist = "playlist"
+const val flag_artist = "artist"
 
 const val appAuthorPlaylist = "PLCrKXyV2OjXi2VF42Dimxvv9fnOH3JEl6"
 
@@ -253,7 +255,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val result = db.insert(artist_TABLE_NAME, null, cv)
         if(result == (-1).toLong()) {
             Toast.makeText(context, context.getString(R.string.failedArtistInsertion), Toast.LENGTH_SHORT).show()
-        } else if(artist.name != playlist) {
+        } else {
             Toast.makeText(context, context.getString(R.string.succededArtistInsertion), Toast.LENGTH_SHORT).show()
         }
         db.close()
@@ -266,7 +268,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         if(result.moveToFirst()) {
             do {
-                var artist = Artist()
+                val artist = Artist()
                 artist.id = result.getString(0).toInt()
                 artist.name = result.getString(1).toString()
                 list.add(artist)
@@ -275,22 +277,6 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         result.close()
         db.close()
         return list
-    }
-
-    fun checkIfPlaylistIsEnabled() : Boolean {
-        val db = this.readableDatabase
-        val selection = "$artist_COL_NAME=?"
-        val selectionArgs = arrayOf(playlist)
-        val limit = "1"
-        val result = db.query(artist_TABLE_NAME, null, selection, selectionArgs, null, null, null, limit)
-        if(result.count > 0) {
-            result.close()
-            db.close()
-            return true
-        }
-        result.close()
-        db.close()
-        return false
     }
 
     // **************************************************************
@@ -350,30 +336,67 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val selection = "$song_COL_DATETIME=?"
         val selectionArgs = arrayOf(currentDate)
         val limit = "1"
-        val queryResult = db.query(song_TABLE_NAME, null, selection, selectionArgs, null, null, null, limit)
-        queryResult.moveToFirst()
+        val songQueryResult = db.query(song_TABLE_NAME, null, selection, selectionArgs, null, null, null, limit)
+
         // if true, there is already song assigned to that date
-        if(queryResult.getInt(0) == 1) {
+        if(songQueryResult.count >= 1) {
             // do nothing
         } else {
-            // 1. Get artists
-            val artists = getArtists()
-            if(artists.count() > 0) {
-                // 2. Get random artist
-                val artist = artists.random()
-                // 3. Make query to youtube & insert song
-                queryForVideo(artist.name, artist.id)
+            // Get artists & playlists
+            val artistsAmount = returnNumberOfRows(artist_TABLE_NAME)
+            val playlistsAmount = returnNumberOfRows(playlists_TABLE_NAME)
+            val sumOfArtistsAndPlaylists = artistsAmount + playlistsAmount
+
+            var rowNumber = returnRandomizedNumber(sumOfArtistsAndPlaylists)
+            
+            if(rowNumber > artistsAmount || artistsAmount == 0) {
+                rowNumber -= artistsAmount
+                val playList = getObjectByRowNumber(rowNumber, playlists_TABLE_NAME)
+                val objectId = playList.getInt(0)
+                val playListId = playList.getString(1)
+                playList.close()
+                queryForVideo(playListId, objectId, flag_playlist)
             } else {
-                Toast.makeText(context, context.getString(R.string.artistsMissing), Toast.LENGTH_SHORT).show()
+                val artist = getObjectByRowNumber(rowNumber, artist_TABLE_NAME)
+                val artistId = artist.getInt(0)
+                val artistName = artist.getString(1)
+                artist.close()
+                queryForVideo(artistName, artistId, flag_artist)
             }
         }
-        queryResult.close()
+        songQueryResult.close()
         db.close()
     }
 
     // **************************************************************
     // GENERAL OPERATIONS
     // **************************************************************
+
+    private fun getObjectByRowNumber(rowNumber: Int, tableName: String): Cursor {
+        val db = this.readableDatabase
+        val startingPoint = rowNumber - 1
+        val limit = "$startingPoint, 1" // using OFFSET
+        val result = db.query(tableName, null, null, null, null, null, null, limit)
+        result.moveToFirst()
+        db.close()
+        return result
+    }
+
+    private fun returnRandomizedNumber(sum: Int) : Int {
+        return (1..sum).random()
+    }
+
+    private fun returnNumberOfRows(tableName: String) : Int {
+        val db = this.readableDatabase
+        val columns = arrayOf("count(*)")
+        val limit = "1"
+        val result = db.query(tableName, columns, null, null, null, null, null, limit)
+        result.moveToFirst()
+        val rowNumber = result.getInt(0)
+        result.close()
+        db.close()
+        return rowNumber
+    }
 
     fun checkIfTableContainsAtLeastOneObject(tableName: String) : Boolean {
         val db = this.readableDatabase
@@ -406,7 +429,7 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     // OPERATIONS ON YOUTUBE API
     // **************************************************************
 
-    private fun queryForVideo(artistName : String, artistId : Int) {
+    private fun queryForVideo(name : String, id : Int, flag : String) {
         val retrofit = Retrofit.Builder()
             .baseUrl(YouTubeApiService.YOUTUBE_SEARCH_BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
@@ -423,28 +446,36 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val pageRange = outcome.toInt() / 50
         val targetPage = (1..pageRange).random()
 
-        if(artistName != playlist) {
+        val keywords = getKeywords()
+
+        if(flag == flag_artist) {
             val videoDuration = getPrefValue("videoDuration")
-            callYoutubeSearch(service, artistName, artistId, "", targetPage, 0, currentDate, videoDuration)
-        } else if (artistName == playlist) {
-            callYoutubePlaylistSearch(service, artistName, artistId, "", targetPage, 0, currentDate)
+            callYoutubeSearch(service, name, id, "", targetPage, 0, currentDate, videoDuration, keywords)
+        } else if (flag == flag_playlist) {
+            callYoutubePlaylistSearch(service, name, id, "", targetPage, 0, currentDate, keywords)
         }
     }
 
-    private fun callYoutubePlaylistSearch(service: YouTubeApiService, artistName : String, artistId : Int,
-                                          pageToken: String, targetPage: Int, currentIteration: Int, currentDate: String) {
-        val searchCall = service.playlistResults(pageToken)
+    private fun callYoutubePlaylistSearch(service: YouTubeApiService, playlistId : String, objectId : Int,
+                                          pageToken: String, targetPage: Int, currentIteration: Int, currentDate: String,
+                                          keywords: MutableList<Keyword>) {
+        val searchCall = service.playlistResults(pageToken, playlistId)
         searchCall?.enqueue(object : Callback<YoutubeGetPlaylistResponse> {
             override fun onResponse(call: Call<YoutubeGetPlaylistResponse>, response: Response<YoutubeGetPlaylistResponse>) {
                 if (response.isSuccessful){
 
                     if (currentIteration != targetPage) {
                         val nextPageToken = response.body()?.nextPageToken.toString()
-                        callYoutubePlaylistSearch(service, artistName, artistId, nextPageToken, targetPage, currentIteration + 1, currentDate)
+                        callYoutubePlaylistSearch(service, playlistId, objectId, nextPageToken, targetPage,
+                                currentIteration + 1, currentDate, keywords)
                     } else if (response.body()?.items?.count()!! > 0) {
-                        val song = response.body()?.items?.random()
-                        val title = Html.fromHtml(song!!.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
-                        val songObj = Song(title, currentDate, song.snippet!!.resourceId!!.videoId, artistId)
+                        val songList = response.body()?.items!!
+                        var song : YoutubeSinglePlaylistItem
+                        do {
+                            song = songList.random()
+                        } while (songContainsOneOfTheKeywords(keywords, song.snippet!!.title))
+                        val title = Html.fromHtml(song.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                        val songObj = Song(title, currentDate, song.snippet!!.resourceId!!.videoId, objectId)
                         insertSong(songObj)
                     }
                 } else if (response.errorBody()!!.string().contains("exceeded")) {
@@ -460,30 +491,25 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     private fun callYoutubeSearch(service: YouTubeApiService, artistName : String, artistId : Int, pageToken: String,
-                                  targetPage: Int, currentIteration: Int, currentDate: String, videoDuration: String) {
+                                  targetPage: Int, currentIteration: Int, currentDate: String, videoDuration: String,
+                                  keywords: MutableList<Keyword>) {
         val searchCall = service.results(artistName, pageToken, videoDuration)
         searchCall?.enqueue(object : Callback<YoutubeGetResponse> {
             override fun onResponse(call: Call<YoutubeGetResponse>, response: Response<YoutubeGetResponse>) {
                 if (response.isSuccessful){
                     if (currentIteration != targetPage) {
                         val nextPageToken = response.body()?.nextPageToken.toString()
-                        callYoutubeSearch(service, artistName, artistId, nextPageToken,
-                            targetPage, currentIteration + 1, currentDate, videoDuration)
+                        callYoutubeSearch(service, artistName, artistId, nextPageToken, targetPage,
+                            currentIteration + 1, currentDate, videoDuration, keywords)
                     } else if (response.body()?.items?.count()!! > 0) {
-                        val includeCoversResult = getPrefValue("includeCovers")
-                        val includeAcousticResult = getPrefValue("includeAcoustic")
-                        val includeLiveResult = getPrefValue("includeLive")
-                        val song = returnFilteredSong(includeCoversResult, includeAcousticResult,
-                            includeLiveResult, response.body()?.items!!)
-                        if(song != null) {
-                            val title = Html.fromHtml(song.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
-                            val songObj = Song(title, currentDate, song.id!!.videoId, artistId)
-                            insertSong(songObj)
-                        } else {
-                            println("****************************************************")
-                            println("Song not inserted into the Db, method returned null.")
-                            println("****************************************************")
-                        }
+                        val songList = response.body()?.items!!
+                        var song : YoutubeSingleItem
+                        do {
+                            song = songList.random()
+                        } while (songContainsOneOfTheKeywords(keywords, song.snippet!!.title))
+                        val title = Html.fromHtml(song.snippet!!.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                        val songObj = Song(title, currentDate, song.id!!.videoId, artistId)
+                        insertSong(songObj)
                     }
                     // println("First song TITLE: " + response.body()?.items?.get(0)?.snippet!!.title)
                 } else if (response.errorBody()!!.string().contains("exceeded")) {
@@ -498,67 +524,13 @@ class DbHandler (var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         })
     }
 
-    private fun returnFilteredSong (coverStatus: String, acousticStatus: String, liveStatus: String,
-                                    songList: List<YoutubeSingleItem>) : YoutubeSingleItem? {
-        val enabled = "enabled"
-        val disabled = "disabled"
-        val cover = "cover"
-        val acoustic = "acoustic"
-        val live = "live"
-
-        if(coverStatus == enabled && acousticStatus == enabled && liveStatus == enabled) {
-            return song(songList)
-        } else if (coverStatus == disabled && acousticStatus == disabled && liveStatus == disabled) {
-            return song(songList, cover, acoustic, live)
-        } else if (coverStatus == disabled && acousticStatus == disabled) {
-            return song(songList, cover, acoustic)
-        } else if (acousticStatus == disabled && liveStatus == disabled) {
-            return song(songList, acoustic, live)
-        } else if (coverStatus == disabled && liveStatus == disabled) {
-            return song(songList, cover, live)
-        } else if (coverStatus == disabled) {
-            return song(songList, cover)
-        } else if (acousticStatus == disabled) {
-            return song(songList, acoustic)
-        } else if (liveStatus == disabled) {
-            return song(songList, liveStatus)
+    private fun songContainsOneOfTheKeywords(keywords: MutableList<Keyword>,
+                                                 videoName: String) : Boolean {
+        for (keyword in keywords) {
+            if (videoName.contains(keyword.name, ignoreCase = true)) {
+                return true
+            }
         }
-        return null
-    }
-
-    private val karaoke = "karaoke" // remove karaoke phrase from song search
-    private fun song(songList: List<YoutubeSingleItem>) : YoutubeSingleItem {
-        var song : YoutubeSingleItem
-        do {
-            song = songList.random()
-        } while (song.snippet!!.title.contains(karaoke, ignoreCase = true))
-        return song
-    }
-    private fun song(songList: List<YoutubeSingleItem>, p1: String) : YoutubeSingleItem {
-        var song : YoutubeSingleItem
-        do {
-            song = songList.random()
-        } while (song.snippet!!.title.contains(p1, ignoreCase = true) ||
-            song.snippet!!.title.contains(karaoke, ignoreCase = true))
-        return song
-    }
-    private fun song(songList: List<YoutubeSingleItem>, p1: String, p2: String) : YoutubeSingleItem {
-        var song : YoutubeSingleItem
-        do {
-            song = songList.random()
-        } while (song.snippet!!.title.contains(p1, ignoreCase = true) ||
-            song.snippet!!.title.contains(p2, ignoreCase = true) ||
-            song.snippet!!.title.contains(karaoke, ignoreCase = true))
-        return song
-    }
-    private fun song(songList: List<YoutubeSingleItem>, p1: String, p2: String, p3: String) : YoutubeSingleItem {
-        var song : YoutubeSingleItem
-        do {
-            song = songList.random()
-        } while (song.snippet!!.title.contains(p1, ignoreCase = true) ||
-            song.snippet!!.title.contains(p2, ignoreCase = true) ||
-            song.snippet!!.title.contains(p3, ignoreCase = true) ||
-            song.snippet!!.title.contains(karaoke, ignoreCase = true))
-        return song
+        return false
     }
 }
